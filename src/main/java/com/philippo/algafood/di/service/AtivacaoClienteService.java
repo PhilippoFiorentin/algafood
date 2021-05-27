@@ -1,11 +1,8 @@
 package com.philippo.algafood.di.service;
 
-import org.springframework.stereotype.Component;
-
 import com.philippo.algafood.di.modelo.Cliente;
 import com.philippo.algafood.di.notificacao.Notificador;
 
-@Component
 public class AtivacaoClienteService {
 	
 	private Notificador notificador;
