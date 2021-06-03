@@ -1,12 +1,10 @@
 package com.philippo.algafood.di.notificacao;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.philippo.algafood.di.modelo.Cliente;
 
-//@Primary /* Um tipo de desambiguação de beans */
-@Qualifier("normal")
+@TipoDoNotificador(NivelUrgencia.SEM_URGENCIA)
 @Component
 public class NotificadorEmail implements Notificador {
 	
