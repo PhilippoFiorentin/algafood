@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 
 import com.philippo.algafood.AlgafoodApiApplication;
 import com.philippo.algafood.domain.model.Cozinha;
+import com.philippo.algafood.domain.repository.CozinhaRepository;
 
 public class ExclusaoCozinhaMain {
 	
@@ -15,12 +16,12 @@ public class ExclusaoCozinhaMain {
 				.web(WebApplicationType.NONE)
 				.run(args);
 		
-		CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+		CozinhaRepository cozinhas = applicationContext.getBean(CozinhaRepository.class);
 		
 		Cozinha cozinha = new Cozinha();
 		cozinha.setId(1L);
 		
-		cadastroCozinha.remover(cozinha);
+		cozinhas.remover(cozinha);
 	}
 }
 
