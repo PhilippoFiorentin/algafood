@@ -6,9 +6,9 @@ import com.philippo.algafood.domain.model.Restaurante;
 
 public interface RestauranteRepository {
 	
-	List<Restaurante> todos();
+	List<Restaurante> listar();
 	
-	Restaurante porId(Long id);
+	Restaurante buscar(Long id);
 	
 	Restaurante adicionar(Restaurante cozinha);
 	

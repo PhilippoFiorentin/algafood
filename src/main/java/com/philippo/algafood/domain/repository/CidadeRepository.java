@@ -6,9 +6,9 @@ import com.philippo.algafood.domain.model.Cidade;
 
 public interface CidadeRepository {
 	
-	List<Cidade> todas();
+	List<Cidade> listar();
 	
-	Cidade porId(Long id);
+	Cidade buscar(Long id);
 	
 	Cidade adicionar(Cidade cidade);
 	

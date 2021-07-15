@@ -18,12 +18,12 @@ public class CidadeRepositoryImpl implements CidadeRepository {
 	private EntityManager manager;
 	
 	@Override
-	public List<Cidade> todas(){
+	public List<Cidade> listar(){
 		return manager.createQuery("from Cidade", Cidade.class).getResultList();
 	} 
 	
 	@Override
-	public Cidade porId(Long id) {
+	public Cidade buscar(Long id) {
 		return manager.find(Cidade.class, id);
 	}
 	
@@ -36,7 +36,7 @@ public class CidadeRepositoryImpl implements CidadeRepository {
 	@Transactional
 	@Override
 	public void remover(Cidade cidade) {
-		cidade = porId(cidade.getId());
+		cidade = buscar(cidade.getId());
 		manager.remove(cidade);
 	}
 }

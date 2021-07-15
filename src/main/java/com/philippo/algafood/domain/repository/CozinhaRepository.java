@@ -6,9 +6,9 @@ import com.philippo.algafood.domain.model.Cozinha;
 
 public interface CozinhaRepository {
 	
-	List<Cozinha> todas();
+	List<Cozinha> listar();
 	
-	Cozinha porId(Long id);
+	Cozinha buscar(Long id);
 	
 	Cozinha adicionar(Cozinha cozinha);
 	
