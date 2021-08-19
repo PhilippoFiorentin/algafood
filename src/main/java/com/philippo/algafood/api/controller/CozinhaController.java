@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.philippo.algafood.api.model.CozinhasXmlWrapper;
 import com.philippo.algafood.domain.model.Cozinha;
 import com.philippo.algafood.domain.repository.CozinhaRepository;
+import com.philippo.algafood.domain.service.CadastroCozinhaService;
 
 @RestController
 @RequestMapping("/cozinhas")
@@ -28,6 +29,9 @@ public class CozinhaController {
 
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
+	
+	@Autowired
+	private CadastroCozinhaService cadastroCozinha;
 	
 	@GetMapping
 	public List<Cozinha> listar(){
@@ -38,12 +42,12 @@ public class CozinhaController {
 	public CozinhasXmlWrapper listarXml() {
 		return new CozinhasXmlWrapper(cozinhaRepository.listar());
 	}
-	
+
 	@GetMapping("/{cozinhaId}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long cozinhaId) {
 		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
 		
-		if(cozinha != null)
+		if(cozinha != null)	
 			return ResponseEntity.ok(cozinha);
 		
 		return ResponseEntity.notFound().build();
@@ -52,7 +56,7 @@ public class CozinhaController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cozinha adicionar(@RequestBody Cozinha cozinha) {
-		return cozinhaRepository.salvar(cozinha);
+		return cadastroCozinha.salvar(cozinha);
 	}
 	
 	@PutMapping("/{cozinhaId}")
