@@ -28,7 +28,7 @@ public class InclusaoRestauranteMain {
 		restaurante2.setNome("Viena");
 		restaurante2.setTaxaFrete(new BigDecimal(7.49));
 		
-		restaurante1 = restauranteRepository.adicionar(restaurante1);
-		restaurante2 = restauranteRepository.adicionar(restaurante2);
+		restaurante1 = restauranteRepository.salvar(restaurante1);
+		restaurante2 = restauranteRepository.salvar(restaurante2);
 	}
 }

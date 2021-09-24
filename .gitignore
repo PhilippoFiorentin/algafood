@@ -12,7 +12,8 @@ target/
 .settings
 .springBeans
 .sts4-cache
-/src/main/resources/application.properties
+
+/algafood-api/src/main/java/com/philippo/algafood/.DS_Store
 
 
 ### IntelliJ IDEA ###

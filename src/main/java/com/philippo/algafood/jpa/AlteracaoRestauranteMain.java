@@ -25,6 +25,6 @@ public class AlteracaoRestauranteMain {
 		restaurante.setNome("Vivenda do Camarão");
 		restaurante.setTaxaFrete(new BigDecimal(11.30));
 		
-		restaurante = restauranteRepository.adicionar(restaurante);
+		restaurante = restauranteRepository.salvar(restaurante);
 	}
 }
