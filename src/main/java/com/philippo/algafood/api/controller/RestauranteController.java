@@ -1,12 +1,15 @@
 package com.philippo.algafood.api.controller;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -107,9 +110,32 @@ public class RestauranteController {
 		return atualizar(restauranteId, restauranteAtual);
 	}
 
-	public void merge(Map<String, Object> camposOrigem, Restaurante restauranteDestino) {
-		camposOrigem.forEach((nomePropriedade, valorPropriedade) -> {
-			System.out.println(nomePropriedade + "=" + valorPropriedade);
+	/*
+
+	O método merge irá converter os tipos dos valores, de acordo com o que
+	está implementado na entidade declarada.
+
+	Depois, irá buscar as propriedades do objeto e setar o(s) novo(s) valor(es) para a
+	propriedade específica que está sendo alterada.
+
+	*/
+
+	public void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino) {
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		Restaurante restauranteOrigem = objectMapper.convertValue(dadosOrigem, Restaurante.class);
+
+
+		dadosOrigem.forEach((nomePropriedade, valorPropriedade) -> {
+			Field field = ReflectionUtils.findField(Restaurante.class, nomePropriedade);
+
+			field.setAccessible(true);
+
+			Object novoValor = ReflectionUtils.getField(field, restauranteOrigem);
+
+//			System.out.println(nomePropriedade + "=" + valorPropriedade + "=" + novoValor);
+
+			ReflectionUtils.setField(field, restauranteDestino, novoValor);
 		});
 	}
 }
