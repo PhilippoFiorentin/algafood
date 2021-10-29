@@ -1,16 +1,7 @@
 package com.philippo.algafood.domain.repository;
 
-import java.util.List;
-
 import com.philippo.algafood.domain.model.Restaurante;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RestauranteRepository {
-	
-	List<Restaurante> listar();
-	
-	Restaurante buscar(Long id);
-	
-	Restaurante salvar(Restaurante restaurante);
-	
-	void remover(Long id);
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
 }

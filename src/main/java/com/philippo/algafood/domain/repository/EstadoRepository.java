@@ -1,16 +1,7 @@
 package com.philippo.algafood.domain.repository;
 
-import java.util.List;
-
 import com.philippo.algafood.domain.model.Estado;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EstadoRepository {
-	
-	List<Estado> listar();
-	
-	Estado buscar(Long id);
-	
-	Estado salvar(Estado estado);
-	
-	void excluir(Long estadoId);
+public interface EstadoRepository extends JpaRepository<Estado, Long> {
 }
