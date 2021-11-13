@@ -1,5 +1,6 @@
 package com.philippo.algafood.api.controller;
 
+import com.philippo.algafood.domain.infrastructure.repository.RestauranteRepositoryImpl;
 import com.philippo.algafood.domain.model.Cozinha;
 import com.philippo.algafood.domain.model.Restaurante;
 import com.philippo.algafood.domain.repository.CozinhaRepository;
@@ -55,6 +56,12 @@ public class TesteController {
     public Boolean cozinhaExists(String nome){
         return cozinhaRepository.existsByNome(nome);
     }
+
+    @GetMapping("/restaurantes/por-nome-e-frete")
+    public List<Restaurante> restaurantesPorNomeFrete(String nome, BigDecimal taxaInicial, BigDecimal taxaFinal){
+        return restauranteRepository.find(nome, taxaInicial, taxaFinal);
+    }
+
     @GetMapping("/count-restaurantes-cozinha")
     public Integer restaurantesCountPorCozinha(Long cozinhaId){
         return restauranteRepository.countByCozinhaId(cozinhaId);

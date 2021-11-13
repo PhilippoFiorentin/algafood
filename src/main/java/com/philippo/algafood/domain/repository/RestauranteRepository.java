@@ -9,7 +9,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
+public interface RestauranteRepository extends
+    JpaRepository<Restaurante, Long>,
+    RestauranteRepositoryQueries {
 
     List<Restaurante> findByTaxaFreteBetween(
         BigDecimal taxaInicial,
