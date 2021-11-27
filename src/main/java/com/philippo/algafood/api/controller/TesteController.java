@@ -1,6 +1,8 @@
 package com.philippo.algafood.api.controller;
 
 import com.philippo.algafood.domain.infrastructure.repository.RestauranteRepositoryImpl;
+import com.philippo.algafood.domain.infrastructure.repository.spec.RestauranteComFreteGratisSpec;
+import com.philippo.algafood.domain.infrastructure.repository.spec.RestauranteComNomeSemelhante;
 import com.philippo.algafood.domain.model.Cozinha;
 import com.philippo.algafood.domain.model.Restaurante;
 import com.philippo.algafood.domain.repository.CozinhaRepository;
@@ -65,6 +67,14 @@ public class TesteController {
     @GetMapping("/count-restaurantes-cozinha")
     public Integer restaurantesCountPorCozinha(Long cozinhaId){
         return restauranteRepository.countByCozinhaId(cozinhaId);
+    }
+
+    @GetMapping("/com-frete-gratis")
+    public List<Restaurante> restaurantesComFreteGratis(String nome){
+        var comFreteGratis = new RestauranteComFreteGratisSpec();
+        var comNomeSemelhante = new RestauranteComNomeSemelhante(nome);
+
+        return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
     }
 
 }
