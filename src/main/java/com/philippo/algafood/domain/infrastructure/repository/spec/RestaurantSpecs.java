@@ -1,19 +1,19 @@
 package com.philippo.algafood.domain.infrastructure.repository.spec;
 
-import com.philippo.algafood.domain.model.Restaurante;
+import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
 
 public class RestaurantSpecs {
 
-    public static Specification<Restaurante> freeDelivery(){
+    public static Specification<Restaurant> freeDelivery(){
         return ( root, query, builder ) ->
-            builder.equal(root.get("taxaFrete"), BigDecimal.ZERO);
+            builder.equal(root.get("deliveryFee"), BigDecimal.ZERO);
     }
 
-    public static Specification<Restaurante> similarName(String nome){
+    public static Specification<Restaurant> similarName(String name){
         return ( root, query, builder ) ->
-            builder.like(root.get("nome"), "%" + nome + "%");
+            builder.like(root.get("name"), "%" + name + "%");
     }
 }

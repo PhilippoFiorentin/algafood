@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class FormaPagamento {
+public class State {
 	
 	@EqualsAndHashCode.Include
 	@Id
@@ -20,5 +20,5 @@ public class FormaPagamento {
 	private Long id;
 	
 	@Column(nullable = false)
-	private String descricao;
+	private String name;
 }

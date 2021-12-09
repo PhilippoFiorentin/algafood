@@ -6,13 +6,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+@JsonRootName("kitchen")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Permissao {
+public class Kitchen {
 	
 	@EqualsAndHashCode.Include
 	@Id
@@ -20,8 +23,5 @@ public class Permissao {
 	private Long id;
 	
 	@Column(nullable = false)
-	private String nome;
-	
-	@Column(nullable = false)
-	private String descricao;
+	private String name;
 }
