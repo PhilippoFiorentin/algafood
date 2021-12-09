@@ -1,7 +1,10 @@
 package com.philippo.algafood.domain.infrastructure.repository;
 
 import com.philippo.algafood.domain.model.Restaurant;
+import com.philippo.algafood.domain.repository.RestaurantRepository;
 import com.philippo.algafood.domain.repository.RestaurantRepositoryQueries;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -16,12 +19,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.philippo.algafood.domain.infrastructure.repository.spec.RestaurantSpecs.freeDelivery;
+import static com.philippo.algafood.domain.infrastructure.repository.spec.RestaurantSpecs.similarName;
+
 @Repository
-public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries
-{
+public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 
     @PersistenceContext
     private EntityManager manager;
+
+    @Autowired @Lazy
+    private RestaurantRepository restaurantRepository;
 
     @Override
     public List<Restaurant> find (
@@ -55,5 +63,9 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries
         TypedQuery<Restaurant> query = manager.createQuery(criteria);
 
         return query.getResultList();
+    }
+
+    @Override public List<Restaurant> findFreeDelivery ( String name ) {
+        return restaurantRepository.findAll(freeDelivery().and(similarName(name)));
     }
 }
