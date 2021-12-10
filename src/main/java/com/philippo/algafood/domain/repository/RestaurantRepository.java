@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RestaurantRepository extends
-    JpaRepository<Restaurant, Long>,
+    CustomJpaRepository<Restaurant, Long>,
     RestaurantRepositoryQueries,
     JpaSpecificationExecutor<Restaurant>
 {

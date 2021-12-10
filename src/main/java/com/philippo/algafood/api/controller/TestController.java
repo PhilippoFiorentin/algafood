@@ -34,6 +34,11 @@ public class TestController
         return kitchenRepository.findByName(name);
     }
 
+    @GetMapping("/kitchens/first")
+    public Optional<Kitchen> firstKitchen(){
+        return kitchenRepository.findFirst();
+    }
+
     @GetMapping("/restaurants/by-delivery-fee")
     public List<Restaurant> restaurantsByDeliveryFee(BigDecimal initialFee, BigDecimal finalFee){
         return restaurantRepository.findByDeliveryFeeBetween(initialFee, finalFee);
@@ -72,5 +77,10 @@ public class TestController
     @GetMapping("/restaurants/free-delivery")
     public List<Restaurant> restaurantsFreeDelivery(String name){
         return restaurantRepository.findFreeDelivery(name);
+    }
+
+    @GetMapping("/restaurants/first")
+    public Optional<Restaurant> firstRestaurant(){
+        return restaurantRepository.findFirst();
     }
 }
