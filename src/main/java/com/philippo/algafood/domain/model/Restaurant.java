@@ -29,8 +29,9 @@ public class Restaurant
 	
 	@Column(name = "delivery_fee", nullable = false)
 	private BigDecimal deliveryFee;
-	
-	@ManyToOne
+
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="kitchen_id", nullable = false)
 	private Kitchen kitchen;
 
