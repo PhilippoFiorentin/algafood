@@ -9,6 +9,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
@@ -25,6 +27,9 @@ public class Order {
 
     @Column(nullable = false)
     private BigDecimal deliveryFee;
+
+    @Column(nullable = false)
+    private BigDecimal total;
 
     @CreationTimestamp
     private LocalDateTime creationDate;
@@ -51,4 +56,7 @@ public class Order {
 
     @Embedded
     private Address deliveryAddress;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> items = new ArrayList<>();
 }
