@@ -22,6 +22,7 @@ import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.repository.KitchenRepository;
 import com.philippo.algafood.domain.service.RegisterKitchenService;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/kitchens")
@@ -90,6 +91,11 @@ public class KitchenController {
 	@DeleteMapping("/{kitchenId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long kitchenId){
-		registerKitchen.delete(kitchenId);
+		try{
+			registerKitchen.delete(kitchenId);
+		}catch (EntityNotFoundException e){
+			throw new ResponseStatusException(
+				HttpStatus.NOT_FOUND, e.getMessage());
+		}
 	}
 }
