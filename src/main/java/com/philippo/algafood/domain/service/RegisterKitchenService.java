@@ -13,7 +13,7 @@ import com.philippo.algafood.domain.repository.KitchenRepository;
 @Service
 public class RegisterKitchenService {
 
-	public static final String KITCHEN_NOT_FOUND_MESSAGE = "There is no kitchen register with code %d";
+	public static final String KITCHEN_NOT_FOUND = "There is no kitchen register with code %d";
 	public static final String KITCHEN_IN_USE = "The kitchen with code %d could not be deleted because it is being used";
 
 	@Autowired
@@ -29,7 +29,7 @@ public class RegisterKitchenService {
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException(
 					String.format(
-						KITCHEN_NOT_FOUND_MESSAGE, kitchenId));
+						KITCHEN_NOT_FOUND, kitchenId));
 		} catch (DataIntegrityViolationException e) {
 			 throw new EntityInUseException(
 					 String.format(
@@ -42,7 +42,7 @@ public class RegisterKitchenService {
 		return kitchenRepository
 			.findById(kitchenId)
 			.orElseThrow(() -> new EntityNotFoundException(
-				String.format(KITCHEN_NOT_FOUND_MESSAGE, kitchenId)
+				String.format(KITCHEN_NOT_FOUND, kitchenId)
 			));
 	}
 }

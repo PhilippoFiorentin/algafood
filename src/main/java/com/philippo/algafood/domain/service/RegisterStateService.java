@@ -13,6 +13,8 @@ import com.philippo.algafood.domain.repository.StateRepository;
 @Service
 public class RegisterStateService {
 
+	public static final String STATE_NOT_FOUND = "There is no state register with code %d";
+	public static final String STATE_IN_USE = "The state with code %d could not be deleted because it is being used";
 	@Autowired
 	private StateRepository stateRepository;
 	
@@ -24,13 +26,16 @@ public class RegisterStateService {
 		try {
 			stateRepository.deleteById(stateId);
 		} catch(EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException(String.format(
-				"There is no state register with code %d",
-				stateId));
+			throw new EntityNotFoundException(String.format(STATE_NOT_FOUND, stateId));
 		} catch (DataIntegrityViolationException e) {
-			throw new EntityInUseException(String.format(
-				"The state with code %d could not be deleted because it is being used",
-				stateId));
+			throw new EntityInUseException(String.format(STATE_IN_USE, stateId));
 		}
+	}
+
+	public State findOrFail(Long stateId){
+		return stateRepository
+				.findById(stateId)
+				.orElseThrow(() -> new EntityNotFoundException(
+						String.format(STATE_NOT_FOUND, stateId)));
 	}
 }
