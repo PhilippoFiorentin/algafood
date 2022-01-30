@@ -16,26 +16,20 @@ import java.util.Optional;
 
 @Service
 public class RegisterCityService {
-	
+
+	public static final String STATE_NOT_FOUND = "City register with code %d was not found";
+	public static final String STATE_IN_USE = "The city with code %d could not be deleted";
 	@Autowired
 	private CityRepository cityRepository;
-	
 	@Autowired
-	private StateRepository stateRepository;
+	private RegisterStateService registerState;
 	
 	public City save( City city) {
 		Long stateId = city.getState().getId();
-		
-		Optional<State> state = stateRepository.findById(stateId);
-		
-		if (state.isEmpty()) {
-			throw new EntityNotFoundException(String.format(
-					"State register with code %d was not found", stateId)
-			);
-		
-		}
 
-		city.setState(state.get());
+		State state = registerState.findOrFail(stateId);
+
+		city.setState(state);
 		
 		return cityRepository.save(city);
 	}
@@ -45,12 +39,19 @@ public class RegisterCityService {
 			cityRepository.deleteById(cityId);
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException(String.format(
-					"City register with code %d was not found", cityId)
+					STATE_NOT_FOUND, cityId)
 			);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityInUseException(String.format(
-					"The city with code %d could not be deleted", cityId)
+					STATE_IN_USE, cityId)
 			);
 		}
+	}
+
+	public City findOrFail(Long cityId){
+		return cityRepository
+				.findById(cityId)
+				.orElseThrow(() -> new EntityNotFoundException(String.format(
+						STATE_NOT_FOUND, cityId)));
 	}
 }
