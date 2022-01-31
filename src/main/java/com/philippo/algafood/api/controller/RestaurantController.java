@@ -1,6 +1,7 @@
 package com.philippo.algafood.api.controller;
 
 import java.lang.reflect.Field;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,15 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
@@ -43,72 +36,40 @@ public class RestaurantController {
 	}
 
 	@GetMapping("/{restaurantId}")
-	public ResponseEntity<Restaurant> findRestaurant(@PathVariable Long restaurantId) {
-		Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
-
-		if(restaurant.isPresent())
-			return ResponseEntity.ok(restaurant.get());
-
-		return ResponseEntity.notFound().build();
+	public Restaurant findRestaurant(@PathVariable Long restaurantId) {
+		return registerRestaurant.findOrFail(restaurantId);
 	}
 
 	@PostMapping
-	public ResponseEntity<?> addRestaurant(@RequestBody Restaurant restaurant) {
-		try {
-			restaurant = registerRestaurant.save(restaurant);
-			return ResponseEntity.status(HttpStatus.CREATED).body(restaurant);
-		}catch (EntityNotFoundException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+	@ResponseStatus(HttpStatus.CREATED)
+	public Restaurant addRestaurant(@RequestBody Restaurant restaurant) {
+		return registerRestaurant.save(restaurant);
 	}
 
 	@PutMapping("/{restaurantId}")
-	public ResponseEntity<?> update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant){
+	public Restaurant update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant){
 
-		Restaurant currentRestaurant = restaurantRepository
-			.findById(restaurantId)
-			.orElse(null);
+		Restaurant currentRestaurant = registerRestaurant.findOrFail(restaurantId);
 
-		try {
 
-			if (currentRestaurant != null) {
-				BeanUtils.copyProperties(restaurant,
+		BeanUtils.copyProperties(restaurant,
 					currentRestaurant,
 					"id", "paymentMethods", "address", "registerDate", "products");
-				Restaurant savedRestaurant = registerRestaurant.save(currentRestaurant);
-				return ResponseEntity.ok(savedRestaurant);
-			}
 
-			return ResponseEntity.notFound().build();
-		} catch (EntityInUseException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+		return registerRestaurant.save(restaurant);
 	}
 
 	@DeleteMapping("/{restaurantId}")
-	public ResponseEntity<Restaurant> delete(@PathVariable Long restaurantId){
-
-		try {
-			registerRestaurant.delete(restaurantId);
-
-			return ResponseEntity.noContent().build();
-
-		} catch (EntityNotFoundException e) {
-			return ResponseEntity.notFound().build();
-		} catch (EntityInUseException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public void delete(@PathVariable Long restaurantId){
+		registerRestaurant.delete(restaurantId);
 	}
 
 	@PatchMapping("/{restaurantId}")
-	public ResponseEntity<?> updatePartial(
+	public Restaurant updatePartial(
 		@PathVariable Long restaurantId, @RequestBody Map<String, Object> fields) {
-		Restaurant currentRestaurant = restaurantRepository
-			.findById(restaurantId).orElse(null);
 
-		if(currentRestaurant == null) {
-			return ResponseEntity.notFound().build();
-		}
+		Restaurant currentRestaurant = registerRestaurant.findOrFail(restaurantId);
 
 		merge(fields, currentRestaurant);
 

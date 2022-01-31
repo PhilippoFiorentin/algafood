@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,8 +31,9 @@ public class Restaurant
 	@Column(name = "delivery_fee", nullable = false)
 	private BigDecimal deliveryFee;
 
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
+//	@JsonIgnore
+	@ManyToOne /*(fetch = FetchType.LAZY)*/
+//	@JsonIgnoreProperties("hibernateLazyInitializer")
 	@JoinColumn(name ="kitchen_id", nullable = false)
 	private Kitchen kitchen;
 

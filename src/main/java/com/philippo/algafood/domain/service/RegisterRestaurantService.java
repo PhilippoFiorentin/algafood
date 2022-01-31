@@ -15,20 +15,19 @@ import com.philippo.algafood.domain.repository.RestaurantRepository;
 @Service
 public class RegisterRestaurantService {
 
+	public static final String RESTAURANT_NOT_FOUND = "Restaurant register with code %d could not be found";
+	public static final String RESTAURANT_IN_USE = "The Restaurant with code %d could not be deleted";
 	@Autowired
 	private RestaurantRepository restaurantRepository;
 	
 	@Autowired
-	private KitchenRepository kitchenRepository;
+	private RegisterKitchenService registerKitchen;
 	
 	public Restaurant save(Restaurant restaurant) {
 		Long kitchenId = restaurant.getKitchen().getId();
 
-		Kitchen kitchen = kitchenRepository.findById(kitchenId)
-			.orElseThrow(() -> new EntityNotFoundException(
-				String.format(
-				"Restaurant register with code %d could not be found", kitchenId)));
-		
+		Kitchen kitchen = registerKitchen.findOrFail(kitchenId);
+
 		restaurant.setKitchen(kitchen);
 		
 		return restaurantRepository.save(restaurant);
@@ -39,14 +38,21 @@ public class RegisterRestaurantService {
 			restaurantRepository.deleteById(restaurantId);
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntityNotFoundException(String.format(
-					"Restaurant register with code %d could not be found", restaurantId
+					RESTAURANT_NOT_FOUND, restaurantId
 					)
 			);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityInUseException(String.format(
-					"The Restaurant with code %d could not be deleted", restaurantId
+					RESTAURANT_IN_USE, restaurantId
 					)
 			);
 		}
+	}
+
+	public Restaurant findOrFail(Long restaurantId){
+		return restaurantRepository
+				.findById(restaurantId)
+				.orElseThrow(() -> new EntityNotFoundException(String.format(
+						RESTAURANT_NOT_FOUND, restaurantId)));
 	}
 }
