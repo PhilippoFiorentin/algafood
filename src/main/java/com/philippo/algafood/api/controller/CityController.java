@@ -3,6 +3,7 @@ package com.philippo.algafood.api.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.model.City;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,7 @@ import com.philippo.algafood.domain.service.RegisterCityService;
 
 @RestController
 @RequestMapping("/cities")
-public class CityController
-{
-	
+public class CityController {
 	@Autowired
 	private CityRepository cityRepository;
 	
@@ -39,7 +38,11 @@ public class CityController
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public City addCity(@RequestBody City city) {
-		return registerCity.save(city);
+		try {
+			return registerCity.save(city);
+		}catch (EntityNotFoundException e){
+			throw new BusinessException(e.getMessage());
+		}
 	}
 
 	@PutMapping("/{cityId}")
@@ -48,7 +51,11 @@ public class CityController
 		
 		BeanUtils.copyProperties(city, currentCity, "id");
 
-		return registerCity.save(city);
+		try {
+			return registerCity.save(currentCity);
+		}catch (EntityNotFoundException e) {
+			throw new BusinessException(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/{cityId}")
