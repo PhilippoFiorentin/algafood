@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,11 @@ public class RestaurantController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Restaurant addRestaurant(@RequestBody Restaurant restaurant) {
-		return registerRestaurant.save(restaurant);
+		try{
+			return registerRestaurant.save(restaurant);
+		} catch (EntityNotFoundException e) {
+			throw new BusinessException(e.getMessage());
+		}
 	}
 
 	@PutMapping("/{restaurantId}")
@@ -56,7 +61,11 @@ public class RestaurantController {
 					currentRestaurant,
 					"id", "paymentMethods", "address", "registerDate", "products");
 
-		return registerRestaurant.save(restaurant);
+		try{
+			return registerRestaurant.save(currentRestaurant);
+		} catch (EntityNotFoundException e) {
+			throw new BusinessException(e.getMessage());
+		}
 	}
 
 	@DeleteMapping("/{restaurantId}")

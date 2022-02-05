@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.model.Kitchen;
-import com.philippo.algafood.domain.repository.KitchenRepository;
 import com.philippo.algafood.domain.repository.RestaurantRepository;
 
 @Service
