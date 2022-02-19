@@ -1,18 +1,15 @@
 package com.philippo.algafood.api.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.philippo.algafood.domain.exception.BusinessException;
+import com.philippo.algafood.domain.exception.StateNotFoundException;
 import com.philippo.algafood.domain.model.City;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.philippo.algafood.domain.exception.EntityInUseException;
-import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.repository.CityRepository;
 import com.philippo.algafood.domain.service.RegisterCityService;
 
@@ -40,21 +37,22 @@ public class CityController {
 	public City addCity(@RequestBody City city) {
 		try {
 			return registerCity.save(city);
-		}catch (EntityNotFoundException e){
-			throw new BusinessException(e.getMessage());
+		}catch (StateNotFoundException e){
+			throw new BusinessException(e.getMessage(), e);
 		}
 	}
 
 	@PutMapping("/{cityId}")
 	public City update(@PathVariable Long cityId, @RequestBody City city){
-		City currentCity = registerCity.findOrFail(cityId);
-		
-		BeanUtils.copyProperties(city, currentCity, "id");
 
 		try {
+			City currentCity = registerCity.findOrFail(cityId);
+
+			BeanUtils.copyProperties(city, currentCity, "id");
+
 			return registerCity.save(currentCity);
-		}catch (EntityNotFoundException e) {
-			throw new BusinessException(e.getMessage());
+		}catch (StateNotFoundException e) {
+			throw new BusinessException(e.getMessage(), e);
 		}
 	}
 	
