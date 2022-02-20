@@ -1,5 +1,6 @@
 package com.philippo.algafood.domain.service;
 
+import com.philippo.algafood.domain.exception.RestaurantNotFoundException;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,7 +15,6 @@ import com.philippo.algafood.domain.repository.RestaurantRepository;
 @Service
 public class RegisterRestaurantService {
 
-	public static final String RESTAURANT_NOT_FOUND = "Restaurant register with code %d could not be found";
 	public static final String RESTAURANT_IN_USE = "The Restaurant with code %d could not be deleted";
 	@Autowired
 	private RestaurantRepository restaurantRepository;
@@ -36,22 +36,16 @@ public class RegisterRestaurantService {
 		try {
 			restaurantRepository.deleteById(restaurantId);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException(String.format(
-					RESTAURANT_NOT_FOUND, restaurantId
-					)
-			);
+			throw new RestaurantNotFoundException(restaurantId);
 		} catch (DataIntegrityViolationException e) {
-			throw new EntityInUseException(String.format(
-					RESTAURANT_IN_USE, restaurantId
-					)
-			);
+			throw new EntityInUseException(
+					String.format(RESTAURANT_IN_USE, restaurantId));
 		}
 	}
 
 	public Restaurant findOrFail(Long restaurantId){
 		return restaurantRepository
 				.findById(restaurantId)
-				.orElseThrow(() -> new EntityNotFoundException(String.format(
-						RESTAURANT_NOT_FOUND, restaurantId)));
+				.orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 	}
 }

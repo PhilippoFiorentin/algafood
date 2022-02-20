@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.philippo.algafood.domain.exception.BusinessException;
+import com.philippo.algafood.domain.exception.KitchenNotFoundException;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.repository.RestaurantRepository;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
 
@@ -42,25 +42,24 @@ public class RestaurantController {
 	public Restaurant addRestaurant(@RequestBody Restaurant restaurant) {
 		try{
 			return registerRestaurant.save(restaurant);
-		} catch (EntityNotFoundException e) {
-			throw new BusinessException(e.getMessage());
+		} catch (KitchenNotFoundException e) {
+			throw new BusinessException(e.getMessage(), e);
 		}
 	}
 
 	@PutMapping("/{restaurantId}")
 	public Restaurant update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant){
 
-		Restaurant currentRestaurant = registerRestaurant.findOrFail(restaurantId);
-
-
-		BeanUtils.copyProperties(restaurant,
-					currentRestaurant,
-					"id", "paymentMethods", "address", "registerDate", "products");
-
 		try{
+			Restaurant currentRestaurant = registerRestaurant.findOrFail(restaurantId);
+
+			BeanUtils.copyProperties(restaurant,
+						currentRestaurant,
+						"id", "paymentMethods", "address", "registerDate", "products");
+
 			return registerRestaurant.save(currentRestaurant);
-		} catch (EntityNotFoundException e) {
-			throw new BusinessException(e.getMessage());
+		} catch (KitchenNotFoundException e) {
+			throw new BusinessException(e.getMessage(), e);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package com.philippo.algafood.domain.service;
 
+import com.philippo.algafood.domain.exception.CityNotFoundException;
 import com.philippo.algafood.domain.model.City;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,7 +18,6 @@ import java.util.Optional;
 @Service
 public class RegisterCityService {
 
-	public static final String STATE_NOT_FOUND = "City register with code %d was not found";
 	public static final String STATE_IN_USE = "The city with code %d could not be deleted";
 	@Autowired
 	private CityRepository cityRepository;
@@ -38,20 +38,15 @@ public class RegisterCityService {
 		try {
 			cityRepository.deleteById(cityId);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException(String.format(
-					STATE_NOT_FOUND, cityId)
-			);
+			throw new CityNotFoundException(cityId);
 		} catch (DataIntegrityViolationException e) {
-			throw new EntityInUseException(String.format(
-					STATE_IN_USE, cityId)
-			);
+			throw new EntityInUseException(String.format(STATE_IN_USE, cityId));
 		}
 	}
 
 	public City findOrFail(Long cityId){
 		return cityRepository
 				.findById(cityId)
-				.orElseThrow(() -> new EntityNotFoundException(String.format(
-						STATE_NOT_FOUND, cityId)));
+				.orElseThrow(() -> new CityNotFoundException(cityId));
 	}
 }

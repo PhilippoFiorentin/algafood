@@ -1,5 +1,6 @@
 package com.philippo.algafood.domain.service;
 
+import com.philippo.algafood.domain.exception.KitchenNotFoundException;
 import com.philippo.algafood.domain.model.Kitchen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -27,22 +28,15 @@ public class RegisterKitchenService {
 		try {
 			kitchenRepository.deleteById(kitchenId);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntityNotFoundException(
-					String.format(
-						KITCHEN_NOT_FOUND, kitchenId));
+			throw new KitchenNotFoundException(kitchenId);
 		} catch (DataIntegrityViolationException e) {
-			 throw new EntityInUseException(
-					 String.format(
-						 KITCHEN_IN_USE,
-						 kitchenId));
+			 throw new EntityInUseException(String.format(KITCHEN_IN_USE, kitchenId));
 		}
 	}
 
 	public Kitchen findOrFail(Long kitchenId){
 		return kitchenRepository
 			.findById(kitchenId)
-			.orElseThrow(() -> new EntityNotFoundException(
-				String.format(KITCHEN_NOT_FOUND, kitchenId)
-			));
+			.orElseThrow(() -> new KitchenNotFoundException(kitchenId));
 	}
 }

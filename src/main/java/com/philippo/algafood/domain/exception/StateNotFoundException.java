@@ -9,6 +9,6 @@ public class StateNotFoundException extends EntityNotFoundException {
 	}
 
 	public StateNotFoundException(Long stateId){
-		this(String.format("There is no state register with code %d", stateId));
+		this(String.format("The state register with code %d could not be found", stateId));
 	}
 }
