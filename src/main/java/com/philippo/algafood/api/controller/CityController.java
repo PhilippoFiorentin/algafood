@@ -1,13 +1,17 @@
 package com.philippo.algafood.api.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.philippo.algafood.api.exceptionhandler.Problem;
 import com.philippo.algafood.domain.exception.BusinessException;
+import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.exception.StateNotFoundException;
 import com.philippo.algafood.domain.model.City;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.philippo.algafood.domain.repository.CityRepository;
@@ -60,5 +64,22 @@ public class CityController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long cityId){
 		registerCity.delete(cityId);
+	}
+
+	@ExceptionHandler(EntityNotFoundException.class)
+	public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e){
+		Problem problem = Problem.builder()
+				.dateHour(LocalDateTime.now())
+				.message(e.getMessage()).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problem);
+	}
+
+	@ExceptionHandler(BusinessException.class)
+	public ResponseEntity<?> handleBusinessException(BusinessException e){
+		Problem problem = Problem.builder()
+				.dateHour(LocalDateTime.now())
+				.message(e.getMessage()).build();
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
 	}
 }
