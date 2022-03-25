@@ -23,6 +23,8 @@ public class City {
 	
 	@Column(nullable = false)
 	private String name;
+
+	private String test;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)
