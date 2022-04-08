@@ -65,21 +65,4 @@ public class CityController {
 	public void delete(@PathVariable Long cityId){
 		registerCity.delete(cityId);
 	}
-
-	@ExceptionHandler(EntityNotFoundException.class)
-	public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException e){
-		Problem problem = Problem.builder()
-				.dateHour(LocalDateTime.now())
-				.message(e.getMessage()).build();
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problem);
-	}
-
-	@ExceptionHandler(BusinessException.class)
-	public ResponseEntity<?> handleBusinessException(BusinessException e){
-		Problem problem = Problem.builder()
-				.dateHour(LocalDateTime.now())
-				.message(e.getMessage()).build();
-
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
-	}
 }
