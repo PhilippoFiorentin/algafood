@@ -12,7 +12,7 @@ import com.philippo.algafood.domain.repository.StateRepository;
 
 @Service
 public class RegisterStateService {
-	public static final String STATE_IN_USE = "The state with code %d could not be deleted because it is being used";
+	public static final String STATE_IN_USE = "The state with code %d could not be deleted because it is in use";
 	@Autowired
 	private StateRepository stateRepository;
 	

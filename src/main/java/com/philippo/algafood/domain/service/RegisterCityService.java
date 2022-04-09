@@ -8,17 +8,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.philippo.algafood.domain.exception.EntityInUseException;
-import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.model.State;
 import com.philippo.algafood.domain.repository.CityRepository;
-import com.philippo.algafood.domain.repository.StateRepository;
-
-import java.util.Optional;
 
 @Service
 public class RegisterCityService {
 
-	public static final String STATE_IN_USE = "The city with code %d could not be deleted";
+	public static final String STATE_IN_USE = "The city with code %d could not be deleted because it is in use";
 	@Autowired
 	private CityRepository cityRepository;
 	@Autowired

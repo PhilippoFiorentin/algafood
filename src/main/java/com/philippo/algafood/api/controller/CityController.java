@@ -1,17 +1,13 @@
 package com.philippo.algafood.api.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import com.philippo.algafood.api.exceptionhandler.Problem;
 import com.philippo.algafood.domain.exception.BusinessException;
-import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.exception.StateNotFoundException;
 import com.philippo.algafood.domain.model.City;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.philippo.algafood.domain.repository.CityRepository;
