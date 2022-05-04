@@ -1,8 +1,10 @@
 package com.philippo.algafood.api.exceptionhandler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,17 +14,44 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.stream.Collectors;
+
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+                                                                  HttpHeaders headers, HttpStatus status,
+                                                                  WebRequest request) {
+        Throwable rootCause = ExceptionUtils.getRootCause(ex);
+
+        if (rootCause instanceof InvalidFormatException){
+            return handleInvalidFormatException((InvalidFormatException) rootCause, headers, status, request);
+        }
+
         ProblemType problemType = ProblemType.MESSAGE_NOT_READABLE;
         String detail = "Invalid request body. Check syntax error.";
 
         Problem problem = createProblemBuilder(status, problemType, detail).build();
 
-        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+        return handleExceptionInternal(ex, problem, headers, status, request);
+    }
+
+    private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex,
+                                                                HttpHeaders headers,
+                                                                HttpStatus status,
+                                                                WebRequest request) {
+
+        String path = ex.getPath().stream().map(ref -> ref.getFieldName()).collect(Collectors.joining("."));
+
+        ProblemType type = ProblemType.MESSAGE_NOT_READABLE;
+        String detail = String.format(
+                "The property '%s' has been given the value '%s' which is of an invalid type. " +
+                        "Fix and enter a value compatible with type '%s’.", path, ex.getValue(), ex.getTargetType().getSimpleName());
+
+        Problem problem = createProblemBuilder(status, type, detail).build();
+
+        return handleExceptionInternal(ex, problem, headers, status, request);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
