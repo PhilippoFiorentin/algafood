@@ -4,18 +4,24 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.KitchenNotFoundException;
 import com.philippo.algafood.domain.model.Restaurant;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import com.philippo.algafood.domain.repository.RestaurantRepository;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/restaurants")
@@ -71,11 +77,11 @@ public class RestaurantController {
 
 	@PatchMapping("/{restaurantId}")
 	public Restaurant updatePartial(
-		@PathVariable Long restaurantId, @RequestBody Map<String, Object> fields) {
+			@PathVariable Long restaurantId, @RequestBody Map<String, Object> fields, HttpServletRequest request) {
 
 		Restaurant currentRestaurant = registerRestaurant.findOrFail(restaurantId);
 
-		merge(fields, currentRestaurant);
+		merge(fields, currentRestaurant, request);
 
 		return update(restaurantId, currentRestaurant);
 	}
@@ -91,25 +97,37 @@ public class RestaurantController {
 	Depois, irá buscar as propriedades do objeto e setar o(s) novo(s) valor(es) para a
 	propriedade específica que está sendo alterada.
 
-	Then, the merge method will find the object props and set the new values
+	Then the merge method will find the object props and set the new values
 	for the specific prop that is being changed.
 
 	*/
 
-	public void merge(Map<String, Object> sourceData, Restaurant targetRestaurant) {
+	public void merge(Map<String, Object> sourceData, Restaurant targetRestaurant, HttpServletRequest request) {
 
-		ObjectMapper objectMapper = new ObjectMapper();
-		Restaurant sourceRestaurant = objectMapper.convertValue(sourceData, Restaurant.class);
+		ServletServerHttpRequest serverHttpRequest = new ServletServerHttpRequest(request);
+
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
+			objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+
+			Restaurant sourceRestaurant = objectMapper.convertValue(sourceData, Restaurant.class);
 
 
-		sourceData.forEach((propName, propValue) -> {
-			Field field = ReflectionUtils.findField(Restaurant.class, propName);
+			sourceData.forEach((propName, propValue) -> {
+				Field field = ReflectionUtils.findField(Restaurant.class, propName);
 
-			field.setAccessible(true);
+				field.setAccessible(true);
 
-			Object newValue = ReflectionUtils.getField(field, sourceRestaurant);
+				Object newValue = ReflectionUtils.getField(field, sourceRestaurant);
 
-			ReflectionUtils.setField(field, targetRestaurant, newValue);
-		});
+				ReflectionUtils.setField(field, targetRestaurant, newValue);
+			});
+
+		} catch (IllegalArgumentException e){
+			Throwable rootCause = ExceptionUtils.getRootCause(e);
+
+			throw new HttpMessageNotReadableException(e.getMessage(), rootCause, serverHttpRequest);
+		}
 	}
 }
