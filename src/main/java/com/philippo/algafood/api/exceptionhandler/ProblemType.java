@@ -8,7 +8,7 @@ public enum ProblemType {
     INVALID_PARAMETER("/invalid-parameter", "Invalid parameter"),
     UNKNOWN_PROPERTY("/unknown-property", "Unknown property"),
     MESSAGE_NOT_READABLE("/message-not-readable", "Message not readable"),
-    ENTITY_NOT_FOUND("/entity-not-found", "Entity not found"),
+    RESOURCE_NOT_FOUND("/resource-not-found", "Resource not found"),
     ENTITY_IN_USE("/entity-in-use", "Entity in use"),
     BUSINESS_ERROR("/business-error", "Business rule violation");
 
