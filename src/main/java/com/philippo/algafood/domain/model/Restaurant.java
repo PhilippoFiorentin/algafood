@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -26,11 +29,12 @@ public class Restaurant
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
+	@NotBlank
 	@Column(nullable = false)
 	private String name;
 	
 	@Column(name = "delivery_fee", nullable = false)
+	@PositiveOrZero
 	private BigDecimal deliveryFee;
 
 //	@JsonIgnore
