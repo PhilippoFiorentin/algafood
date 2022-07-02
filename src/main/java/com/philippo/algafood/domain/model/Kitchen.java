@@ -1,10 +1,13 @@
 package com.philippo.algafood.domain.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
+import com.philippo.algafood.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,12 +19,14 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class Kitchen {
-	
+
+	@NotNull(groups = Groups.RestaurantRegister.class)
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+	@NotBlank
 	@Column(nullable = false)
 	private String name;
 

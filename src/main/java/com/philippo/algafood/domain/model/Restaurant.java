@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.philippo.algafood.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -29,17 +29,17 @@ public class Restaurant
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
+	@NotBlank(groups = Groups.RestaurantRegister.class)
 	@Column(nullable = false)
 	private String name;
 	
 	@Column(name = "delivery_fee", nullable = false)
-	@PositiveOrZero
+	@PositiveOrZero(groups = Groups.RestaurantRegister.class)
 	private BigDecimal deliveryFee;
 
-//	@JsonIgnore
-	@ManyToOne /*(fetch = FetchType.LAZY)*/
-//	@JsonIgnoreProperties("hibernateLazyInitializer")
+	@Valid
+	@NotNull(groups = Groups.RestaurantRegister.class)
+	@ManyToOne
 	@JoinColumn(name ="kitchen_id", nullable = false)
 	private Kitchen kitchen;
 

@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.philippo.algafood.domain.repository.KitchenRepository;
 import com.philippo.algafood.domain.service.RegisterKitchenService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/kitchens")
 public class KitchenController {
@@ -41,7 +43,7 @@ public class KitchenController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Kitchen addKitchen(@RequestBody Kitchen kitchen) {
+	public Kitchen addKitchen(@RequestBody @Valid Kitchen kitchen) {
 		return registerKitchen.save(kitchen);
 	}
 	
