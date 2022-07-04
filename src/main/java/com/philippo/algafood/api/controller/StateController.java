@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.philippo.algafood.domain.repository.StateRepository;
 import com.philippo.algafood.domain.service.RegisterStateService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/states")
 public class StateController {
@@ -41,12 +43,12 @@ public class StateController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public State save(@RequestBody State state){
+	public State save(@RequestBody @Valid State state){
 		return registerState.save(state);
 	}
 	
 	@PutMapping("/{stateId}")
-	public State update(@PathVariable Long stateId, @RequestBody State state){
+	public State update(@PathVariable Long stateId, @RequestBody @Valid State state){
 		State currentState = registerState.findOrFail(stateId);
 
 		BeanUtils.copyProperties(state, currentState, "id");

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import com.philippo.algafood.domain.repository.CityRepository;
 import com.philippo.algafood.domain.service.RegisterCityService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/cities")
 public class CityController {
@@ -34,7 +36,7 @@ public class CityController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public City addCity(@RequestBody City city) {
+	public City addCity(@RequestBody @Valid City city) {
 		try {
 			return registerCity.save(city);
 		}catch (StateNotFoundException e){
@@ -43,7 +45,7 @@ public class CityController {
 	}
 
 	@PutMapping("/{cityId}")
-	public City update(@PathVariable Long cityId, @RequestBody City city){
+	public City update(@PathVariable Long cityId, @RequestBody @Valid City city){
 
 		try {
 			City currentCity = registerCity.findOrFail(cityId);

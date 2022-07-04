@@ -24,6 +24,7 @@ import com.philippo.algafood.domain.repository.RestaurantRepository;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/restaurants")
@@ -47,8 +48,7 @@ public class RestaurantController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Restaurant addRestaurant(
-			@RequestBody @Validated(Groups.KitchenId.class) Restaurant restaurant) {
+	public Restaurant addRestaurant(@RequestBody @Valid Restaurant restaurant) {
 		try{
 			return registerRestaurant.save(restaurant);
 		} catch (KitchenNotFoundException e) {
@@ -57,7 +57,7 @@ public class RestaurantController {
 	}
 
 	@PutMapping("/{restaurantId}")
-	public Restaurant update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant){
+	public Restaurant update(@PathVariable Long restaurantId, @RequestBody @Valid Restaurant restaurant){
 
 		try{
 			Restaurant currentRestaurant = registerRestaurant.findOrFail(restaurantId);

@@ -48,7 +48,7 @@ public class KitchenController {
 	}
 	
 	@PutMapping("/{kitchenId}")
-	public Kitchen update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchen){
+	public Kitchen update(@PathVariable Long kitchenId, @RequestBody @Valid Kitchen kitchen){
 		Kitchen currentKitchen = registerKitchen.findOrFail(kitchenId);
 		
 		BeanUtils.copyProperties(kitchen, currentKitchen, "id");

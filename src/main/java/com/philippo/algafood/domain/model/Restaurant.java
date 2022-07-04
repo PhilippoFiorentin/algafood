@@ -40,7 +40,7 @@ public class Restaurant
 	private BigDecimal deliveryFee;
 
 	@Valid
-	@ConvertGroup(from = Default.class, to = Groups.KitchenId.class)
+	@ConvertGroup(from = Default.class, to = Groups.StateId.class)
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name ="kitchen_id", nullable = false)
