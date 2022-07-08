@@ -34,9 +34,10 @@ public class Restaurant
 	@NotBlank
 	@Column(nullable = false)
 	private String name;
-	
-	@Column(name = "delivery_fee", nullable = false)
+
+	@NotNull
 	@PositiveOrZero
+	@Column(name = "delivery_fee", nullable = false)
 	private BigDecimal deliveryFee;
 
 	@Valid
