@@ -14,6 +14,7 @@ import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.philippo.algafood.core.validation.DeliveryFee;
 import com.philippo.algafood.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,7 +37,8 @@ public class Restaurant
 	private String name;
 
 	@NotNull
-	@PositiveOrZero(message = "{DeliveryFee.invalid}")
+//	@PositiveOrZero
+	@DeliveryFee
 	@Column(name = "delivery_fee", nullable = false)
 	private BigDecimal deliveryFee;
 
