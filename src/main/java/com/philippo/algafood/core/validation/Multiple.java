@@ -1,9 +1,7 @@
 package com.philippo.algafood.core.validation;
 
 import javax.validation.Constraint;
-import javax.validation.OverridesAttribute;
 import javax.validation.Payload;
-import javax.validation.constraints.PositiveOrZero;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -12,14 +10,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = {})
-@PositiveOrZero
-public @interface DeliveryFee {
+@Constraint(validatedBy = {MultipleValidator.class})
+public @interface Multiple {
 
-    @OverridesAttribute(constraint = PositiveOrZero.class, name = "message")
-    String message() default "{DeliveryFee.invalid}";
+    String message() default "invalid multiple";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+    int number();
 }
