@@ -16,11 +16,13 @@ import javax.validation.groups.Default;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.philippo.algafood.core.validation.Groups;
 import com.philippo.algafood.core.validation.Multiple;
+import com.philippo.algafood.core.validation.ValueZeroIncludesDescription;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+@ValueZeroIncludesDescription(valueField="deliveryFee", descriptionField="name", mandatoryDescription="Delivery free")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
