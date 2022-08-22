@@ -26,8 +26,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Restaurant
-{
+public class Restaurant {
 	
 	@EqualsAndHashCode.Include
 	@Id

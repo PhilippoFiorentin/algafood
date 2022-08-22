@@ -13,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = {ValueZeroIncludesDescriptionValidator.class})
 public @interface ValueZeroIncludesDescription {
 
-    String message() default "Invalid mandatory description";
+    String message() default "Mandatory description is not valid";
 
     Class<?>[] groups() default {};
 
