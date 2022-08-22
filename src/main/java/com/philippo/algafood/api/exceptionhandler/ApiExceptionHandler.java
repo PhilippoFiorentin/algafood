@@ -3,6 +3,7 @@ package com.philippo.algafood.api.exceptionhandler;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
+import com.philippo.algafood.core.validation.ValidationException;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
@@ -100,6 +101,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<Object> handleValidationException(ValidationException ex, WebRequest request){
+        return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleOtherExceptions(Exception ex, WebRequest request){
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -170,7 +176,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpStatus status,
                                                                   WebRequest request) {
 
-        BindingResult bindingResult = ex.getBindingResult();
+        return handleValidationInternal(ex, ex.getBindingResult(), headers, status, request);
+    }
+
+    private ResponseEntity<Object> handleValidationInternal(Exception ex,
+                                                              BindingResult bindingResult,
+                                                              HttpHeaders headers,
+                                                              HttpStatus status,
+                                                              WebRequest request) {
 
         ProblemType problemType = ProblemType.INVALID_DATA;
         String detail = "One or more fields are invalid. Please fill in the fields correctly and try again.";
@@ -192,7 +205,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                 .collect(Collectors.toList());
 
         Problem problem = createProblemBuilder(status, problemType, detail)
-                .userMessage("One or more fields are invalid. Please fill in the fields correctly and try again.")
+                .userMessage(detail)
                 .objects(problemObjects)
                 .build();
 
