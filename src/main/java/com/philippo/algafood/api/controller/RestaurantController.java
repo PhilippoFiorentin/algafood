@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.philippo.algafood.core.validation.ValidationException;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.KitchenNotFoundException;
 import com.philippo.algafood.domain.model.Restaurant;
@@ -16,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
 import com.philippo.algafood.domain.repository.RestaurantRepository;
@@ -33,6 +36,9 @@ public class RestaurantController {
 
 	@Autowired
 	private RegisterRestaurantService registerRestaurant;
+
+	@Autowired
+	private SmartValidator validator;
 
 	@GetMapping
 	public List<Restaurant> listAllRestaurants(){
@@ -84,7 +90,20 @@ public class RestaurantController {
 
 		merge(fields, currentRestaurant, request);
 
+		validate(currentRestaurant, "restaurant");
+
 		return update(restaurantId, currentRestaurant);
+	}
+
+	private void validate(Restaurant restaurant, String objectName) {
+		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurant, objectName);
+
+		validator.validate(restaurant, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			throw new ValidationException(bindingResult);
+
+		}
 	}
 
 	/*
