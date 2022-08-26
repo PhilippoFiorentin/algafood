@@ -1,6 +1,9 @@
 package com.philippo.algafood;
 
+import com.philippo.algafood.domain.exception.EntityInUseException;
+import com.philippo.algafood.domain.exception.KitchenNotFoundException;
 import com.philippo.algafood.domain.model.Kitchen;
+import com.philippo.algafood.domain.repository.KitchenRepository;
 import com.philippo.algafood.domain.service.RegisterKitchenService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +22,11 @@ public class KitchenRegisterIntegrationTests {
     @Autowired
     RegisterKitchenService registerKitchen;
 
+    @Autowired
+    KitchenRepository kitchenRepository;
+
     @Test
-    public void testKitchenRegisterSuccessfully(){
+    public void shouldAssignId_WhenRegisterKitchenWithRightData(){
         //case
         Kitchen newKitchen = new Kitchen();
         newKitchen.setName("Chinese");
@@ -34,10 +40,20 @@ public class KitchenRegisterIntegrationTests {
     }
 
     @Test(expected = ConstraintViolationException.class)
-    public void testKitchenRegisterWhenHasNoName(){
+    public void shouldFail_WhenRegisterKitchenWithNoName(){
         Kitchen newKitchen = new Kitchen();
         newKitchen.setName(null);
 
         registerKitchen.save(newKitchen);
+    }
+
+    @Test(expected = EntityInUseException.class)
+    public void shouldFail_WhenDeleteKitchenInUse(){
+        registerKitchen.delete(1L);
+    }
+
+    @Test(expected = KitchenNotFoundException.class)
+    public void shouldFail_WhenDeleteKitchenNoExists(){
+        registerKitchen.delete(100L);
     }
 }
