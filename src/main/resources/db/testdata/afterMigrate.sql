@@ -25,10 +25,10 @@ alter table product auto_increment=1;
 alter table restaurant auto_increment=1;
 alter table user auto_increment=1;
 
-insert into kitchen (id, name) values (1, 'Tailandesa');
-insert into kitchen (id, name) values (2, 'Indiana');
-insert into kitchen (id, name) values (3, 'Italiana');
-insert into kitchen (id, name) values (4, 'Francesa');
+insert into kitchen (id, name) values (1, 'Thai');
+insert into kitchen (id, name) values (2, 'Indian');
+insert into kitchen (id, name) values (3, 'Italian');
+insert into kitchen (id, name) values (4, 'French');
 
 insert into state (id, name) values (1, 'Minas Gerais');
 insert into state (id, name) values (2, 'São Paulo');

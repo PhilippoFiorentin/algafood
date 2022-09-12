@@ -14,7 +14,6 @@ import lombok.EqualsAndHashCode;
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonRootName("kitchen")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
