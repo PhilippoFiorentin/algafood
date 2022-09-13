@@ -3,6 +3,7 @@ package com.philippo.algafood;
 import com.philippo.algafood.domain.model.Kitchen;
 import com.philippo.algafood.domain.repository.KitchenRepository;
 import com.philippo.algafood.util.DatabaseCleaner;
+import com.philippo.algafood.util.ResourceUtils;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
@@ -17,6 +18,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -30,11 +32,19 @@ public class KitchenRegisterApiT {
     @Autowired
     private KitchenRepository kitchenRepository;
 
+    private Kitchen americanKitchen;
+    private int quantityRegisteredKitchen;
+    private final int KITCHEN_ID_NOEXISTENT = 100;
+
+    private String jsonKitchens;
+
     @Before
     public void setUp(){
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         RestAssured.port = port;
         RestAssured.basePath = "/kitchens";
+
+        jsonKitchens = ResourceUtils.getContentFromResource("/kitchens.json");
 
         databaseCleaner.clearTables();
         prepareData();
@@ -52,21 +62,20 @@ public class KitchenRegisterApiT {
     }
 
     @Test
-    public void shouldHave2Kitchens_WhenSearchKitchens(){
+    public void shouldHaveRegisteredKitchens_WhenSearchKitchens(){
         given()
                     .accept(ContentType.JSON)
                 .when()
                     .get()
                 .then()
-                    .body("", Matchers.hasSize(2))
-                    .body("name", Matchers.hasItems("Thai", "American"));
+                    .body("", Matchers.hasSize(this.quantityRegisteredKitchen));
 
     }
 
     @Test
     public void shouldReturnStatusCode201_WhenRegisterKitchen(){
         given()
-                .body("{ \"name\": \"Chinese\" }")
+                .body(jsonKitchens)
                 .contentType("application/json")
                 .accept(ContentType.JSON)
         .when()
@@ -75,13 +84,38 @@ public class KitchenRegisterApiT {
                 .statusCode(HttpStatus.CREATED.value());
     }
 
-    private void prepareData() {
-        Kitchen kitchen1 = new Kitchen();
-        kitchen1.setName("Thai");
-        kitchenRepository.save(kitchen1);
+    @Test
+    public void shouldReturnCorrectResponseAndStatus_WhenCheckExistingKitchen(){
+        given()
+            .pathParam("kitchenId", 2)
+            .accept(ContentType.JSON)
+        .when()
+            .get("/{kitchenId}")
+        .then()
+            .statusCode(HttpStatus.OK.value())
+            .body("name", equalTo("American"));
+    }
 
-        Kitchen kitchen2 = new Kitchen();
-        kitchen2.setName("American");
-        kitchenRepository.save(kitchen2);
+    @Test
+    public void shouldReturnStatus404_WhenCheckNonexistingKitchen(){
+        given()
+                .pathParam("kitchenId", KITCHEN_ID_NOEXISTENT)
+                .accept(ContentType.JSON)
+                .when()
+                .get("/{kitchenId}")
+                .then()
+                .statusCode(HttpStatus.NOT_FOUND.value());
+    }
+
+    private void prepareData() {
+        Kitchen thaiKitchen = new Kitchen();
+        thaiKitchen.setName("Thai");
+        kitchenRepository.save(thaiKitchen);
+
+        Kitchen americanKitchen = new Kitchen();
+        americanKitchen.setName("American");
+        kitchenRepository.save(americanKitchen);
+
+        quantityRegisteredKitchen = (int) kitchenRepository.count();
     }
 }
