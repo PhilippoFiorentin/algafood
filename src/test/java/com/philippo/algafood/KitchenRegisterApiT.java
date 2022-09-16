@@ -34,7 +34,7 @@ public class KitchenRegisterApiT {
 
     private Kitchen americanKitchen;
     private int quantityRegisteredKitchen;
-    private final int KITCHEN_ID_NOEXISTENT = 100;
+    private static final int KITCHEN_ID_NO_EXISTENT = 100;
 
     private String jsonKitchens;
 
@@ -51,7 +51,7 @@ public class KitchenRegisterApiT {
     }
 
     @Test
-    public void shouldReturnStatus200_WhenGetKitchens(){
+    public void shouldReturnStatus200_WhenSearchKitchens(){
         given()
                     .accept(ContentType.JSON)
                 .when()
@@ -97,9 +97,9 @@ public class KitchenRegisterApiT {
     }
 
     @Test
-    public void shouldReturnStatus404_WhenCheckNonexistingKitchen(){
+    public void shouldReturnStatus404_WhenCheckNoKitchen(){
         given()
-                .pathParam("kitchenId", KITCHEN_ID_NOEXISTENT)
+                .pathParam("kitchenId", KITCHEN_ID_NO_EXISTENT)
                 .accept(ContentType.JSON)
                 .when()
                 .get("/{kitchenId}")

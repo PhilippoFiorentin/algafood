@@ -1,0 +1,7 @@
+{
+  "name": "Restaurant",
+  "deliveryFee": 10,
+  "kitchen": {
+    "id": "100"
+  }
+}
