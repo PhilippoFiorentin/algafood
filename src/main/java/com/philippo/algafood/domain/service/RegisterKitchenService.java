@@ -9,20 +9,22 @@ import org.springframework.stereotype.Service;
 
 import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.repository.KitchenRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegisterKitchenService {
 
-	public static final String KITCHEN_NOT_FOUND = "There is no kitchen register with code %d";
 	public static final String KITCHEN_IN_USE = "The kitchen with code %d could not be deleted because it is in use";
 
 	@Autowired
 	private KitchenRepository kitchenRepository;
-	
+
+	@Transactional
 	public Kitchen save(Kitchen kitchen) {
 		return kitchenRepository.save(kitchen);
 	}
-	
+
+	@Transactional
 	public void delete(Long kitchenId) {
 		try {
 			kitchenRepository.deleteById(kitchenId);

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.model.State;
 import com.philippo.algafood.domain.repository.CityRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegisterCityService {
@@ -19,7 +20,8 @@ public class RegisterCityService {
 	private CityRepository cityRepository;
 	@Autowired
 	private RegisterStateService registerState;
-	
+
+	@Transactional
 	public City save( City city) {
 		Long stateId = city.getState().getId();
 
@@ -29,7 +31,8 @@ public class RegisterCityService {
 		
 		return cityRepository.save(city);
 	}
-	
+
+	@Transactional
 	public void delete (Long cityId) {
 		try {
 			cityRepository.deleteById(cityId);

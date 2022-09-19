@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.model.Kitchen;
 import com.philippo.algafood.domain.repository.RestaurantRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegisterRestaurantService {
@@ -20,7 +21,8 @@ public class RegisterRestaurantService {
 	
 	@Autowired
 	private RegisterKitchenService registerKitchen;
-	
+
+	@Transactional
 	public Restaurant save(Restaurant restaurant) {
 		Long kitchenId = restaurant.getKitchen().getId();
 
@@ -30,7 +32,8 @@ public class RegisterRestaurantService {
 		
 		return restaurantRepository.save(restaurant);
 	}
-	
+
+	@Transactional
 	public void delete(Long restaurantId) {
 		try {
 			restaurantRepository.deleteById(restaurantId);

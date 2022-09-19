@@ -9,17 +9,20 @@ import org.springframework.stereotype.Service;
 
 import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.repository.StateRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegisterStateService {
 	public static final String STATE_IN_USE = "The state with code %d could not be deleted because it is in use";
 	@Autowired
 	private StateRepository stateRepository;
-	
+
+	@Transactional
 	public State save( State state ) {
 		return stateRepository.save(state);
 	}
-	
+
+	@Transactional
 	public void delete(Long stateId) {
 		try {
 			stateRepository.deleteById(stateId);
