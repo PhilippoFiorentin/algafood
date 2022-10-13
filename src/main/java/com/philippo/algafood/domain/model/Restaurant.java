@@ -13,7 +13,6 @@ import javax.validation.constraints.PositiveOrZero;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.philippo.algafood.core.validation.Groups;
 import com.philippo.algafood.core.validation.Multiple;
 import com.philippo.algafood.core.validation.ValueZeroIncludesDescription;
@@ -50,28 +49,23 @@ public class Restaurant {
 	@JoinColumn(name ="kitchen_id", nullable = false)
 	private Kitchen kitchen;
 
-	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition="datetime")
 	private LocalDateTime registerDate;
 
-	@JsonIgnore
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition="datetime")
 	private LocalDateTime updateDate;
 
-	@JsonIgnore
 	@Embedded
 	private Address address;
 
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "restaurant_payment_method",
 				joinColumns = @JoinColumn(name = "restaurant_id"),
 				inverseJoinColumns = @JoinColumn(name = "payment_method_id"))
 	private List<PaymentMethod> paymentMethods = new ArrayList<>();
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "restaurant")
 	private List<Product> products = new ArrayList<>();
 }

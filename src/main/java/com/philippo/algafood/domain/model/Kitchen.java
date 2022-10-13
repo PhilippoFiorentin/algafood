@@ -4,9 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonRootName;
-
 import com.philippo.algafood.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,7 +26,6 @@ public class Kitchen {
 	@Column(nullable = false)
 	private String name;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "kitchen")
 	private List<Restaurant> restaurants = new ArrayList<>();
 }
