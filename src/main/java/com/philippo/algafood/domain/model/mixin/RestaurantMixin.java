@@ -7,7 +7,7 @@ import com.philippo.algafood.domain.model.Kitchen;
 import com.philippo.algafood.domain.model.PaymentMethod;
 import com.philippo.algafood.domain.model.Product;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public abstract class RestaurantMixin {
@@ -16,10 +16,10 @@ public abstract class RestaurantMixin {
     private Kitchen kitchen;
 
     @JsonIgnore
-    private LocalDateTime registerDate;
+    private OffsetDateTime registerDate;
 
     @JsonIgnore
-    private LocalDateTime updateDate;
+    private OffsetDateTime updateDate;
 
     @JsonIgnore
     private Address address;

@@ -1,7 +1,7 @@
 package com.philippo.algafood.domain.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,11 +51,11 @@ public class Restaurant {
 
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition="datetime")
-	private LocalDateTime registerDate;
+	private OffsetDateTime registerDate;
 
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition="datetime")
-	private LocalDateTime updateDate;
+	private OffsetDateTime updateDate;
 
 	@Embedded
 	private Address address;
