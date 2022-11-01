@@ -1,4 +1,4 @@
-package com.philippo.algafood.domain.model.mixin;
+package com.philippo.algafood.api.model.mixin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
