@@ -87,6 +87,7 @@ public class RestaurantController {
 		registerRestaurant.delete(restaurantId);
 	}
 
+
 //	@PatchMapping("/{restaurantId}")
 //	public RestaurantModel updatePartial(
 //			@PathVariable Long restaurantId, @RequestBody Map<String, Object> fields, HttpServletRequest request) {
