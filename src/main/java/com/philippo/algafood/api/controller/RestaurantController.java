@@ -32,6 +32,7 @@ public class RestaurantController {
 	@Autowired
 	private RegisterRestaurantService registerRestaurant;
 
+
 	@Autowired
 	private RestaurantModelAssembler restaurantModelAssembler;
 
