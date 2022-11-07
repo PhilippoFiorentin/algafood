@@ -3,12 +3,12 @@ package com.philippo.algafood.api.controller;
 import java.util.List;
 
 import com.philippo.algafood.api.assembler.RestaurantModelAssembler;
+import com.philippo.algafood.api.assembler.RestaurantInputDisassembler;
 import com.philippo.algafood.api.model.RestaurantModel;
 import com.philippo.algafood.api.model.input.RestaurantInput;
 import com.philippo.algafood.core.validation.ValidationException;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.KitchenNotFoundException;
-import com.philippo.algafood.domain.model.Kitchen;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +32,11 @@ public class RestaurantController {
 	@Autowired
 	private RegisterRestaurantService registerRestaurant;
 
-
 	@Autowired
 	private RestaurantModelAssembler restaurantModelAssembler;
+
+	@Autowired
+	private RestaurantInputDisassembler restaurantInputDisassembler;
 
 	@Autowired
 	private SmartValidator validator;
@@ -55,7 +57,7 @@ public class RestaurantController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestaurantModel addRestaurant(@RequestBody @Valid RestaurantInput restaurantInput) {
 		try{
-			Restaurant restaurant = toDomainObject(restaurantInput);
+			Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 			return restaurantModelAssembler.toModel(registerRestaurant.save(restaurant));
 		} catch (KitchenNotFoundException e) {
 			throw new BusinessException(e.getMessage(), e);
@@ -66,7 +68,7 @@ public class RestaurantController {
 	public RestaurantModel updateRestaurant(@PathVariable Long restaurantId, @RequestBody @Valid RestaurantInput restaurantInput){
 
 		try{
-			Restaurant restaurant = toDomainObject(restaurantInput);
+			Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 			Restaurant currentRestaurant = registerRestaurant.findOrFail(restaurantId);
 
 			BeanUtils.copyProperties(restaurant,
@@ -154,16 +156,4 @@ public class RestaurantController {
 //		}
 //	}
 
-	private Restaurant toDomainObject(RestaurantInput restaurantInput){
-		Restaurant restaurant = new Restaurant();
-		restaurant.setName(restaurantInput.getName());
-		restaurant.setDeliveryFee(restaurantInput.getDeliveryFee());
-
-		Kitchen kitchen = new Kitchen();
-		kitchen.setId(restaurantInput.getKitchen().getId());
-
-		restaurant.setKitchen(kitchen);
-
-		return restaurant;
-	}
 }
