@@ -3,7 +3,6 @@ package com.philippo.algafood.core.jackson;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.philippo.algafood.domain.model.*;
 import com.philippo.algafood.api.model.mixin.CityMixin;
-import com.philippo.algafood.api.model.mixin.KitchenMixin;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,7 +12,6 @@ public class JackonMixinModel extends SimpleModule {
 
     public JackonMixinModel(){
         setMixInAnnotation(City.class, CityMixin.class);
-        setMixInAnnotation(Kitchen.class, KitchenMixin.class);
     }
 
 }
