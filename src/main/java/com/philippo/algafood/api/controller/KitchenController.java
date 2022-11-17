@@ -54,7 +54,8 @@ public class KitchenController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public KitchenModel addKitchen(@RequestBody @Valid Kitchen kitchen) {
+	public KitchenModel addKitchen(@RequestBody @Valid KitchenInput kitchenInput) {
+		Kitchen kitchen = kitchenInputDisassembler.toDomainObject(kitchenInput);
 		return kitchenModelAssembler.toModel(registerKitchen.save(kitchen));
 	}
 	

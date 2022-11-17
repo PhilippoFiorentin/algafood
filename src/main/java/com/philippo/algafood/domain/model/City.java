@@ -27,13 +27,13 @@ public class City {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
+//	@NotBlank
 	@Column(nullable = false)
 	private String name;
 
-	@Valid
-	@ConvertGroup(from = Default.class, to = Groups.StateId.class)
-	@NotNull
+//	@Valid
+//	@ConvertGroup(from = Default.class, to = Groups.StateId.class)
+//	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private State state;
