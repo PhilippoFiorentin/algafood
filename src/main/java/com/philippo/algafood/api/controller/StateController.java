@@ -2,6 +2,10 @@ package com.philippo.algafood.api.controller;
 
 import java.util.List;
 
+import com.philippo.algafood.api.assembler.StateInputDisassembler;
+import com.philippo.algafood.api.assembler.StateModelAssembler;
+import com.philippo.algafood.api.model.StateModel;
+import com.philippo.algafood.api.model.input.StateInput;
 import com.philippo.algafood.domain.model.State;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,30 +34,42 @@ public class StateController {
 	
 	@Autowired
 	private RegisterStateService registerState;
+
+	@Autowired
+	private StateModelAssembler stateModelAssembler;
+
+	@Autowired
+	private StateInputDisassembler stateInputDisassembler;
 	
 	@GetMapping
-	public List<State> listAllStates(){
-		return stateRepository.findAll();
+	public List<StateModel> listAllStates(){
+		return stateModelAssembler.toCollectionModel(stateRepository.findAll());
 	}
 	
 	@GetMapping("/{stateId}")
-	public State findState(@PathVariable Long stateId){
-		return registerState.findOrFail(stateId);
+	public StateModel findState(@PathVariable Long stateId){
+		State state = registerState.findOrFail(stateId);
+
+		return stateModelAssembler.toModel(state);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public State save(@RequestBody @Valid State state){
-		return registerState.save(state);
+	public StateModel addState(@RequestBody @Valid StateInput stateInput){
+		State state = stateInputDisassembler.toDomainObject(stateInput);
+
+		return stateModelAssembler.toModel(registerState.save(state));
 	}
 	
 	@PutMapping("/{stateId}")
-	public State update(@PathVariable Long stateId, @RequestBody @Valid State state){
+	public StateModel updateState(@PathVariable Long stateId, @RequestBody @Valid StateInput stateInput){
 		State currentState = registerState.findOrFail(stateId);
 
-		BeanUtils.copyProperties(state, currentState, "id");
+		stateInputDisassembler.copyToDomainObject(stateInput, currentState);
 
-		return registerState.save(currentState);
+		currentState =  registerState.save(currentState);
+
+		return stateModelAssembler.toModel(currentState);
 	}
 	
 	@DeleteMapping("/{stateId}")
