@@ -67,14 +67,9 @@ public class RestaurantController {
 	public RestaurantModel updateRestaurant(@PathVariable Long restaurantId, @RequestBody @Valid RestaurantInput restaurantInput){
 
 		try{
-//			Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 			Restaurant currentRestaurant = registerRestaurant.findOrFail(restaurantId);
 
 			restaurantInputDisassembler.copyToDomainObject(restaurantInput, currentRestaurant);
-
-//			BeanUtils.copyProperties(restaurant,
-//						currentRestaurant,
-//						"id", "paymentMethods", "address", "registerDate", "products");
 
 			return restaurantModelAssembler.toModel(registerRestaurant.save(currentRestaurant));
 		} catch (KitchenNotFoundException e) {
@@ -88,19 +83,6 @@ public class RestaurantController {
 		registerRestaurant.delete(restaurantId);
 	}
 
-//	@PatchMapping("/{restaurantId}")
-//	public RestaurantModel updatePartial(
-//			@PathVariable Long restaurantId, @RequestBody Map<String, Object> fields, HttpServletRequest request) {
-//
-//		Restaurant currentRestaurant = registerRestaurant.findOrFail(restaurantId);
-//
-//		merge(fields, currentRestaurant, request);
-//
-//		validate(currentRestaurant, "restaurant");
-//
-//		return updateRestaurant(restaurantId, currentRestaurant);
-//	}
-
 	private void validate(Restaurant restaurant, String objectName) {
 		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurant, objectName);
 
@@ -112,49 +94,16 @@ public class RestaurantController {
 		}
 	}
 
-	/*
+	@PutMapping("/{restaurantId}/active")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void activate(@PathVariable Long restaurantId){
+		registerRestaurant.activate(restaurantId);
+	}
 
-	O método merge irá converter os tipos dos valores, de acordo com o que
-	está implementado na entidade declarada.
-
-	Merge method will convert all value types, according to what is implemented
-	in the declared entity.
-
-	Depois, irá buscar as propriedades do objeto e setar o(s) novo(s) valor(es) para a
-	propriedade específica que está sendo alterada.
-
-	Then the merge method will find the object props and set the new values
-	for the specific prop that is being changed.
-
-	*/
-
-//	public void merge(Map<String, Object> sourceData, Restaurant targetRestaurant, HttpServletRequest request) {
-//
-//		ServletServerHttpRequest serverHttpRequest = new ServletServerHttpRequest(request);
-//
-//		try {
-//			ObjectMapper objectMapper = new ObjectMapper();
-//			objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
-//			objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-//
-//			RestaurantModel sourceRestaurant = objectMapper.convertValue(sourceData, RestaurantModel.class);
-//
-//
-//			sourceData.forEach((propName, propValue) -> {
-//				Field field = ReflectionUtils.findField(Restaurant.class, propName);
-//
-//				field.setAccessible(true);
-//
-//				Object newValue = ReflectionUtils.getField(field, sourceRestaurant);
-//
-//				ReflectionUtils.setField(field, targetRestaurant, newValue);
-//			});
-//
-//		} catch (IllegalArgumentException e){
-//			Throwable rootCause = ExceptionUtils.getRootCause(e);
-//
-//			throw new HttpMessageNotReadableException(e.getMessage(), rootCause, serverHttpRequest);
-//		}
-//	}
+	@DeleteMapping("/{restaurantId}/active")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deactivate(@PathVariable Long restaurantId){
+		registerRestaurant.deactivate(restaurantId);
+	}
 
 }

@@ -7,7 +7,6 @@ import com.philippo.algafood.api.assembler.StateModelAssembler;
 import com.philippo.algafood.api.model.StateModel;
 import com.philippo.algafood.api.model.input.StateInput;
 import com.philippo.algafood.domain.model.State;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;

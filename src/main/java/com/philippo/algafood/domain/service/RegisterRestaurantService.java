@@ -37,12 +37,25 @@ public class RegisterRestaurantService {
 	public void delete(Long restaurantId) {
 		try {
 			restaurantRepository.deleteById(restaurantId);
+			restaurantRepository.flush();
 		} catch (EmptyResultDataAccessException e) {
 			throw new RestaurantNotFoundException(restaurantId);
 		} catch (DataIntegrityViolationException e) {
 			throw new EntityInUseException(
 					String.format(RESTAURANT_IN_USE, restaurantId));
 		}
+	}
+
+	@Transactional
+	public void activate(Long restaurantId){
+		Restaurant currentRestaurant = findOrFail(restaurantId);
+		currentRestaurant.activate();
+	}
+
+	@Transactional
+	public void deactivate(Long restaurantId){
+		Restaurant currentRestaurant = findOrFail(restaurantId);
+		currentRestaurant.deactivate();
 	}
 
 	public Restaurant findOrFail(Long restaurantId){

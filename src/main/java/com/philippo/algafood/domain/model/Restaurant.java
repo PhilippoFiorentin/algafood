@@ -6,14 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 
-import com.philippo.algafood.core.validation.Groups;
 import com.philippo.algafood.core.validation.Multiple;
 import com.philippo.algafood.core.validation.ValueZeroIncludesDescription;
 import lombok.Data;
@@ -32,19 +25,13 @@ public class Restaurant {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-//	@NotBlank
 	@Column(nullable = false)
 	private String name;
 
-//	@NotNull
-//	@PositiveOrZero
 	@Multiple(number = 5)
 	@Column(name = "delivery_fee", nullable = false)
 	private BigDecimal deliveryFee;
 
-//	@Valid
-//	@ConvertGroup(from = Default.class, to = Groups.StateId.class)
-//	@NotNull
 	@ManyToOne
 	@JoinColumn(name ="kitchen_id", nullable = false)
 	private Kitchen kitchen;
@@ -60,6 +47,8 @@ public class Restaurant {
 	@Embedded
 	private Address address;
 
+	private Boolean active = Boolean.TRUE;
+
 	@ManyToMany
 	@JoinTable(name = "restaurant_payment_method",
 				joinColumns = @JoinColumn(name = "restaurant_id"),
@@ -68,4 +57,12 @@ public class Restaurant {
 
 	@OneToMany(mappedBy = "restaurant")
 	private List<Product> products = new ArrayList<>();
+
+	public void activate(){
+		setActive(true);
+	}
+
+	public void deactivate(){
+		setActive(false);
+	}
 }

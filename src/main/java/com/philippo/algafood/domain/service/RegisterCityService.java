@@ -36,6 +36,7 @@ public class RegisterCityService {
 	public void delete (Long cityId) {
 		try {
 			cityRepository.deleteById(cityId);
+			cityRepository.flush();
 		} catch (EmptyResultDataAccessException e) {
 			throw new CityNotFoundException(cityId);
 		} catch (DataIntegrityViolationException e) {
