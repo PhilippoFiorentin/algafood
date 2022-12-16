@@ -21,7 +21,7 @@ public class ModelMapperConfig {
 
         addressToAddressModelTypeMap.<String>addMapping(
                 addressSrc -> addressSrc.getCity().getState().getName(),
-                (addressModelDest, value) -> addressModelDest.getCity().setState(value));
+                (addressModelTarget, value) -> addressModelTarget.getCity().setState(value));
 
         return modelMapper;
     }

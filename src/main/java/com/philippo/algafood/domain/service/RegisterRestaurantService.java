@@ -1,6 +1,7 @@
 package com.philippo.algafood.domain.service;
 
 import com.philippo.algafood.domain.exception.RestaurantNotFoundException;
+import com.philippo.algafood.domain.model.City;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,13 +23,19 @@ public class RegisterRestaurantService {
 	@Autowired
 	private RegisterKitchenService registerKitchen;
 
+	@Autowired
+	private RegisterCityService registerCity;
+
 	@Transactional
 	public Restaurant save(Restaurant restaurant) {
 		Long kitchenId = restaurant.getKitchen().getId();
+		Long cityId = restaurant.getAddress().getCity().getId();
 
 		Kitchen kitchen = registerKitchen.findOrFail(kitchenId);
+		City city = registerCity.findOrFail(cityId);
 
 		restaurant.setKitchen(kitchen);
+		restaurant.getAddress().setCity(city);
 		
 		return restaurantRepository.save(restaurant);
 	}

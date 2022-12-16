@@ -1,6 +1,7 @@
 package com.philippo.algafood.api.assembler;
 
 import com.philippo.algafood.api.model.input.RestaurantInput;
+import com.philippo.algafood.domain.model.City;
 import com.philippo.algafood.domain.model.Kitchen;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
@@ -24,6 +25,9 @@ public class RestaurantInputDisassembler {
         com.algaworks.algafood.domain.model.Kitchen was altered from 1 to 2
         */
         restaurant.setKitchen(new Kitchen());
+
+        if (restaurant.getAddress() != null)
+            restaurant.getAddress().setCity(new City());
 
         modelMapper.map(restaurantInput, restaurant);
     }

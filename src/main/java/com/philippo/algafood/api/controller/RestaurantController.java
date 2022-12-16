@@ -8,6 +8,7 @@ import com.philippo.algafood.api.model.RestaurantModel;
 import com.philippo.algafood.api.model.input.RestaurantInput;
 import com.philippo.algafood.core.validation.ValidationException;
 import com.philippo.algafood.domain.exception.BusinessException;
+import com.philippo.algafood.domain.exception.CityNotFoundException;
 import com.philippo.algafood.domain.exception.KitchenNotFoundException;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class RestaurantController {
 		try{
 			Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 			return restaurantModelAssembler.toModel(registerRestaurant.save(restaurant));
-		} catch (KitchenNotFoundException e) {
+		} catch (KitchenNotFoundException | CityNotFoundException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 	}
@@ -72,7 +73,7 @@ public class RestaurantController {
 			restaurantInputDisassembler.copyToDomainObject(restaurantInput, currentRestaurant);
 
 			return restaurantModelAssembler.toModel(registerRestaurant.save(currentRestaurant));
-		} catch (KitchenNotFoundException e) {
+		} catch (KitchenNotFoundException | CityNotFoundException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
 	}
