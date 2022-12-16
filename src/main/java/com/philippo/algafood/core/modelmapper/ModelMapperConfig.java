@@ -1,5 +1,7 @@
 package com.philippo.algafood.core.modelmapper;
 
+import com.philippo.algafood.api.model.AddressModel;
+import com.philippo.algafood.domain.model.Address;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +10,19 @@ import org.springframework.context.annotation.Configuration;
 public class ModelMapperConfig {
 
     @Bean
-    public ModelMapper modelMapper(){
-        return new ModelMapper();
+    public ModelMapper modelMapper() {
+        var modelMapper = new ModelMapper();
+
+//		modelMapper.createTypeMap(Restaurant.class, RestaurantModel.class)
+//			.addMapping(Restaurant::getDeliveryFee, RestaurantModel::setDeliveryFee);
+
+        var addressToAddressModelTypeMap = modelMapper.createTypeMap(
+                Address.class, AddressModel.class);
+
+        addressToAddressModelTypeMap.<String>addMapping(
+                addressSrc -> addressSrc.getCity().getState().getName(),
+                (addressModelDest, value) -> addressModelDest.getCity().setState(value));
+
+        return modelMapper;
     }
 }
