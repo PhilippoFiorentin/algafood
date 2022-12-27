@@ -11,6 +11,7 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Entity
+@Table(name = "group_group")
 public class Group {
 
     @EqualsAndHashCode.Include
