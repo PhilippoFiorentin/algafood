@@ -54,13 +54,13 @@ public class KitchenController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public KitchenModel addKitchen(@RequestBody @Valid KitchenInput kitchenInput) {
+	public KitchenModel add(@RequestBody @Valid KitchenInput kitchenInput) {
 		Kitchen kitchen = kitchenInputDisassembler.toDomainObject(kitchenInput);
 		return kitchenModelAssembler.toModel(registerKitchen.save(kitchen));
 	}
 	
 	@PutMapping("/{kitchenId}")
-	public KitchenModel updateKitchen(@PathVariable Long kitchenId, @RequestBody @Valid KitchenInput kitchenInput){
+	public KitchenModel update(@PathVariable Long kitchenId, @RequestBody @Valid KitchenInput kitchenInput){
 		Kitchen currentKitchen = registerKitchen.findOrFail(kitchenId);
 
 		kitchenInputDisassembler.copyToDomainObject(kitchenInput, currentKitchen);
