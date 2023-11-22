@@ -7,7 +7,9 @@ import com.philippo.algafood.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class RegisterUserService {
@@ -17,6 +19,14 @@ public class RegisterUserService {
 
     @Transactional
     public User save(User user) {
+        userRepository.detach(user);
+
+        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+
+        if (existingUser.isPresent() && !existingUser.get().equals(user))
+            throw new BusinessException(
+                    String.format("User with this email already exists %s", user.getEmail()));
+
         return userRepository.save(user);
     }
 
