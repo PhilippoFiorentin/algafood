@@ -2,6 +2,7 @@ package com.philippo.algafood.domain.service;
 
 import com.philippo.algafood.domain.exception.RestaurantNotFoundException;
 import com.philippo.algafood.domain.model.City;
+import com.philippo.algafood.domain.model.PaymentMethod;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,6 +23,9 @@ public class RegisterRestaurantService {
 	
 	@Autowired
 	private RegisterKitchenService registerKitchen;
+
+	@Autowired
+	private RegisterPaymentMethodService registerPaymentMethodService;
 
 	@Autowired
 	private RegisterCityService registerCity;
@@ -63,6 +67,22 @@ public class RegisterRestaurantService {
 	public void deactivate(Long restaurantId){
 		Restaurant currentRestaurant = findOrFail(restaurantId);
 		currentRestaurant.deactivate();
+	}
+
+	@Transactional
+	public void disaffiliatePaymentMethod(Long restaurantId, Long paymentMethodId){
+		Restaurant restaurant = findOrFail(restaurantId);
+		PaymentMethod paymentMethod = registerPaymentMethodService.findOrFail(paymentMethodId);
+
+		restaurant.removePaymentMethod(paymentMethod);
+	}
+
+	@Transactional
+	public void affiliatePaymentMethod(Long restaurantId, Long paymentMethodId){
+		Restaurant restaurant = findOrFail(restaurantId);
+		PaymentMethod paymentMethod = registerPaymentMethodService.findOrFail(paymentMethodId);
+
+		restaurant.addPaymentMethod(paymentMethod);
 	}
 
 	public Restaurant findOrFail(Long restaurantId){
