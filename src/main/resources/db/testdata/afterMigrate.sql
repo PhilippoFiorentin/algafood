@@ -40,12 +40,12 @@ insert into city (id, name, state_id) values (3, 'São Paulo', 2);
 insert into city (id, name, state_id) values (4, 'Campinas', 2);
 insert into city (id, name, state_id) values (5, 'Fortaleza', 3);
 
-insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active, address_city_id, address_zipcode, address_street, address_number, address_district) values (1, 'Thai Gourmet', 10, 1, current_timestamp, current_timestamp, true, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
-insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active) values (2, 'Nam Thai', 8.90, 1, current_timestamp, current_timestamp, true);
-insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active) values (3, 'Amélie', 6.00, 4, current_timestamp, current_timestamp, true);
-insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active) values (4, 'Cafeína', 7.49, 2, current_timestamp, current_timestamp, true);
-insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active) values (5, 'La Trattoria', 11.99, 3, current_timestamp, current_timestamp, true);
-insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active) values (6, 'Java Steakhouse', 11.99, 3.00, current_timestamp, current_timestamp, true);
+insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active, open, address_city_id, address_zipcode, address_street, address_number, address_district) values (1, 'Thai Gourmet', 10, 1, current_timestamp, current_timestamp, true, true, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro');
+insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active, open) values (2, 'Nam Thai', 8.90, 1, current_timestamp, current_timestamp, true, true);
+insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active, open) values (3, 'Amélie', 6.00, 4, current_timestamp, current_timestamp, true, true);
+insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active, open) values (4, 'Cafeína', 7.49, 2, current_timestamp, current_timestamp, true, true);
+insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active, open) values (5, 'La Trattoria', 11.99, 3, current_timestamp, current_timestamp, true, true);
+insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, update_date, active, open) values (6, 'Java Steakhouse', 11.99, 3.00, current_timestamp, current_timestamp, true, true);
 
 
 insert into payment_method (id, description) values (1, 'Credit');

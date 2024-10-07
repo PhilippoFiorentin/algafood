@@ -1,8 +1,6 @@
 package com.philippo.algafood.api.assembler;
 
-import com.philippo.algafood.api.model.CityModel;
 import com.philippo.algafood.api.model.ProductModel;
-import com.philippo.algafood.domain.model.City;
 import com.philippo.algafood.domain.model.Product;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
