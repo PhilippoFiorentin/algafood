@@ -107,4 +107,16 @@ public class RestaurantController {
 		registerRestaurant.deactivate(restaurantId);
 	}
 
+	@PutMapping("/{restaurantId}/opening")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void open(@PathVariable Long restaurantId){
+		registerRestaurant.open(restaurantId);
+	}
+
+	@PutMapping("/{restaurantId}/closing")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void close(@PathVariable Long restaurantId){
+		registerRestaurant.close(restaurantId);
+	}
+
 }
