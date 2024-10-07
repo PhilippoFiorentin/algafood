@@ -51,6 +51,8 @@ public class Restaurant {
 
 	private Boolean active = Boolean.TRUE;
 
+	private Boolean open = Boolean.FALSE;
+
 	@ManyToMany
 	@JoinTable(name = "restaurant_payment_method",
 				joinColumns = @JoinColumn(name = "restaurant_id"),
@@ -67,6 +69,14 @@ public class Restaurant {
 
 	public void deactivate(){
 		setActive(false);
+	}
+
+	public void open(){
+		setOpen(true);
+	}
+
+	public void close(){
+		setOpen(false);
 	}
 
 	public boolean removePaymentMethod(PaymentMethod paymentMethod){
