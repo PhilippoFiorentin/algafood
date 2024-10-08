@@ -3,6 +3,9 @@ package com.philippo.algafood.domain.service;
 import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.exception.GroupNotFoundException;
 import com.philippo.algafood.domain.model.Group;
+import com.philippo.algafood.domain.model.PaymentMethod;
+import com.philippo.algafood.domain.model.Permission;
+import com.philippo.algafood.domain.model.Restaurant;
 import com.philippo.algafood.domain.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,6 +20,9 @@ public class RegisterGroupService {
 
     @Autowired
     private GroupRepository groupRepository;
+
+    @Autowired
+    private RegisterPermissionService registerPermissionService;
 
     @Transactional
     public Group save(Group group) {
@@ -33,6 +39,22 @@ public class RegisterGroupService {
         }catch (DataIntegrityViolationException e){
             throw new EntityInUseException(String.format(GROUP_IN_USE_MESSAGE));
         }
+    }
+
+    @Transactional
+    public void disaffiliatePermission(Long groupId, Long permissionId){
+        Group group = findOrFail(groupId);
+        Permission permission = registerPermissionService.findOrFail(permissionId);
+
+        group.removePermission(permission);
+    }
+
+    @Transactional
+    public void affiliatePaymentMethod(Long groupId, Long permissionId){
+        Group group = findOrFail(groupId);
+        Permission permission = registerPermissionService.findOrFail(permissionId);
+
+        group.addPermission(permission);
     }
 
     public Group findOrFail(Long groupId){
