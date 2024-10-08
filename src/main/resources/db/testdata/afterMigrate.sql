@@ -52,7 +52,7 @@ insert into payment_method (id, description) values (1, 'Credit');
 insert into payment_method (id, description) values (2, 'Debit');
 insert into payment_method (id, description) values (3, 'Cash');
 
-insert into permission (id, name, description) values (1, 'SEARCH KITCHENS', 'Allow search kitchens');
+insert into permission (id, name, description) values (1, 'SEARCH KITCHENS', 'Allow to search kitchens');
 insert into permission (id, name, description) values (2, 'UPDATE KITCHENS', 'Allow update kitchens');
 
 insert into restaurant_payment_method (restaurant_id, payment_method_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3), (4,1), (4,2), (5,1), (5,2), (5,3), (6,1), (6,3);
@@ -72,7 +72,9 @@ insert into product (name, description, price, active, restaurant_id) values ('S
 
 insert into product (name, description, price, active, restaurant_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 5);
 
-insert into `group_group` (name) values ('Manager'), ('Salesman'), ('Secretary'), ('Register');
+insert into `group_group` (id, name) values (1,'Manager'), (2,'Salesman'), (3,'Secretary'), (4,'Register');
+
+insert into group_permission (group_id, permission_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1), (3, 2), (4, 1), (4, 2);
 
 insert into user (id, name, email, password, register_date) values
 (1, 'João da Silva', 'joao.ger@algafood.com', '123', utc_timestamp),
