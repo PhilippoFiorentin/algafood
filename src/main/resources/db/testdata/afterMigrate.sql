@@ -81,3 +81,5 @@ insert into user (id, name, email, password, register_date) values
 (2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', utc_timestamp),
 (3, 'José Souza', 'jose.aux@algafood.com', '123', utc_timestamp),
 (4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp);
+
+insert into user_group (user_id, group_id) values (1, 1), (1, 2), (2, 2);
