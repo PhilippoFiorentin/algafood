@@ -21,7 +21,8 @@ public class PermissionModelAssembler {
     }
 
     public List<PermissionModel> toCollectionModel(Collection<Permission> permissions) {
-        return permissions.stream()
+        return permissions
+                .stream()
                 .map(permission -> toModel(permission))
                 .collect(Collectors.toList());
     }
