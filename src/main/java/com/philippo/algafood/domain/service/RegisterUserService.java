@@ -2,6 +2,7 @@ package com.philippo.algafood.domain.service;
 
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.UserNotFoundException;
+import com.philippo.algafood.domain.model.Group;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class RegisterUserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RegisterGroupService registerGroupService;
 
     @Transactional
     public User save(User user) {
@@ -38,6 +42,22 @@ public class RegisterUserService {
             throw new BusinessException("The given password does not match the user's password.");
 
         user.setPassword(newPassword);
+    }
+
+    @Transactional
+    public void disaffiliateGroup(Long userId, Long groupId){
+        User user = findOrFail(userId);
+        Group group = registerGroupService.findOrFail(groupId);
+
+        user.removeGroup(group);
+    }
+
+    @Transactional
+    public void affiliateGroup(Long userId, Long groupId) {
+        User user = findOrFail(userId);
+        Group group = registerGroupService.findOrFail(groupId);
+
+        user.addGroup(group);
     }
 
     public User findOrFail(Long userId){
