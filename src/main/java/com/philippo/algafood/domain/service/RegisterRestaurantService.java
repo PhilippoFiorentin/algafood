@@ -1,16 +1,13 @@
 package com.philippo.algafood.domain.service;
 
 import com.philippo.algafood.domain.exception.RestaurantNotFoundException;
-import com.philippo.algafood.domain.model.City;
-import com.philippo.algafood.domain.model.PaymentMethod;
-import com.philippo.algafood.domain.model.Restaurant;
+import com.philippo.algafood.domain.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.philippo.algafood.domain.exception.EntityInUseException;
-import com.philippo.algafood.domain.model.Kitchen;
 import com.philippo.algafood.domain.repository.RestaurantRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +26,9 @@ public class RegisterRestaurantService {
 
 	@Autowired
 	private RegisterCityService registerCity;
+
+	@Autowired
+	private RegisterUserService registerUser;
 
 	@Transactional
 	public Restaurant save(Restaurant restaurant) {
@@ -95,6 +95,22 @@ public class RegisterRestaurantService {
 		PaymentMethod paymentMethod = registerPaymentMethodService.findOrFail(paymentMethodId);
 
 		restaurant.addPaymentMethod(paymentMethod);
+	}
+
+	@Transactional
+	public void disaffiliateUserRaesponsible(Long restaurantId, Long userId) {
+		Restaurant restaurant = findOrFail(restaurantId);
+		User user = registerUser.findOrFail(userId);
+
+		restaurant.removeUserResponsible(user);
+	}
+
+	@Transactional
+	public void affiliateUserResponsible(Long restaurantId, Long userId){
+		Restaurant restaurant = findOrFail(restaurantId);
+		User user = registerUser.findOrFail(userId);
+
+		restaurant.addUserResponsible(user);
 	}
 
 	public Restaurant findOrFail(Long restaurantId){
