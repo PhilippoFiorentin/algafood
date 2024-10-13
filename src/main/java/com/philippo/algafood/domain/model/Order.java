@@ -50,7 +50,8 @@ public class Order {
     @JoinColumn(name = "user_client_id", nullable = false)
     private User user;
 
-    private OrderStatus status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status = OrderStatus.CREATED;
 
     @Embedded
     private Address deliveryAddress;
