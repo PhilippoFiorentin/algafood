@@ -1,8 +1,6 @@
 package com.philippo.algafood.domain.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import com.philippo.algafood.core.validation.Groups;
 import lombok.Data;
@@ -16,7 +14,7 @@ import java.util.List;
 @Entity
 public class Kitchen {
 
-	@NotNull(groups = Groups.KitchenId.class)
+//	@NotNull(groups = Groups.KitchenId.class)
 	@EqualsAndHashCode.Include
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +24,6 @@ public class Kitchen {
 	@Column(nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "kitchen")
-	private List<Restaurant> restaurants = new ArrayList<>();
+//	@OneToMany(mappedBy = "kitchen")
+//	private List<Restaurant> restaurants = new ArrayList<>();
 }

@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-@ValueZeroIncludesDescription(valueField="deliveryFee", descriptionField="name", mandatoryDescription="Delivery free")
+//@ValueZeroIncludesDescription(valueField="deliveryFee", descriptionField="name", mandatoryDescription="Delivery free")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -30,13 +30,20 @@ public class Restaurant {
 	@Column(nullable = false)
 	private String name;
 
-	@Multiple(number = 5)
+//	@Multiple(number = 5)
 	@Column(name = "delivery_fee", nullable = false)
 	private BigDecimal deliveryFee;
 
 	@ManyToOne
 	@JoinColumn(name ="kitchen_id", nullable = false)
 	private Kitchen kitchen;
+
+	@Embedded
+	private Address address;
+
+	private Boolean active = Boolean.TRUE;
+
+	private Boolean open = Boolean.FALSE;
 
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition="datetime")
@@ -45,13 +52,6 @@ public class Restaurant {
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition="datetime")
 	private OffsetDateTime updateDate;
-
-	@Embedded
-	private Address address;
-
-	private Boolean active = Boolean.TRUE;
-
-	private Boolean open = Boolean.FALSE;
 
 	@ManyToMany
 	@JoinTable(name = "restaurant_payment_method",

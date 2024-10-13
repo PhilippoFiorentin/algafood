@@ -11,6 +11,8 @@ import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.repository.RestaurantRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class RegisterRestaurantService {
 
@@ -69,6 +71,18 @@ public class RegisterRestaurantService {
 		currentRestaurant.deactivate();
 	}
 
+	//Activate many restaurants at once
+	@Transactional
+	public void activate(List<Long> restaurantIds){
+		restaurantIds.forEach(this::activate);
+	}
+
+	//Deactivate many restaurants at once
+	@Transactional
+	public void deactivate(List<Long> restaurantIds){
+		restaurantIds.forEach(this::deactivate);
+	}
+
 	@Transactional
 	public void open(Long restaurantId){
 		Restaurant currentRestaurant = findOrFail(restaurantId);
@@ -98,7 +112,7 @@ public class RegisterRestaurantService {
 	}
 
 	@Transactional
-	public void disaffiliateUserRaesponsible(Long restaurantId, Long userId) {
+	public void disaffiliateUserResponsible(Long restaurantId, Long userId) {
 		Restaurant restaurant = findOrFail(restaurantId);
 		User user = registerUser.findOrFail(userId);
 

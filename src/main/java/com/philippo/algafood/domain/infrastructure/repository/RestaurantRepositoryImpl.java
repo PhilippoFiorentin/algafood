@@ -37,12 +37,15 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
         BigDecimal initialDeliveryFee,
         BigDecimal finalDeliveryFee ){
 
-        CriteriaBuilder builder = manager.getCriteriaBuilder();
-        CriteriaQuery<Restaurant> criteria = builder.createQuery(Restaurant.class);
-
-        Root<Restaurant> root = criteria.from(Restaurant.class); // from Restaurant
-
+        var builder = manager.getCriteriaBuilder();
+        var criteria = builder.createQuery(Restaurant.class);
+        var root = criteria.from(Restaurant.class);
         var predicates = new ArrayList<Predicate>();
+
+//        CriteriaBuilder builder = manager.getCriteriaBuilder();
+//        CriteriaQuery<Restaurant> criteria = builder.createQuery(Restaurant.class);
+
+//        Root<Restaurant> root = criteria.from(Restaurant.class); // from Restaurant
 
         if(StringUtils.hasText(name)){
             predicates.add(builder.like(root.get("name"), "%" + name + "%"));
@@ -60,12 +63,14 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 
         criteria.where(predicates.toArray(new Predicate[0]));
 
-        TypedQuery<Restaurant> query = manager.createQuery(criteria);
+        var query = manager.createQuery(criteria);
+
+//        TypedQuery<Restaurant> query = manager.createQuery(criteria);
 
         return query.getResultList();
     }
 
-    @Override public List<Restaurant> findFreeDelivery ( String name ) {
+    @Override public List<Restaurant> findFreeDelivery (String name) {
         return restaurantRepository.findAll(freeDelivery().and(similarName(name)));
     }
 }
