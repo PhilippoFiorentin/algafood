@@ -30,7 +30,7 @@ public class RestaurantUserResponsibleController {
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void disaffiliate(@PathVariable Long restaurantId, @PathVariable Long userId){
-        restaurantService.disaffiliateUserRaesponsible(restaurantId, userId);
+        restaurantService.disaffiliateUserResponsible(restaurantId, userId);
     }
 
     @PutMapping("/{userId}")
