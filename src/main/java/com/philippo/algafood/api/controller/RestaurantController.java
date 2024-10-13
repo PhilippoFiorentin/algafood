@@ -10,6 +10,7 @@ import com.philippo.algafood.core.validation.ValidationException;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.CityNotFoundException;
 import com.philippo.algafood.domain.exception.KitchenNotFoundException;
+import com.philippo.algafood.domain.exception.RestaurantNotFoundException;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -78,22 +79,22 @@ public class RestaurantController {
 		}
 	}
 
-	@DeleteMapping("/{restaurantId}")
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public void delete(@PathVariable Long restaurantId){
-		registerRestaurant.delete(restaurantId);
-	}
+//	@DeleteMapping("/{restaurantId}")
+//	@ResponseStatus(HttpStatus.NOT_FOUND)
+//	public void delete(@PathVariable Long restaurantId){
+//		registerRestaurant.delete(restaurantId);
+//	}
 
-	private void validate(Restaurant restaurant, String objectName) {
-		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurant, objectName);
-
-		validator.validate(restaurant, bindingResult);
-
-		if (bindingResult.hasErrors()) {
-			throw new ValidationException(bindingResult);
-
-		}
-	}
+//	private void validate(Restaurant restaurant, String objectName) {
+//		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurant, objectName);
+//
+//		validator.validate(restaurant, bindingResult);
+//
+//		if (bindingResult.hasErrors()) {
+//			throw new ValidationException(bindingResult);
+//
+//		}
+//	}
 
 	@PutMapping("/{restaurantId}/active")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -105,6 +106,26 @@ public class RestaurantController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deactivate(@PathVariable Long restaurantId){
 		registerRestaurant.deactivate(restaurantId);
+	}
+
+	@PutMapping("/activations")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void activateManyRestaurants(@RequestBody List<Long> restaurantIds){
+		try {
+			registerRestaurant.activate(restaurantIds);
+		} catch (RestaurantNotFoundException e) {
+		throw new BusinessException(e.getMessage(), e);
+		}
+	}
+
+	@DeleteMapping("/activations")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deactivateManyRestaurants(@RequestBody List<Long> restaurantIds){
+		try {
+			registerRestaurant.deactivate(restaurantIds);
+		} catch (RestaurantNotFoundException e) {
+			throw new BusinessException(e.getMessage(), e);
+		}
 	}
 
 	@PutMapping("/{restaurantId}/opening")
