@@ -58,4 +58,19 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<OrderItem> items = new ArrayList<>();
+
+    public void calculateTotalValue() {
+        this.total = getItems()
+                .stream()
+                .map(item -> item.getTotalPrice())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public void setDeliveryFee(){
+        setDeliveryFee(getRestaurant().getDeliveryFee());
+    }
+
+    public void assignOrderToItems(){
+        getItems().forEach(item -> item.setOrder(this));
+    }
 }
