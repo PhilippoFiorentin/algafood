@@ -13,6 +13,8 @@ delete from restaurant_payment_method;
 delete from user;
 delete from user_group;
 delete from restaurant_user_responsible;
+delete from `order`;
+delete from order_item;
 
 set foreign_key_checks=1;
 
@@ -119,3 +121,25 @@ insert into user_group (user_id, group_id) values
 insert into restaurant_user_responsible (restaurant_id, user_id) values
 (1, 5),
 (3, 5);
+
+insert into `order` (id, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
+                   status, address_city_id, address_zipcode, address_street, address_number, address_additional,
+                   address_district) values
+(1, 298.90, 10, 308.90, utc_timestamp,1,1, 1,
+ 'CREATED', 1, '38400-000', 'Rua Floriano Peixoto', '500',
+ 'Apto 801', 'Centro');
+
+insert into order_item (id, quantity, unitary_price, total_price, observation, product_id, order_id) values
+(1, 1, 78.9, 78.9, null, 1,1),
+(2, 2, 110, 220, 'less spicy, please', 2, 1);
+
+
+insert into `order` (id, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
+                   status, address_city_id, address_zipcode, address_street, address_number, address_additional,
+                   address_district) values
+(2, 79, 0, 79, utc_timestamp, 2, 4, 1,
+ 'CREATED', 1, '38400-111', 'Rua Acre', '300',
+ 'Casa 2', 'Centro');
+
+insert into order_item (id, quantity, unitary_price, total_price, observation, product_id, order_id) values
+(3, 1, 79, 79, 'Medium', 6, 2);
