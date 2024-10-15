@@ -1,24 +1,20 @@
 package com.philippo.algafood.domain.service;
 
-import com.philippo.algafood.api.assembler.OrderModelAssembler;
-import com.philippo.algafood.domain.exception.OrderNotFoundException;
-import com.philippo.algafood.domain.exception.PaymentMethodNotFoundException;
-import com.philippo.algafood.domain.model.Order;
-import com.philippo.algafood.domain.model.PaymentMethod;
-import com.philippo.algafood.domain.repository.OrderRepository;
+import com.philippo.algafood.domain.exception.RestaurantOrderNotFoundException;
+import com.philippo.algafood.domain.model.RestaurantOrder;
+import com.philippo.algafood.domain.repository.RestaurantOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrderIssuanceService {
 
     @Autowired
-    private OrderRepository orderRepository;
+    private RestaurantOrderRepository restaurantOrderRepository;
 
-    public Order findOrFail(Long orderId){
-        return orderRepository
+    public RestaurantOrder findOrFail(Long orderId){
+        return restaurantOrderRepository
                 .findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(orderId));
+                .orElseThrow(() -> new RestaurantOrderNotFoundException(orderId));
     }
 }

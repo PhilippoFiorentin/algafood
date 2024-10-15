@@ -13,7 +13,7 @@ import java.util.List;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
 @Entity
-public class Order {
+public class RestaurantOrder {
 
     @EqualsAndHashCode.Include
     @Id
@@ -56,7 +56,7 @@ public class Order {
     @Embedded
     private Address deliveryAddress;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "restaurantOrder")
     private List<OrderItem> items = new ArrayList<>();
 
     public void calculateTotalValue() {
@@ -71,6 +71,6 @@ public class Order {
     }
 
     public void assignOrderToItems(){
-        getItems().forEach(item -> item.setOrder(this));
+        getItems().forEach(item -> item.setRestaurantOrder(this));
     }
 }

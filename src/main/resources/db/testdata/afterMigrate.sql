@@ -13,7 +13,7 @@ delete from restaurant_payment_method;
 delete from user;
 delete from user_group;
 delete from restaurant_user_responsible;
-delete from `order`;
+delete from restaurant_order;
 delete from order_item;
 
 set foreign_key_checks=1;
@@ -122,7 +122,7 @@ insert into restaurant_user_responsible (restaurant_id, user_id) values
 (1, 5),
 (3, 5);
 
-insert into `order` (id, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
+insert into restaurant_order (id, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
                    status, address_city_id, address_zipcode, address_street, address_number, address_additional,
                    address_district) values
 (1, 298.90, 10, 308.90, utc_timestamp,1,1, 1,
@@ -134,7 +134,7 @@ insert into order_item (id, quantity, unitary_price, total_price, observation, p
 (2, 2, 110, 220, 'less spicy, please', 2, 1);
 
 
-insert into `order` (id, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
+insert into restaurant_order (id, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
                    status, address_city_id, address_zipcode, address_street, address_number, address_additional,
                    address_district) values
 (2, 79, 0, 79, utc_timestamp, 2, 4, 1,

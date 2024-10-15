@@ -14,5 +14,5 @@ public class OrderItemModel {
     private Integer quantity;
     private BigDecimal unitaryPrice;
     private BigDecimal totalPrice;
-    private BigDecimal observation;
+    private String observation;
 }

@@ -1,4 +1,4 @@
-create table `order` (
+create table restaurant_order (
     id bigint not null auto_increment,
     subtotal decimal(10,2) not null,
     delivery_fee decimal(10,2) not null,
@@ -41,6 +41,6 @@ create table order_item(
     primary key(id),
     unique key uk_product_order_item(order_id, product_id),
 
-    constraint fk_order_item_order foreign key(order_id) references `order`(id),
+    constraint fk_order_item_restaurant_order foreign key(order_id) references restaurant_order(id),
     constraint fk_order_item_product foreign key(product_id) references product(id)
 )engine=InnoDB default charset=utf8;

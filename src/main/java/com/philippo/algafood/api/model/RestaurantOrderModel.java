@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class OrderModel {
+public class RestaurantOrderModel {
 
     private Long id;
     private BigDecimal subtotal;

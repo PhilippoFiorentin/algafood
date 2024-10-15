@@ -16,21 +16,21 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private Integer quantity;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private BigDecimal unitaryPrice;
 
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private BigDecimal totalPrice;
 
-    @Column(nullable = false)
-    private BigDecimal observation;
+//    @Column(nullable = false)
+    private String observation;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
-    private Order order;
+    @JoinColumn(name="order_id", nullable = false)
+    private RestaurantOrder restaurantOrder;
 
     @ManyToOne
     @JoinColumn(nullable = false)
