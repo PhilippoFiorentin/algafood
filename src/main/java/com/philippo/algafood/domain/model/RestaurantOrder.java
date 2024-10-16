@@ -60,10 +60,12 @@ public class RestaurantOrder {
     private List<OrderItem> items = new ArrayList<>();
 
     public void calculateTotalValue() {
-        this.total = getItems()
+        this.subtotal = getItems()
                 .stream()
                 .map(item -> item.getTotalPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        this.total = this.subtotal.add(this.deliveryFee);
     }
 
     public void setDeliveryFee(){
