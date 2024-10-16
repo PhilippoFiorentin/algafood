@@ -38,7 +38,7 @@ public class RestaurantOrder {
 
     private OffsetDateTime deliveryDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private PaymentMethod paymentMethod;
 
@@ -56,7 +56,7 @@ public class RestaurantOrder {
     @Embedded
     private Address deliveryAddress;
 
-    @OneToMany(mappedBy = "restaurantOrder")
+    @OneToMany(mappedBy = "restaurantOrder", cascade = CascadeType.ALL)
     private List<OrderItem> items = new ArrayList<>();
 
     public void calculateTotalValue() {
