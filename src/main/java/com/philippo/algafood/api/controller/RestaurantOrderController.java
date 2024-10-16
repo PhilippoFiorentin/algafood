@@ -1,7 +1,9 @@
 package com.philippo.algafood.api.controller;
 
 import com.philippo.algafood.api.assembler.RestaurantOrderModelAssembler;
+import com.philippo.algafood.api.assembler.RestaurantOrderSummaryAssembler;
 import com.philippo.algafood.api.model.RestaurantOrderModel;
+import com.philippo.algafood.api.model.RestaurantOrderSummaryModel;
 import com.philippo.algafood.domain.model.RestaurantOrder;
 import com.philippo.algafood.domain.repository.RestaurantOrderRepository;
 import com.philippo.algafood.domain.service.OrderIssuanceService;
@@ -26,10 +28,13 @@ public class RestaurantOrderController {
     @Autowired
     private RestaurantOrderModelAssembler restaurantOrderModelAssembler;
 
+    @Autowired
+    private RestaurantOrderSummaryAssembler restaurantOrderSummaryAssembler;
+
     @GetMapping
-    public List<RestaurantOrderModel> list(){
+    public List<RestaurantOrderSummaryModel> list(){
         List<RestaurantOrder> allRestaurantOrders = restaurantOrderRepository.findAll();
-        return restaurantOrderModelAssembler.toCollectionModel(allRestaurantOrders);
+        return restaurantOrderSummaryAssembler.toCollectionModel(allRestaurantOrders);
     }
 
     @GetMapping("/{orderId}")
