@@ -48,7 +48,7 @@ public class RestaurantOrder {
 
     @ManyToOne
     @JoinColumn(name = "user_client_id", nullable = false)
-    private User user;
+    private User client;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.CREATED;
