@@ -14,7 +14,6 @@ public class OrderItemInput {
     @NotNull
     private Long id;
 
-    @Valid
     @NotNull
     @PositiveOrZero
     private Integer quantity;
