@@ -60,6 +60,8 @@ public class RestaurantOrder {
     private List<OrderItem> items = new ArrayList<>();
 
     public void calculateTotalValue() {
+        getItems().forEach(OrderItem::calculateTotalValue);
+
         this.subtotal = getItems()
                 .stream()
                 .map(item -> item.getTotalPrice())
@@ -68,11 +70,4 @@ public class RestaurantOrder {
         this.total = this.subtotal.add(this.deliveryFee);
     }
 
-    public void setDeliveryFee(){
-        setDeliveryFee(getRestaurant().getDeliveryFee());
-    }
-
-    public void assignOrderToItems(){
-        getItems().forEach(item -> item.setRestaurantOrder(this));
-    }
 }
