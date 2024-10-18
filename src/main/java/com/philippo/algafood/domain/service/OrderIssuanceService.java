@@ -55,4 +55,15 @@ public class OrderIssuanceService {
                     paymentMethod.getDescription()));
 
     }
+
+    private void validateItems(RestaurantOrder order){
+        order.getItems().forEach(item -> {
+            Product product = registerProductService
+                    .findOrFail(order.getRestaurant().getId(), item.getProduct().getId());
+
+            item.setRestaurantOrder(order);
+            item.setProduct(product);
+            item.setUnitaryPrice(item.getUnitaryPrice());
+        });
+    }
 }
