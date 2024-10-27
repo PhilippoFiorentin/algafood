@@ -25,11 +25,18 @@ public class OrderIssuanceService {
 
     @Autowired
     private RegisterRestaurantService registerRestaurantService;
+
     @Autowired
     private RegisterProductService registerProductService;
 
     @Transactional
-    public RestaurantOrder save(RestaurantOrder order) {
+    public RestaurantOrder issue(RestaurantOrder order) {
+        validateOrder(order);
+        validateItems(order);
+
+        order.setDeliveryFee(order.getRestaurant().getDeliveryFee());
+        order.calculateTotalValue();
+
         return restaurantOrderRepository.save(order);
     }
 
@@ -41,19 +48,18 @@ public class OrderIssuanceService {
 
     private void validateOrder(RestaurantOrder order){
         City city = registerCityService.findOrFail(order.getDeliveryAddress().getCity().getId());
-        PaymentMethod paymentMethod = registerPaymentMethodService.findOrFail(order.getPaymentMethod().getId());
         User client = registerUserService.findOrFail(order.getClient().getId());
         Restaurant restaurant = registerRestaurantService.findOrFail(order.getRestaurant().getId());
+        PaymentMethod paymentMethod = registerPaymentMethodService.findOrFail(order.getPaymentMethod().getId());
 
         order.getDeliveryAddress().setCity(city);
-        order.setPaymentMethod(paymentMethod);
         order.setClient(client);
         order.setRestaurant(restaurant);
+        order.setPaymentMethod(paymentMethod);
 
         if(restaurant.dontAcceptPaymentMethod(paymentMethod))
             throw new BusinessException(String.format("The payment method %s is not accepted by this restaurant.",
                     paymentMethod.getDescription()));
-
     }
 
     private void validateItems(RestaurantOrder order){
@@ -63,7 +69,7 @@ public class OrderIssuanceService {
 
             item.setRestaurantOrder(order);
             item.setProduct(product);
-            item.setUnitaryPrice(item.getUnitaryPrice());
+            item.setUnitaryPrice(item.getProduct().getPrice());
         });
     }
 }
