@@ -44,4 +44,19 @@ public class OrderFlowService {
         order.setStatus(OrderStatus.DELIVERED);
         order.setConfirmationDate(OffsetDateTime.now());
     }
+
+    @Transactional
+    public void cancel(Long orderId){
+        RestaurantOrder order = orderIssuanceService.findOrFail(orderId);
+
+        if(!order.getStatus().equals(OrderStatus.CREATED))
+            throw new BusinessException(String.format(
+                    "The order status %d cannot be changed from %s to %s",
+                    order.getId(),
+                    order.getStatus().getDescription(),
+                    OrderStatus.CANCELLED));
+
+        order.setStatus(OrderStatus.CANCELLED);
+        order.setConfirmationDate(OffsetDateTime.now());
+    }
 }
