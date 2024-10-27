@@ -18,7 +18,8 @@ public class ModelMapperConfig {
 //		modelMapper.createTypeMap(Restaurant.class, RestaurantModel.class)
 //			.addMapping(Restaurant::getDeliveryFee, RestaurantModel::setDeliveryFee);
 
-        modelMapper.createTypeMap(OrderItemInput.class, OrderItem.class).addMappings(mapper -> mapper.skip(OrderItem::setId));
+        modelMapper.createTypeMap(OrderItemInput.class, OrderItem.class)
+                .addMappings(mapper -> mapper.skip(OrderItem::setId));
 
         var addressToAddressModelTypeMap = modelMapper.createTypeMap(
                 Address.class, AddressModel.class);
