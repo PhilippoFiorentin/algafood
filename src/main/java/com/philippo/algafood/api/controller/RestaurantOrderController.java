@@ -1,18 +1,22 @@
 package com.philippo.algafood.api.controller;
 
+import com.philippo.algafood.api.assembler.RestaurantOrderInputDisassembler;
 import com.philippo.algafood.api.assembler.RestaurantOrderModelAssembler;
 import com.philippo.algafood.api.assembler.RestaurantOrderSummaryAssembler;
 import com.philippo.algafood.api.model.RestaurantOrderModel;
 import com.philippo.algafood.api.model.RestaurantOrderSummaryModel;
+import com.philippo.algafood.api.model.input.RestaurantOrderInput;
+import com.philippo.algafood.domain.exception.BusinessException;
+import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.model.RestaurantOrder;
+import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.repository.RestaurantOrderRepository;
 import com.philippo.algafood.domain.service.OrderIssuanceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,8 +35,11 @@ public class RestaurantOrderController {
     @Autowired
     private RestaurantOrderSummaryAssembler restaurantOrderSummaryAssembler;
 
+    @Autowired
+    private RestaurantOrderInputDisassembler restaurantOrderInputDisassembler;
+
     @GetMapping
-    public List<RestaurantOrderSummaryModel> list(){
+    public List<RestaurantOrderSummaryModel> list() {
         List<RestaurantOrder> allRestaurantOrders = restaurantOrderRepository.findAll();
         return restaurantOrderSummaryAssembler.toCollectionModel(allRestaurantOrders);
     }
@@ -41,5 +48,23 @@ public class RestaurantOrderController {
     public RestaurantOrderModel findOrder(@PathVariable Long orderId) {
         RestaurantOrder restaurantOrder = orderIssuanceService.findOrFail(orderId);
         return restaurantOrderModelAssembler.toModel(restaurantOrder);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public RestaurantOrderModel add(@Valid @RequestBody RestaurantOrderInput orderInput) {
+
+        try {
+            RestaurantOrder newOrder = restaurantOrderInputDisassembler.toDomainObject(orderInput);
+
+            newOrder.setClient(new User());
+            newOrder.getClient().setId(1L);
+
+            newOrder = orderIssuanceService.issue(newOrder);
+
+            return restaurantOrderModelAssembler.toModel(newOrder);
+        } catch (EntityNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
     }
 }
