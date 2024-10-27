@@ -21,12 +21,27 @@ public class OrderFlowService {
 
         if(!order.getStatus().equals(OrderStatus.CREATED))
             throw new BusinessException(String.format(
-                    "Order status %d cannot be changed from %s to %s",
+                    "The order status %d cannot be changed from %s to %s",
                     order.getId(),
                     order.getStatus().getDescription(),
                     OrderStatus.CONFIRMED));
 
         order.setStatus(OrderStatus.CONFIRMED);
+        order.setConfirmationDate(OffsetDateTime.now());
+    }
+
+    @Transactional
+    public void deliver(Long orderId){
+        RestaurantOrder order = orderIssuanceService.findOrFail(orderId);
+
+        if(!order.getStatus().equals(OrderStatus.CONFIRMED))
+            throw new BusinessException(String.format(
+                    "The order status %d cannot be changed from %s to %s",
+                    order.getId(),
+                    order.getStatus().getDescription(),
+                    OrderStatus.DELIVERED));
+
+        order.setStatus(OrderStatus.DELIVERED);
         order.setConfirmationDate(OffsetDateTime.now());
     }
 }
