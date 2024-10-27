@@ -36,11 +36,11 @@ public class OrderItem {
     @JoinColumn(nullable = false)
     private Product product;
 
-    public void calculateTotalValue() {
+    public void calculateTotalPrice() {
         BigDecimal unitaryPrice = this.getUnitaryPrice();
         Integer quantity = this.getQuantity();
 
-        if (unitaryPrice == null)
+        if (this.unitaryPrice == null)
             unitaryPrice = BigDecimal.ZERO;
 
         if(quantity == null)
