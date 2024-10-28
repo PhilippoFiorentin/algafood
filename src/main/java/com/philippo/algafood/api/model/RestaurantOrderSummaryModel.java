@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 @Setter
 public class RestaurantOrderSummaryModel {
 
-    private Long id;
+    private String uuid;
     private BigDecimal subtotal;
     private BigDecimal deliveryFee;
     private BigDecimal total;
