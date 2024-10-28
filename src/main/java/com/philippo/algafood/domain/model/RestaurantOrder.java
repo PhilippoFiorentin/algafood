@@ -1,5 +1,6 @@
 package com.philippo.algafood.domain.model;
 
+import com.philippo.algafood.domain.exception.BusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -70,4 +71,27 @@ public class RestaurantOrder {
         this.total = this.subtotal.add(this.deliveryFee);
     }
 
+    public void confirm(){
+        setStatus(OrderStatus.CONFIRMED);
+        setConfirmationDate(OffsetDateTime.now());
+    }
+
+    public void deliver(){
+        setStatus(OrderStatus.DELIVERED);
+        setDeliveryDate(OffsetDateTime.now());
+    }
+
+    public void cancel(){
+        setStatus(OrderStatus.CANCELLED);
+        setCancellationDate(OffsetDateTime.now());
+    }
+
+    private void setStatus(OrderStatus newStatus) {
+        if (getStatus().notAbleToChangeTo(newStatus))
+            throw new BusinessException(String.format(
+                    "The order status %d cannot be changed from %s to %s",
+                    getId(), getStatus().getDescription(), newStatus.getDescription()));
+
+        this.status = newStatus;
+    }
 }
