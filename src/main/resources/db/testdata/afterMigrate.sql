@@ -124,10 +124,10 @@ insert into restaurant_user_responsible (restaurant_id, user_id) values
 (1, 5),
 (3, 5);
 
-insert into restaurant_order (id, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
+insert into restaurant_order (id, uuid, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
                    status, address_city_id, address_zipcode, address_street, address_number, address_additional,
                    address_district) values
-(1, 298.90, 10, 308.90, utc_timestamp,1,1, 1,
+(1, '65ce4ac1-95bb-40e2-b1fa-0cdb693ff0e3', 298.90, 10, 308.90, utc_timestamp,1,1, 1,
  'CREATED', 1, '38400-000', 'Rua Floriano Peixoto', '500',
  'Apto 801', 'Centro');
 
@@ -136,10 +136,10 @@ insert into order_item (id, quantity, unitary_price, total_price, observation, p
 (2, 2, 110, 220, 'less spicy, please', 2, 1);
 
 
-insert into restaurant_order (id, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
+insert into restaurant_order (id, uuid, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
                    status, address_city_id, address_zipcode, address_street, address_number, address_additional,
                    address_district) values
-(2, 79, 0, 79, utc_timestamp, 2, 4, 1,
+(2, '067baaee-5c89-4617-9e23-fd648761d67a', 79, 0, 79, utc_timestamp, 2, 4, 1,
  'CREATED', 1, '38400-111', 'Rua Acre', '300',
  'Casa 2', 'Centro');
 
