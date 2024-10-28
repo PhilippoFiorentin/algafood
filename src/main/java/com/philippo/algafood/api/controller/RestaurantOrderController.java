@@ -44,9 +44,9 @@ public class RestaurantOrderController {
         return restaurantOrderSummaryAssembler.toCollectionModel(allRestaurantOrders);
     }
 
-    @GetMapping("/{orderId}")
-    public RestaurantOrderModel findOrder(@PathVariable Long orderId) {
-        RestaurantOrder restaurantOrder = orderIssuanceService.findOrFail(orderId);
+    @GetMapping("/{orderUuid}")
+    public RestaurantOrderModel find(@PathVariable String orderUuid) {
+        RestaurantOrder restaurantOrder = orderIssuanceService.findOrFail(orderUuid);
         return restaurantOrderModelAssembler.toModel(restaurantOrder);
     }
 
