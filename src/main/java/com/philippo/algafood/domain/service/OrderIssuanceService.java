@@ -40,10 +40,10 @@ public class OrderIssuanceService {
         return restaurantOrderRepository.save(order);
     }
 
-    public RestaurantOrder findOrFail(Long orderId){
+    public RestaurantOrder findOrFail(String orderUuid){
         return restaurantOrderRepository
-                .findById(orderId)
-                .orElseThrow(() -> new RestaurantOrderNotFoundException(orderId));
+                .findByUuid(orderUuid)
+                .orElseThrow(() -> new RestaurantOrderNotFoundException(orderUuid));
     }
 
     private void validateOrder(RestaurantOrder order){
