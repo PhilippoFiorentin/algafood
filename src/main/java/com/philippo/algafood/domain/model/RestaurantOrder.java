@@ -97,4 +97,9 @@ public class RestaurantOrder {
 
         this.status = newStatus;
     }
+
+    @PrePersist
+    private void generateUuid(){
+        setUuid(UUID.randomUUID().toString());
+    }
 }
