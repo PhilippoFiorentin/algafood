@@ -2,10 +2,12 @@ package com.philippo.algafood.api.controller;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.philippo.algafood.api.assembler.RestaurantModelAssembler;
 import com.philippo.algafood.api.assembler.RestaurantInputDisassembler;
 import com.philippo.algafood.api.model.RestaurantModel;
 import com.philippo.algafood.api.model.input.RestaurantInput;
+import com.philippo.algafood.api.model.view.RestaurantView;
 import com.philippo.algafood.core.validation.ValidationException;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.CityNotFoundException;
@@ -42,13 +44,14 @@ public class RestaurantController {
 	@Autowired
 	private SmartValidator validator;
 
+	@JsonView(RestaurantView.Summary.class)
 	@GetMapping
-	public List<RestaurantModel> listAllRestaurants(){
+	public List<RestaurantModel> list(){
 		return restaurantModelAssembler.toCollectionModel(restaurantRepository.findAll());
 	}
 
 	@GetMapping("/{restaurantId}")
-	public RestaurantModel findRestaurant(@PathVariable Long restaurantId) {
+	public RestaurantModel find(@PathVariable Long restaurantId) {
 		Restaurant restaurant = registerRestaurant.findOrFail(restaurantId);
 
 		return restaurantModelAssembler.toModel(restaurant);
@@ -56,7 +59,7 @@ public class RestaurantController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public RestaurantModel addRestaurant(@RequestBody @Valid RestaurantInput restaurantInput) {
+	public RestaurantModel add(@RequestBody @Valid RestaurantInput restaurantInput) {
 		try{
 			Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 			return restaurantModelAssembler.toModel(registerRestaurant.save(restaurant));
@@ -66,7 +69,7 @@ public class RestaurantController {
 	}
 
 	@PutMapping("/{restaurantId}")
-	public RestaurantModel updateRestaurant(@PathVariable Long restaurantId, @RequestBody @Valid RestaurantInput restaurantInput){
+	public RestaurantModel update(@PathVariable Long restaurantId, @RequestBody @Valid RestaurantInput restaurantInput){
 
 		try{
 			Restaurant currentRestaurant = registerRestaurant.findOrFail(restaurantId);
