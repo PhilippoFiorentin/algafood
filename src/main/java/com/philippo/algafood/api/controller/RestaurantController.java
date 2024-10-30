@@ -49,6 +49,12 @@ public class RestaurantController {
 		return list();
 	}
 
+	@JsonView(RestaurantView.JustName.class)
+	@GetMapping(params="projection=just-name")
+	public List<RestaurantModel> listJustName(){
+		return list();
+	}
+
 	@GetMapping("/{restaurantId}")
 	public RestaurantModel find(@PathVariable Long restaurantId) {
 		Restaurant restaurant = registerRestaurant.findOrFail(restaurantId);
