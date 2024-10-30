@@ -8,7 +8,6 @@ import com.philippo.algafood.api.assembler.RestaurantInputDisassembler;
 import com.philippo.algafood.api.model.RestaurantModel;
 import com.philippo.algafood.api.model.input.RestaurantInput;
 import com.philippo.algafood.api.model.view.RestaurantView;
-import com.philippo.algafood.core.validation.ValidationException;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.CityNotFoundException;
 import com.philippo.algafood.domain.exception.KitchenNotFoundException;
@@ -16,8 +15,6 @@ import com.philippo.algafood.domain.exception.RestaurantNotFoundException;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
 import com.philippo.algafood.domain.repository.RestaurantRepository;
@@ -41,13 +38,15 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantInputDisassembler restaurantInputDisassembler;
 
-	@Autowired
-	private SmartValidator validator;
-
-	@JsonView(RestaurantView.Summary.class)
 	@GetMapping
 	public List<RestaurantModel> list(){
 		return restaurantModelAssembler.toCollectionModel(restaurantRepository.findAll());
+	}
+
+	@JsonView(RestaurantView.Summary.class)
+	@GetMapping(params="projection=summary")
+	public List<RestaurantModel> listSummary(){
+		return list();
 	}
 
 	@GetMapping("/{restaurantId}")
