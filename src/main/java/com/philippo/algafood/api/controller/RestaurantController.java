@@ -15,6 +15,7 @@ import com.philippo.algafood.domain.exception.RestaurantNotFoundException;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
 
 import com.philippo.algafood.domain.repository.RestaurantRepository;
@@ -38,20 +39,35 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantInputDisassembler restaurantInputDisassembler;
 
+// Dynamic method to list using MappingJacksonValue Wrapper class
+
+//	@GetMapping
+//	public MappingJacksonValue list(@RequestParam(required = false) String projection){
+//		List<Restaurant> restaurants = restaurantRepository.findAll();
+//		List<RestaurantModel> restaurantModel = restaurantModelAssembler.toCollectionModel(restaurants);
+//
+//		MappingJacksonValue restaurantWrapper = new MappingJacksonValue(restaurantModel);
+//
+//		restaurantWrapper.setSerializationView(RestaurantView.Summary.class);
+//
+//		if ("just-name".equals(projection)) {
+//			restaurantWrapper.setSerializationView(RestaurantView.JustName.class);
+//		} else if ("complete".equals(projection)){
+//			restaurantWrapper.setSerializationView(null);
+//		}
+//
+//		return restaurantWrapper;
+//	}
+
+	@JsonView(RestaurantView.Summary.class)
 	@GetMapping
 	public List<RestaurantModel> list(){
 		return restaurantModelAssembler.toCollectionModel(restaurantRepository.findAll());
 	}
 
-	@JsonView(RestaurantView.Summary.class)
-	@GetMapping(params="projection=summary")
-	public List<RestaurantModel> listSummary(){
-		return list();
-	}
-
 	@JsonView(RestaurantView.JustName.class)
 	@GetMapping(params="projection=just-name")
-	public List<RestaurantModel> listJustName(){
+	public List<RestaurantModel> listSummary(){
 		return list();
 	}
 
