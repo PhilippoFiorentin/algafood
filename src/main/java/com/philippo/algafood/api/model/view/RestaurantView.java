@@ -5,4 +5,8 @@ public interface RestaurantView {
     public interface Summary{
 
     }
+
+    public interface JustName{
+
+    }
 }
