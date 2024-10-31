@@ -1,11 +1,13 @@
 package com.philippo.algafood.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+@JsonFilter("orderFilter")
 @Getter
 @Setter
 public class RestaurantOrderSummaryModel {
