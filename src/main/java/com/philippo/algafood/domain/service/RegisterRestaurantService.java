@@ -1,14 +1,13 @@
 package com.philippo.algafood.domain.service;
 
+import com.philippo.algafood.domain.exception.EntityInUseException;
 import com.philippo.algafood.domain.exception.RestaurantNotFoundException;
 import com.philippo.algafood.domain.model.*;
+import com.philippo.algafood.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
-import com.philippo.algafood.domain.exception.EntityInUseException;
-import com.philippo.algafood.domain.repository.RestaurantRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

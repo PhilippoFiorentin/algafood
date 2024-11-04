@@ -1,6 +1,5 @@
 package com.philippo.algafood.api.assembler;
 
-import com.philippo.algafood.api.model.RestaurantOrderModel;
 import com.philippo.algafood.api.model.RestaurantOrderSummaryModel;
 import com.philippo.algafood.domain.model.RestaurantOrder;
 import org.modelmapper.ModelMapper;

@@ -10,8 +10,8 @@ public enum OrderStatus {
     DELIVERED("Delivered", CONFIRMED),
     CANCELLED("Cancelled", CREATED);
 
-    private String description;
-    private List<OrderStatus> previousStatus;
+    private final String description;
+    private final List<OrderStatus> previousStatus;
 
     OrderStatus(String description, OrderStatus... previousStatus) {
         this.description = description;

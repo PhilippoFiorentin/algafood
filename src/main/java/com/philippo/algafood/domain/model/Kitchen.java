@@ -1,13 +1,9 @@
 package com.philippo.algafood.domain.model;
 
-import javax.persistence.*;
-
-import com.philippo.algafood.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

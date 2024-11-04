@@ -1,28 +1,18 @@
 package com.philippo.algafood.api.controller;
 
-import java.util.List;
-
 import com.philippo.algafood.api.assembler.StateInputDisassembler;
 import com.philippo.algafood.api.assembler.StateModelAssembler;
 import com.philippo.algafood.api.model.StateModel;
 import com.philippo.algafood.api.model.input.StateInput;
 import com.philippo.algafood.domain.model.State;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.philippo.algafood.domain.repository.StateRepository;
 import com.philippo.algafood.domain.service.RegisterStateService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/states")

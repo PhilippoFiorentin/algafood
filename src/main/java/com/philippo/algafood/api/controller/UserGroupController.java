@@ -2,7 +2,6 @@ package com.philippo.algafood.api.controller;
 
 import com.philippo.algafood.api.assembler.GroupModelAssembler;
 import com.philippo.algafood.api.model.GroupModel;
-import com.philippo.algafood.domain.model.Group;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.service.RegisterUserService;
 import org.springframework.beans.factory.annotation.Autowired;

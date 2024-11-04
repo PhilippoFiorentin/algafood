@@ -3,7 +3,6 @@ package com.philippo.algafood.api.controller;
 import com.philippo.algafood.api.assembler.UserModelAssembler;
 import com.philippo.algafood.api.model.UserModel;
 import com.philippo.algafood.domain.model.Restaurant;
-import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

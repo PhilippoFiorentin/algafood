@@ -1,20 +1,17 @@
 package com.philippo.algafood.domain.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.*;
-
-import com.philippo.algafood.core.validation.Multiple;
-import com.philippo.algafood.core.validation.ValueZeroIncludesDescription;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 //@ValueZeroIncludesDescription(valueField="deliveryFee", descriptionField="name", mandatoryDescription="Delivery free")
 @Data

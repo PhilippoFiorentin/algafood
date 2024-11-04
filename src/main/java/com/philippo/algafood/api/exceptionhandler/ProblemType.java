@@ -14,8 +14,8 @@ public enum ProblemType {
     ENTITY_IN_USE("/entity-in-use", "Entity in use"),
     BUSINESS_ERROR("/business-error", "Business rule violation");
 
-    private String title;
-    private String uri;
+    private final String title;
+    private final String uri;
 
     ProblemType(String path, String title){
         this.uri = "https://algafood.com.br" + path;
