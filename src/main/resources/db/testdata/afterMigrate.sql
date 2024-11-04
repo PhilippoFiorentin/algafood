@@ -82,7 +82,7 @@ insert into restaurant_payment_method (restaurant_id, payment_method_id) values
 (6,3);
 
 insert into product (name, description, price, active, restaurant_id) values
-('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 1),
+('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 0, 1),
 ('Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 1),
 ('Salada picante com carne grelhada', 'Salada de folhas com cortes finos de carne bovina grelhada e nosso molho especial de pimenta vermelha', 87.20, 1, 2),
 ('Garlic Naan', 'Pão tradicional indiano com cobertura de alho', 21, 1, 3),

@@ -36,16 +36,23 @@ public class RestaurantProductController {
 	private RegisterProductService registerProduct;
 
 	@GetMapping
-	public List<ProductModel> list(@PathVariable Long restaurantId) {
+	public List<ProductModel> list(@PathVariable Long restaurantId, @RequestParam(required = false) boolean addInactives) {
 		Restaurant restaurant = registerRestaurant.findOrFail(restaurantId);
 
-		List<Product> allProducts = productRepository.findByRestaurant(restaurant);
+		List<Product> allProducts = null;
+
+		if(addInactives){
+			allProducts = productRepository.findAllProductsByRestaurant(restaurant);
+		} else{
+			allProducts = productRepository.findActivesByRestaurant(restaurant);
+		}
+
 
 		return productModelAssembler.toCollectionModel(allProducts);
 	}
 
 	@GetMapping("/{productId}")
-	public ProductModel findProduct(@PathVariable Long restaurantId, @PathVariable Long productId) {
+	public ProductModel find(@PathVariable Long restaurantId, @PathVariable Long productId) {
 		Product product = registerProduct.findOrFail(restaurantId, productId);
 
 		return productModelAssembler.toModel(product);
@@ -53,7 +60,7 @@ public class RestaurantProductController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ProductModel addRestaurant(@PathVariable Long restaurantId,
+	public ProductModel add(@PathVariable Long restaurantId,
 									  @RequestBody @Valid ProductInput productInput) {
 		Restaurant restaurant = registerRestaurant.findOrFail(restaurantId);
 		Product product = productInputDisassembler.toDomainObject(productInput);
@@ -65,7 +72,7 @@ public class RestaurantProductController {
 	}
 
 	@PutMapping("/{productId}")
-	public ProductModel updateProduct(@PathVariable Long restaurantId,
+	public ProductModel update(@PathVariable Long restaurantId,
 									  @PathVariable Long productId,
 									  @RequestBody @Valid ProductInput productInput){
 
