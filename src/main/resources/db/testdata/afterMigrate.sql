@@ -124,24 +124,200 @@ insert into restaurant_user_responsible (restaurant_id, user_id) values
 (1, 5),
 (3, 5);
 
-insert into restaurant_order (id, uuid, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
-                   status, address_city_id, address_zipcode, address_street, address_number, address_additional,
-                   address_district) values
-(1, '65ce4ac1-95bb-40e2-b1fa-0cdb693ff0e3', 298.90, 10, 308.90, utc_timestamp,1,1, 1,
- 'CREATED', 1, '38400-000', 'Rua Floriano Peixoto', '500',
- 'Apto 801', 'Centro');
+insert into restaurant_order(
+id,
+uuid,
+subtotal,
+delivery_fee,
+total,
+creation_date,
+payment_method_id,
+restaurant_id,
+user_client_id,
+status,
+address_city_id,
+address_zipcode,
+address_street,
+address_number,
+address_additional,
+address_district) values(
+1,
+'65ce4ac1-95bb-40e2-b1fa-0cdb693ff0e3',
+298.90,
+10,
+308.90,
+utc_timestamp,
+1,
+1,
+1,
+'CREATED',
+1,
+'38400-000',
+'Rua Floriano Peixoto',
+'500',
+'Apto 801',
+'Centro');
 
 insert into order_item (id, quantity, unitary_price, total_price, observation, product_id, order_id) values
 (1, 1, 78.9, 78.9, null, 1,1),
 (2, 2, 110, 220, 'less spicy, please', 2, 1);
 
-
-insert into restaurant_order (id, uuid, subtotal, delivery_fee, total, creation_date, payment_method_id, restaurant_id, user_client_id,
-                   status, address_city_id, address_zipcode, address_street, address_number, address_additional,
-                   address_district) values
-(2, '067baaee-5c89-4617-9e23-fd648761d67a', 79, 0, 79, utc_timestamp, 2, 4, 1,
- 'CREATED', 1, '38400-111', 'Rua Acre', '300',
- 'Casa 2', 'Centro');
+insert into restaurant_order(
+id,
+uuid,
+subtotal,
+delivery_fee,
+total,
+creation_date,
+payment_method_id,
+restaurant_id,
+user_client_id,
+status,
+address_city_id,
+address_zipcode,
+address_street,
+address_number,
+address_additional,
+address_district) values(
+2,
+'067baaee-5c89-4617-9e23-fd648761d67a',
+79,
+0,
+79,
+utc_timestamp,
+2,
+4,
+1,
+'CREATED',
+1,
+'38400-111',
+'Rua Acre',
+'300',
+'Casa 2',
+'Centro');
 
 insert into order_item (id, quantity, unitary_price, total_price, observation, product_id, order_id) values
 (3, 1, 79, 79, 'Medium', 6, 2);
+
+insert into restaurant_order(
+id,
+uuid,
+subtotal,
+delivery_fee,
+total,
+creation_date,
+confirmation_date,
+delivery_date,
+payment_method_id,
+restaurant_id,
+user_client_id,
+status,
+address_city_id,
+address_zipcode,
+address_street,
+address_number,
+address_additional,
+address_district) values(
+3,
+'b5741512-8fbc-47fa-9ac1-b530354fc0ff',
+110,
+10,
+120,
+'2019-10-30 21:10:00',
+'2019-10-30 21:10:45',
+'2019-10-30 21:55:44',
+1,
+1,
+1,
+'DELIVERED',
+1,
+'38400-222',
+'Rua Natal',
+200 ,
+null,
+'Brasil');
+
+insert into order_item (id, quantity, unitary_price, total_price, observation, product_id, order_id) values
+(4, 1, 110, 110, null, 2, 3);
+
+insert into restaurant_order(
+id,
+uuid,
+subtotal,
+delivery_fee,
+total,
+creation_date,
+confirmation_date,
+delivery_date,
+payment_method_id,
+restaurant_id,
+user_client_id,
+status,
+address_city_id,
+address_zipcode,
+address_street,
+address_number,
+address_additional,
+address_district) values(
+4,
+'5c621c9a-ba61-4454-8631-8aabefe58dc2',
+174.4,
+5,
+179.4,
+'2019-11-02 20:34:04',
+'2019-11-02 20:35:10',
+'2019-11-02 21:10:32',
+1,
+1,
+2,
+'DELIVERED',
+1,
+'38400-800',
+'Rua Fortaleza',
+'900',
+'Apto 504',
+'Centro');
+
+insert into order_item (id, quantity, unitary_price, total_price, observation, product_id, order_id) values
+(5, 2, 87.2, 174.4, null, 3, 4);
+
+insert into restaurant_order(
+id,
+uuid,
+subtotal,
+delivery_fee,
+total,
+creation_date,
+confirmation_date,
+delivery_date,
+payment_method_id,
+restaurant_id,
+user_client_id,
+status,
+address_city_id,
+address_zipcode,
+address_street,
+address_number,
+address_additional,
+address_district) values(
+5,
+'8d774bcf-b238-42f3-aef1-5fb388754d63',
+87.2,
+10,
+97.2,
+'2019-11-02 21:00:30',
+'2019-11-02 21:01:21',
+'2019-11-02 21:20:10',
+2,
+3,
+1,
+'DELIVERED',
+1,
+'38400-200',
+'Rua 10',
+'930',
+'Casa 20',
+'Martins');
+
+insert into order_item (id, quantity, unitary_price, total_price, observation, product_id, order_id) values
+(6, 1, 87.2, 87.2, null, 3, 5);
