@@ -8,9 +8,11 @@ import com.philippo.algafood.api.model.RestaurantOrderSummaryModel;
 import com.philippo.algafood.api.model.input.RestaurantOrderInput;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
+import com.philippo.algafood.domain.infrastructure.repository.spec.OrderSpecs;
 import com.philippo.algafood.domain.model.RestaurantOrder;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.repository.RestaurantOrderRepository;
+import com.philippo.algafood.domain.repository.filter.OrderFilter;
 import com.philippo.algafood.domain.service.OrderIssuanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,8 +41,8 @@ public class RestaurantOrderController {
     private RestaurantOrderInputDisassembler restaurantOrderInputDisassembler;
 
     @GetMapping
-    public List<RestaurantOrderSummaryModel> list() {
-        List<RestaurantOrder> allRestaurantOrders = restaurantOrderRepository.findAll();
+    public List<RestaurantOrderSummaryModel> search(OrderFilter filter) {
+        List<RestaurantOrder> allRestaurantOrders = restaurantOrderRepository.findAll(OrderSpecs.usingFilter(filter));
         return restaurantOrderSummaryAssembler.toCollectionModel(allRestaurantOrders);
     }
 
