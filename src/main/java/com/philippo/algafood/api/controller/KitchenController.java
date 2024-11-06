@@ -8,6 +8,10 @@ import com.philippo.algafood.domain.model.Kitchen;
 import com.philippo.algafood.domain.repository.KitchenRepository;
 import com.philippo.algafood.domain.service.RegisterKitchenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +35,17 @@ public class KitchenController {
 	private KitchenInputDisassembler kitchenInputDisassembler;
 	
 	@GetMapping
-	public List<KitchenModel> listAllKitchens(){
-		return kitchenModelAssembler.toCollectionModel(kitchenRepository.findAll());
+	public Page<KitchenModel> list(@PageableDefault(size = 10) Pageable pageable){
+		Page<Kitchen> kitchenPages = kitchenRepository.findAll(pageable);
+		List<KitchenModel> kitchenModels = kitchenModelAssembler.toCollectionModel(kitchenPages.getContent());
+
+		Page<KitchenModel> kitchenModelPages = new PageImpl<>(kitchenModels, pageable, kitchenPages.getTotalPages());
+
+		return kitchenModelPages;
 	}
 	
 	@GetMapping("/{kitchenId}")
-	public KitchenModel findKitchen(@PathVariable Long kitchenId) {
+	public KitchenModel find(@PathVariable Long kitchenId) {
 		Kitchen kitchen = registerKitchen.findOrFail(kitchenId);
 
 		return kitchenModelAssembler.toModel(kitchen);
