@@ -46,16 +46,16 @@ public class RestaurantOrderController {
 
     @GetMapping
     public Page<RestaurantOrderSummaryModel> search(@PageableDefault(size = 10) Pageable pageable, OrderFilter filter) {
-        Page<RestaurantOrder> restaurantOrderPages = restaurantOrderRepository
+        Page<RestaurantOrder> orderPages = restaurantOrderRepository
                 .findAll(OrderSpecs.usingFilter(filter), pageable);
 
-        List<RestaurantOrderSummaryModel> restaurantOrderModels = restaurantOrderSummaryAssembler
-                .toCollectionModel(restaurantOrderPages.getContent());
+        List<RestaurantOrderSummaryModel> orderModels = restaurantOrderSummaryAssembler
+                .toCollectionModel(orderPages.getContent());
 
-        Page<RestaurantOrderSummaryModel> restaurantOrderModelPages = new PageImpl<>(
-                restaurantOrderModels, pageable, restaurantOrderPages.getTotalPages());
+        Page<RestaurantOrderSummaryModel> orderModelPages = new PageImpl<>(
+                orderModels, pageable, orderPages.getTotalElements());
 
-        return restaurantOrderModelPages;
+        return orderModelPages;
     }
 
     @GetMapping("/{orderUuid}")
