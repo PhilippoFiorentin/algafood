@@ -15,6 +15,10 @@ import com.philippo.algafood.domain.repository.RestaurantOrderRepository;
 import com.philippo.algafood.domain.repository.filter.OrderFilter;
 import com.philippo.algafood.domain.service.OrderIssuanceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,9 +45,17 @@ public class RestaurantOrderController {
     private RestaurantOrderInputDisassembler restaurantOrderInputDisassembler;
 
     @GetMapping
-    public List<RestaurantOrderSummaryModel> search(OrderFilter filter) {
-        List<RestaurantOrder> allRestaurantOrders = restaurantOrderRepository.findAll(OrderSpecs.usingFilter(filter));
-        return restaurantOrderSummaryAssembler.toCollectionModel(allRestaurantOrders);
+    public Page<RestaurantOrderSummaryModel> search(@PageableDefault(size = 10) Pageable pageable, OrderFilter filter) {
+        Page<RestaurantOrder> restaurantOrderPages = restaurantOrderRepository
+                .findAll(OrderSpecs.usingFilter(filter), pageable);
+
+        List<RestaurantOrderSummaryModel> restaurantOrderModels = restaurantOrderSummaryAssembler
+                .toCollectionModel(restaurantOrderPages.getContent());
+
+        Page<RestaurantOrderSummaryModel> restaurantOrderModelPages = new PageImpl<>(
+                restaurantOrderModels, pageable, restaurantOrderPages.getTotalPages());
+
+        return restaurantOrderModelPages;
     }
 
     @GetMapping("/{orderUuid}")
