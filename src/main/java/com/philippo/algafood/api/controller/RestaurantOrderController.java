@@ -1,11 +1,13 @@
 package com.philippo.algafood.api.controller;
 
+import com.google.common.collect.ImmutableMap;
 import com.philippo.algafood.api.assembler.RestaurantOrderInputDisassembler;
 import com.philippo.algafood.api.assembler.RestaurantOrderModelAssembler;
 import com.philippo.algafood.api.assembler.RestaurantOrderSummaryAssembler;
 import com.philippo.algafood.api.model.RestaurantOrderModel;
 import com.philippo.algafood.api.model.RestaurantOrderSummaryModel;
 import com.philippo.algafood.api.model.input.RestaurantOrderInput;
+import com.philippo.algafood.core.data.PageableTranslator;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.infrastructure.repository.spec.OrderSpecs;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/orders")
@@ -46,6 +49,9 @@ public class RestaurantOrderController {
 
     @GetMapping
     public Page<RestaurantOrderSummaryModel> search(@PageableDefault(size = 10) Pageable pageable, OrderFilter filter) {
+
+        pageable = translatePageable(pageable);
+
         Page<RestaurantOrder> orderPages = restaurantOrderRepository
                 .findAll(OrderSpecs.usingFilter(filter), pageable);
 
@@ -81,4 +87,20 @@ public class RestaurantOrderController {
             throw new BusinessException(e.getMessage(), e);
         }
     }
+
+    private Pageable translatePageable(Pageable apiPageable){
+        var mapping = Map.of(
+                "uuid", "uuid",
+                "subtotal", "subtotal",
+                "deliveryFee", "deliveryFee",
+                "total", "total",
+                "status", "status",
+                "creationDate", "creationDate",
+                "restaurant.name", "restaurant.name",
+                "clientName", "client.name"
+        );
+
+        return PageableTranslator.translate(apiPageable, mapping);
+    }
+
 }
