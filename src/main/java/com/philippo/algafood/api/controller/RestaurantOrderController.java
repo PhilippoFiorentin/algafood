@@ -13,7 +13,7 @@ import com.philippo.algafood.domain.infrastructure.repository.spec.OrderSpecs;
 import com.philippo.algafood.domain.model.RestaurantOrder;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.repository.RestaurantOrderRepository;
-import com.philippo.algafood.domain.repository.filter.OrderFilter;
+import com.philippo.algafood.domain.filter.OrderFilter;
 import com.philippo.algafood.domain.service.OrderIssuanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

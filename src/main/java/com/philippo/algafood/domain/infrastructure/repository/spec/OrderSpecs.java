@@ -1,7 +1,7 @@
 package com.philippo.algafood.domain.infrastructure.repository.spec;
 
 import com.philippo.algafood.domain.model.RestaurantOrder;
-import com.philippo.algafood.domain.repository.filter.OrderFilter;
+import com.philippo.algafood.domain.filter.OrderFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;
