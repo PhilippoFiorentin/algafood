@@ -1,4 +1,4 @@
-package com.philippo.algafood.domain.infrastructure.service;
+package com.philippo.algafood.domain.infrastructure.service.query;
 
 import com.philippo.algafood.domain.filter.DailySaleFilter;
 import com.philippo.algafood.domain.model.OrderStatus;
