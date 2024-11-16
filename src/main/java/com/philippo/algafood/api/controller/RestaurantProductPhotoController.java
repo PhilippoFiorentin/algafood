@@ -4,6 +4,7 @@ import com.philippo.algafood.api.model.input.ProductPhotoInput;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.UUID;
@@ -14,7 +15,7 @@ public class RestaurantProductPhotoController {
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void updatePhoto(@PathVariable Long restaurantId, @PathVariable Long productId,
-                            ProductPhotoInput productPhotoInput){
+                            @Valid ProductPhotoInput productPhotoInput){
 
         var fileName = UUID.randomUUID().toString() + "_" + productPhotoInput.getFile().getOriginalFilename();
         var photoFile = Path.of("/Users/philipporodrigues/Desktop/catalog", fileName);
