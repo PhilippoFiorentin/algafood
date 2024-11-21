@@ -1,33 +1,49 @@
 package com.philippo.algafood.api.controller;
 
+import com.philippo.algafood.api.assembler.ProductPhotoModelAssembler;
+import com.philippo.algafood.api.model.ProductPhotoModel;
 import com.philippo.algafood.api.model.input.ProductPhotoInput;
+import com.philippo.algafood.domain.model.Product;
+import com.philippo.algafood.domain.model.ProductPhoto;
+import com.philippo.algafood.domain.service.ProductPhotoCatalogService;
+import com.philippo.algafood.domain.service.RegisterProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/restaurants/{restaurantId}/products/{productId}/photo")
 public class RestaurantProductPhotoController {
 
+    @Autowired
+    private RegisterProductService registerProductService;
+
+    @Autowired
+    private ProductPhotoCatalogService productPhotoCatalogService;
+
+    @Autowired
+    private ProductPhotoModelAssembler productPhotoModelAssembler;
+
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void updatePhoto(@PathVariable Long restaurantId, @PathVariable Long productId,
-                            @Valid ProductPhotoInput productPhotoInput){
+    public ProductPhotoModel updatePhoto(@PathVariable Long restaurantId, @PathVariable Long productId,
+                                         @Valid ProductPhotoInput productPhotoInput){
 
-        var fileName = UUID.randomUUID().toString() + "_" + productPhotoInput.getFile().getOriginalFilename();
-        var photoFile = Path.of("/Users/philipporodrigues/Desktop/catalog", fileName);
+        Product product = registerProductService.findOrFail(restaurantId, productId);
 
-        System.out.println(productPhotoInput.getDescription());
-        System.out.println(photoFile);
-        System.out.println(productPhotoInput.getFile().getContentType());
+        MultipartFile file = productPhotoInput.getFile();
 
-        try {
-            productPhotoInput.getFile().transferTo(photoFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        ProductPhoto photo = new ProductPhoto();
+        photo.setProduct(product);
+        photo.setDescription(productPhotoInput.getDescription());
+        photo.setContentType(file.getContentType());
+        photo.setSize(file.getSize());
+        photo.setFilename(file.getOriginalFilename());
+
+        ProductPhoto savedPhoto = productPhotoCatalogService.save(photo);
+
+        return productPhotoModelAssembler.toModel(savedPhoto);
     }
 }
