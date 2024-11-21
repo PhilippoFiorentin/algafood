@@ -24,4 +24,10 @@ public class ProductPhoto {
 	private String contentType;
 	private Long size;
 
+	public Long getRestaurantId() {
+		if (getProduct() != null)
+			return getProduct().getRestaurant().getId();
+
+		return null;
+	}
 }

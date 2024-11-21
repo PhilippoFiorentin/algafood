@@ -1,6 +1,7 @@
 package com.philippo.algafood.domain.repository;
 
 import com.philippo.algafood.domain.model.Product;
+import com.philippo.algafood.domain.model.ProductPhoto;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,5 +19,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
 
     @Query("from Product p where p.active = true and p.restaurant = :restaurant")
     List<Product> findActivesByRestaurant(Restaurant restaurant);
+
+    @Query("select ph from ProductPhoto ph join ph.product pr " +
+            "where pr.restaurant.id = :restaurantId and ph.product.id = :productId")
+    Optional<ProductPhoto> findPhotoById(Long restaurantId, Long productId);
 
 }
