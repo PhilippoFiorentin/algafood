@@ -10,6 +10,16 @@ public interface PhotoStorageService {
 
     void store(NewPhoto newPhoto);
 
+    void delete(String fileName);
+
+    default void substitute(String oldFilename, NewPhoto newPhoto) {
+        this.store(newPhoto);
+
+        if (oldFilename != null) {
+            this.delete(oldFilename);
+        }
+    }
+
     default String generateFilename(String originalName) {
         return UUID.randomUUID().toString() + "_" + originalName;
     }

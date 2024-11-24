@@ -24,11 +24,14 @@ public class ProductPhotoCatalogService {
         Long restaurantId  = photo.getRestaurantId();
         Long productId = photo.getProduct().getId();
         String newFilename = photoStorageService.generateFilename(photo.getFilename());
+        String existingFilename = null;
 
         Optional<ProductPhoto> currentPhoto = productRepository.findPhotoById(restaurantId, productId);
 
-        if (currentPhoto.isPresent())
+        if (currentPhoto.isPresent()){
+            existingFilename = currentPhoto.get().getFilename();
             productRepository.delete(currentPhoto.get());
+        }
 
         photo.setFilename(newFilename);
         photo = productRepository.save(photo);
@@ -39,7 +42,8 @@ public class ProductPhotoCatalogService {
                                                                 .inputStream(fileData)
                                                                 .build();
 
-        photoStorageService.store(newPhoto);
+
+        photoStorageService.substitute(existingFilename, newPhoto);
 
         return photo;
     }
