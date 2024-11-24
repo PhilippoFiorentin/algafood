@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.Optional;
 
 
@@ -15,16 +16,31 @@ public class ProductPhotoCatalogService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private PhotoStorageService photoStorageService;
+
     @Transactional
-    public ProductPhoto save(ProductPhoto photo){
+    public ProductPhoto save(ProductPhoto photo, InputStream fileData) {
         Long restaurantId  = photo.getRestaurantId();
         Long productId = photo.getProduct().getId();
+        String newFilename = photoStorageService.generateFilename(photo.getFilename());
 
         Optional<ProductPhoto> currentPhoto = productRepository.findPhotoById(restaurantId, productId);
 
         if (currentPhoto.isPresent())
             productRepository.delete(currentPhoto.get());
 
-        return productRepository.save(photo);
+        photo.setFilename(newFilename);
+        photo = productRepository.save(photo);
+        productRepository.flush();
+
+        PhotoStorageService.NewPhoto newPhoto = PhotoStorageService.NewPhoto.builder()
+                                                                .filename(photo.getFilename())
+                                                                .inputStream(fileData)
+                                                                .build();
+
+        photoStorageService.store(newPhoto);
+
+        return photo;
     }
 }
