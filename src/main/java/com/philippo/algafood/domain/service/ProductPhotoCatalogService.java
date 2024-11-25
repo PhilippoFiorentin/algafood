@@ -1,5 +1,8 @@
 package com.philippo.algafood.domain.service;
 
+import com.philippo.algafood.domain.exception.ProductNotFoundException;
+import com.philippo.algafood.domain.exception.ProductPhotoNotFoundException;
+import com.philippo.algafood.domain.model.Product;
 import com.philippo.algafood.domain.model.ProductPhoto;
 import com.philippo.algafood.domain.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +49,11 @@ public class ProductPhotoCatalogService {
         photoStorageService.substitute(existingFilename, newPhoto);
 
         return photo;
+    }
+
+    public ProductPhoto findOrFail(Long restaurantId, Long productId){
+        return productRepository
+                .findPhotoById(restaurantId, productId)
+                .orElseThrow(() -> new ProductPhotoNotFoundException(restaurantId, productId));
     }
 }
