@@ -11,6 +11,7 @@ import com.philippo.algafood.domain.service.ProductPhotoCatalogService;
 import com.philippo.algafood.domain.service.RegisterProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
@@ -88,6 +89,12 @@ public class RestaurantProductPhotoController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long restaurantId, @PathVariable Long productId) {
+        productPhotoCatalogService.delete(restaurantId, productId);
     }
 
     private void verifyMediaTypeCompatibility(MediaType mediaTypePhoto, List<MediaType> acceptedMediaTypes)
