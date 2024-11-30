@@ -5,7 +5,6 @@ import com.philippo.algafood.domain.service.PhotoStorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -39,16 +38,19 @@ public class LocalPhotoStorageService implements PhotoStorageService {
     }
 
     @Override
-    public InputStream recover(String fileName) {
+    public RecoveredPhoto recover(String fileName) {
         try {
             Path filePath = getFilePath(fileName);
-            return Files.newInputStream(filePath);
+            RecoveredPhoto recoveredPhoto = RecoveredPhoto
+                    .builder()
+                    .inputStream(Files.newInputStream(filePath)).build();
+            return recoveredPhoto;
         } catch (Exception e) {
             throw new StorageException("The file could not be recovered.", e);
         }
     }
 
     private Path getFilePath(String filename){
-        return storageProperties.getLocal().getPhotoDirectory().resolve(Path.of(filename));
+        return storageProperties.getLocal().getDirectory().resolve(Path.of(filename));
     }
 }
