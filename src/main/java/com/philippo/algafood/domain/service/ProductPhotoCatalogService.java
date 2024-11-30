@@ -40,6 +40,7 @@ public class ProductPhotoCatalogService {
 
         PhotoStorageService.NewPhoto newPhoto = PhotoStorageService.NewPhoto.builder()
                                                                 .filename(photo.getFilename())
+                                                                .contentType(photo.getContentType())
                                                                 .inputStream(fileData)
                                                                 .build();
 
