@@ -2,15 +2,15 @@ package com.philippo.algafood.domain.infrastructure.service.storage;
 
 import com.philippo.algafood.core.storage.StorageProperties;
 import com.philippo.algafood.domain.service.PhotoStorageService;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-//@Service
 public class LocalPhotoStorageService implements PhotoStorageService {
 
+    @Autowired
     private StorageProperties storageProperties;
 
     @Override
@@ -51,6 +51,6 @@ public class LocalPhotoStorageService implements PhotoStorageService {
     }
 
     private Path getFilePath(String filename){
-        return storageProperties.getLocal().getDirectory().resolve(Path.of(filename));
+        return storageProperties.getLocal().getPhotoDirectory().resolve(Path.of(filename));
     }
 }
