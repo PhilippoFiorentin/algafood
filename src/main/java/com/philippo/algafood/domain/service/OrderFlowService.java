@@ -26,6 +26,7 @@ public class OrderFlowService {
                 .build();
 
         emailService.send(message);
+
     }
 
     @Transactional
