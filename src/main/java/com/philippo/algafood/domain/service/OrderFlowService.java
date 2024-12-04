@@ -11,10 +11,22 @@ public class OrderFlowService {
     @Autowired
     private OrderIssuanceService orderIssuanceService;
 
+    @Autowired
+    private EmailService emailService;
+
     @Transactional
     public void confirm(String orderUuid){
         RestaurantOrder order = orderIssuanceService.findOrFail(orderUuid);
         order.confirm();
+
+        var message = EmailService.Message.builder()
+                .subject(order.getRestaurant().getName() + " - Order confirmed")
+                .body("The order with code <strong>" + order.getUuid() + "</strong> was confirmed!")
+                .recipient(order.getClient().getEmail())
+                .build();
+
+        emailService.send(message);
+        System.out.println("Order confirmed");
     }
 
     @Transactional
