@@ -26,7 +26,6 @@ public class OrderFlowService {
                 .build();
 
         emailService.send(message);
-        System.out.println("Order confirmed");
     }
 
     @Transactional
