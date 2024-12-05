@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 
 @Service
 public class SmptEmailService implements EmailService {
