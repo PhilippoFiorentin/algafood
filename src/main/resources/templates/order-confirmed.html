@@ -15,16 +15,16 @@
         <#list order.items as item>
         <tr>
             <td style="padding: 10px 0">${item.quantity}x ${item.product.name}</td>
-            <td style="width: 30px">${item.totalPrice}</td>
+            <td style="width: 30px">${item.totalPrice?string.currency}</td>
         </tr>
         </#list>
         <tr>
             <td style="padding: 10px 0">Delivery fee</td>
-            <td>${order.deliveryFee}</td>
+            <td>${order.deliveryFee?string.currency}</td>
         </tr>
         <tr style="font-weight: bold">
             <td style="padding: 10px 0">Total</td>
-            <td>${order.total}</td>
+            <td>${order.total?string.currency}</td>
         </tr>
     </table>
 
