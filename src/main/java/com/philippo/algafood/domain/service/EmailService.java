@@ -25,5 +25,4 @@ public interface EmailService {
         @NonNull
         private String body;
     }
-
 }

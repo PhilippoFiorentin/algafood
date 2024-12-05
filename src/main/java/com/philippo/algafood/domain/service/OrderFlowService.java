@@ -40,5 +40,4 @@ public class OrderFlowService {
         RestaurantOrder order = orderIssuanceService.findOrFail(orderUuid);
         order.cancel();
     }
-
 }
