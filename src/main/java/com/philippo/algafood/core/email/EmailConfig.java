@@ -1,6 +1,7 @@
 package com.philippo.algafood.core.email;
 
 import com.philippo.algafood.domain.infrastructure.service.email.FakeEmailService;
+import com.philippo.algafood.domain.infrastructure.service.email.SandboxEmailService;
 import com.philippo.algafood.domain.infrastructure.service.email.SmptEmailService;
 import com.philippo.algafood.domain.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class EmailConfig {
                 return new FakeEmailService();
             case SMTP:
                 return new SmptEmailService();
+            case SANDBOX:
+                return new SandboxEmailService();
             default:
                 return null;
         }

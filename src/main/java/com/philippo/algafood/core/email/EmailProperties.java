@@ -18,10 +18,19 @@ public class EmailProperties {
     @NotNull
     private String sender;
 
+    private Sandbox sandbox = new Sandbox();
+
     private Impl impl = Impl.FAKE;
 
     public enum Impl {
-        SMTP, FAKE;
+        SMTP, FAKE, SANDBOX;
+    }
+
+    @Getter
+    @Setter
+    public class Sandbox {
+        @NotNull
+        private String recipient;
     }
 
 }
