@@ -1,9 +1,11 @@
 package com.philippo.algafood.domain.model;
 
+import com.philippo.algafood.domain.event.OrderConfirmedEvent;
 import com.philippo.algafood.domain.exception.BusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -12,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
 @Entity
-public class RestaurantOrder {
+public class RestaurantOrder extends AbstractAggregateRoot<RestaurantOrder> {
 
     @EqualsAndHashCode.Include
     @Id
@@ -77,6 +79,8 @@ public class RestaurantOrder {
     public void confirm(){
         setStatus(OrderStatus.CONFIRMED);
         setConfirmationDate(OffsetDateTime.now());
+
+        registerEvent(new OrderConfirmedEvent(this));
     }
 
     public void deliver(){
