@@ -24,7 +24,7 @@ public class StorageProperties {
 
     @Getter
     @Setter
-    public static class Local{
+    public class Local{
 
         private Path photoDirectory;
 

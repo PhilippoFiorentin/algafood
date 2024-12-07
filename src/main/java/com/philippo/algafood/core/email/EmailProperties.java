@@ -18,4 +18,10 @@ public class EmailProperties {
     @NotNull
     private String sender;
 
+    private Impl impl = Impl.FAKE;
+
+    public enum Impl {
+        SMTP, FAKE;
+    }
+
 }
