@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class OrderCanceledEvent {
+public class OrderCancelledEvent {
 
     private RestaurantOrder order;
 }
