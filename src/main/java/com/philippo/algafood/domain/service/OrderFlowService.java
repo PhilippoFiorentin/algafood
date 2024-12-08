@@ -33,6 +33,8 @@ public class OrderFlowService {
     public void cancel(String orderUuid){
         RestaurantOrder order = orderIssuanceService.findOrFail(orderUuid);
         order.cancel();
+
+        restaurantOrderRepository.save(order);
     }
 
 }

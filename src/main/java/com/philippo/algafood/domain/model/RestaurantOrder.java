@@ -1,5 +1,6 @@
 package com.philippo.algafood.domain.model;
 
+import com.philippo.algafood.domain.event.OrderCancelledEvent;
 import com.philippo.algafood.domain.event.OrderConfirmedEvent;
 import com.philippo.algafood.domain.exception.BusinessException;
 import lombok.Data;
@@ -91,6 +92,8 @@ public class RestaurantOrder extends AbstractAggregateRoot<RestaurantOrder> {
     public void cancel(){
         setStatus(OrderStatus.CANCELLED);
         setCancellationDate(OffsetDateTime.now());
+
+        registerEvent(new OrderCancelledEvent(this));
     }
 
     private void setStatus(OrderStatus newStatus) {
