@@ -8,11 +8,14 @@ import com.philippo.algafood.domain.model.PaymentMethod;
 import com.philippo.algafood.domain.repository.PaymentMethodRepository;
 import com.philippo.algafood.domain.service.RegisterPaymentMethodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/payment-methods")
@@ -31,25 +34,36 @@ public class PaymentMethodController {
     private PaymentMethodDisassembler paymentMethodDisassembler;
 
     @GetMapping
-    public List<PaymentMethodModel> listAllPaymentMethods() {
-        return paymentMethodModelAssembler.toCollectionModel(paymentMethodRepository.findAll());
+    public ResponseEntity<List<PaymentMethodModel>> list() {
+        List<PaymentMethodModel> paymentMethodModels = paymentMethodModelAssembler
+                .toCollectionModel(paymentMethodRepository.findAll());
+
+        return ResponseEntity
+                .ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .body(paymentMethodModels);
     }
 
     @GetMapping("/{paymentMethodId}")
-    public PaymentMethodModel findPaymentMethod(@PathVariable Long paymentMethodId){
+    public ResponseEntity<PaymentMethodModel> find(@PathVariable Long paymentMethodId){
         PaymentMethod paymentMethod = registerPaymentMethod.findOrFail(paymentMethodId);
-        return paymentMethodModelAssembler.toModel(paymentMethod);
+        PaymentMethodModel paymentMethodModel = paymentMethodModelAssembler.toModel(paymentMethod);
+
+        return ResponseEntity
+                .ok()
+                .cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+                .body(paymentMethodModel);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PaymentMethodModel addPaymentMethod(@RequestBody @Valid PaymentMethodInput paymentMethodInput){
+    public PaymentMethodModel add(@RequestBody @Valid PaymentMethodInput paymentMethodInput){
         PaymentMethod paymentMethod = paymentMethodDisassembler.toDomainObject(paymentMethodInput);
         return paymentMethodModelAssembler.toModel(registerPaymentMethod.save(paymentMethod));
     }
 
     @PutMapping("/{paymentMethodId}")
-    public PaymentMethodModel updatePaymentMethod(@PathVariable Long paymentMethodId, @RequestBody @Valid PaymentMethodInput paymentMethodInput){
+    public PaymentMethodModel update(@PathVariable Long paymentMethodId, @RequestBody @Valid PaymentMethodInput paymentMethodInput){
         PaymentMethod currentPaymentMethod = registerPaymentMethod.findOrFail(paymentMethodId);
         paymentMethodDisassembler.copyToDomainObject(paymentMethodInput, currentPaymentMethod);
         currentPaymentMethod = registerPaymentMethod.save(currentPaymentMethod);
@@ -59,7 +73,7 @@ public class PaymentMethodController {
 
     @DeleteMapping("/{paymentMethodId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePaymentMethod(@PathVariable Long paymentMethodId){
+    public void delete(@PathVariable Long paymentMethodId){
         registerPaymentMethod.delete(paymentMethodId);
     }
 }
