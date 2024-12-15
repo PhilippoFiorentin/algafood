@@ -58,10 +58,10 @@ insert into restaurant (id, name, delivery_fee, kitchen_id, register_date, updat
 (5, 'La Trattoria', 11.99, 3, current_timestamp, current_timestamp, true, true),
 (6, 'Java Steakhouse', 11.99, 3.00, current_timestamp, current_timestamp, true, true);
 
-insert into payment_method (id, description) values
-(1, 'Credit'),
-(2, 'Debit'),
-(3, 'Cash');
+insert into payment_method (id, description, date_updated) values
+(1, 'Credit', utc_timestamp),
+(2, 'Debit', utc_timestamp),
+(3, 'Cash', utc_timestamp);
 
 insert into permission (id, name, description) values
 (1, 'SEARCH KITCHENS', 'Allow to search kitchens'),
