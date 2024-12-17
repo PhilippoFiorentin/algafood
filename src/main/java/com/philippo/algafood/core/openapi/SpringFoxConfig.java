@@ -1,5 +1,8 @@
 package com.philippo.algafood.core.openapi;
 
+import com.fasterxml.classmate.TypeResolver;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.philippo.algafood.api.exceptionhandler.Problem;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -9,6 +12,7 @@ import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration
 import springfox.documentation.builders.*;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.json.JacksonModuleRegistrar;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Arrays;
@@ -20,6 +24,9 @@ public class SpringFoxConfig {
 
     @Bean
     public Docket apiDocket() {
+
+        var typeResolver = new TypeResolver();
+
         return new Docket(DocumentationType.OAS_30)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.philippo.algafood.api"))
@@ -30,8 +37,14 @@ public class SpringFoxConfig {
                 .globalResponses(HttpMethod.POST, globalPostPutResponseMessages())
                 .globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+                .additionalModels(typeResolver.resolve(Problem.class))
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cities", "Manage cities"));
+    }
+
+    @Bean
+    public JacksonModuleRegistrar springFoxJacksonConfig() {
+        return objectMapper -> objectMapper.registerModule(new JavaTimeModule());
     }
 
     private List<Response> globalGetResponseMessages() {
