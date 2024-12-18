@@ -2,6 +2,7 @@ package com.philippo.algafood.api.controller;
 
 import com.philippo.algafood.api.assembler.CityInputDisassembler;
 import com.philippo.algafood.api.assembler.CityModelAssembler;
+import com.philippo.algafood.api.exceptionhandler.Problem;
 import com.philippo.algafood.api.model.CityModel;
 import com.philippo.algafood.api.model.input.CityInput;
 import com.philippo.algafood.domain.exception.BusinessException;
@@ -12,6 +13,10 @@ import com.philippo.algafood.domain.service.RegisterCityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +47,16 @@ public class CityController {
 	}
 
 	@ApiOperation("Search a city by ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "400",
+					description = "Invalid city ID",
+					content = { @Content(schema = @Schema(implementation = Problem.class))
+			}),
+			@ApiResponse(responseCode = "404",
+					description = "City not found",
+					content = { @Content(schema = @Schema(implementation = Problem.class))
+					})
+	})
 	@GetMapping("/{cityId}")
 	public CityModel find(@ApiParam(value = "ID of a city", example = "1") @PathVariable Long cityId) {
 		City city = registerCity.findOrFail(cityId);
@@ -65,6 +80,12 @@ public class CityController {
 	}
 
 	@ApiOperation("Update a city by ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "404",
+					description = "City not found",
+					content = { @Content(schema = @Schema(implementation = Problem.class))
+					})
+	})
 	@PutMapping("/{cityId}")
 	public CityModel update(
 			@ApiParam(value = "ID of a city", example = "1")
@@ -84,6 +105,12 @@ public class CityController {
 	}
 
 	@ApiOperation("Delete a city")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "404",
+					description = "City not found",
+					content = { @Content(schema = @Schema(implementation = Problem.class))
+					})
+	})
 	@DeleteMapping("/{cityId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@ApiParam(value = "ID of a city", example = "1") @PathVariable Long cityId){

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.*;
 import springfox.documentation.service.*;
@@ -17,6 +18,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Configuration
 @Import(BeanValidatorPluginsConfiguration.class)
@@ -52,6 +54,8 @@ public class SpringFoxConfig {
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                         .description("Internal server error")
+                        .representation( MediaType.APPLICATION_JSON )
+                        .apply(getProblemModelReference())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.NOT_ACCEPTABLE.value()))
@@ -65,6 +69,8 @@ public class SpringFoxConfig {
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
                         .description("Invalid request (client error)")
+                        .representation( MediaType.APPLICATION_JSON )
+                        .apply(getProblemModelReference())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.NOT_ACCEPTABLE.value()))
@@ -73,10 +79,14 @@ public class SpringFoxConfig {
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value()))
                         .description("Request rejected because the body is in an unsupported format")
+                        .representation( MediaType.APPLICATION_JSON )
+                        .apply(getProblemModelReference())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                         .description("Internal server error")
+                        .representation( MediaType.APPLICATION_JSON )
+                        .apply(getProblemModelReference())
                         .build()
         );
     }
@@ -86,10 +96,14 @@ public class SpringFoxConfig {
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                         .description("Internal server error")
+                        .representation( MediaType.APPLICATION_JSON )
+                        .apply(getProblemModelReference())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
                         .description("Invalid request (client error)")
+                        .representation( MediaType.APPLICATION_JSON )
+                        .apply(getProblemModelReference())
                         .build()
         );
     }
@@ -101,5 +115,11 @@ public class SpringFoxConfig {
                 .version("1")
                 .contact(new Contact("AlgaWorks", "http://www.algaworks.com", "contato@algaworks.com"))
                 .build();
+    }
+
+    private Consumer<RepresentationBuilder> getProblemModelReference() {
+        return r -> r.model(m -> m.name("Problema")
+                .referenceModel(ref -> ref.key(k -> k.qualifiedModelName(
+                        q -> q.name("Problem").namespace("com.philippo.algafood.api.exceptionhandler")))));
     }
 }
