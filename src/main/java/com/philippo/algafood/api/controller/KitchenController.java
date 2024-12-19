@@ -4,6 +4,7 @@ import com.philippo.algafood.api.assembler.KitchenInputDisassembler;
 import com.philippo.algafood.api.assembler.KitchenModelAssembler;
 import com.philippo.algafood.api.model.KitchenModel;
 import com.philippo.algafood.api.model.input.KitchenInput;
+import com.philippo.algafood.api.openapi.controller.KitchenControllerOpenApi;
 import com.philippo.algafood.domain.model.Kitchen;
 import com.philippo.algafood.domain.repository.KitchenRepository;
 import com.philippo.algafood.domain.service.RegisterKitchenService;
@@ -13,14 +14,15 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/kitchens")
-public class KitchenController {
+@RequestMapping(value = "/kitchens", produces = MediaType.APPLICATION_JSON_VALUE)
+public class KitchenController implements KitchenControllerOpenApi {
 
 	@Autowired
 	private KitchenRepository kitchenRepository;

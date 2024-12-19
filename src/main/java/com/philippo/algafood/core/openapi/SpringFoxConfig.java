@@ -54,7 +54,8 @@ public class SpringFoxConfig {
                                 KitchensModelOpenApi.class))
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cities", "Manage cities"),
-                        new Tag("Groups", "Manage groups"));
+                        new Tag("Groups", "Manage groups"),
+                        new Tag("Kitchens", "Manage kitchens"));
     }
 
     @Bean
