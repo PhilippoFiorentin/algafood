@@ -4,12 +4,14 @@ import com.philippo.algafood.api.assembler.PaymentMethodDisassembler;
 import com.philippo.algafood.api.assembler.PaymentMethodModelAssembler;
 import com.philippo.algafood.api.model.PaymentMethodModel;
 import com.philippo.algafood.api.model.input.PaymentMethodInput;
+import com.philippo.algafood.api.openapi.controller.PaymentMethodControllerOpenApi;
 import com.philippo.algafood.domain.model.PaymentMethod;
 import com.philippo.algafood.domain.repository.PaymentMethodRepository;
 import com.philippo.algafood.domain.service.RegisterPaymentMethodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -21,8 +23,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/payment-methods")
-public class PaymentMethodController {
+@RequestMapping(value = "/payment-methods", produces = MediaType.APPLICATION_JSON_VALUE)
+public class PaymentMethodController implements PaymentMethodControllerOpenApi {
 
     @Autowired
     private PaymentMethodRepository paymentMethodRepository;
