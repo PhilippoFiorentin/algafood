@@ -2,6 +2,7 @@ package com.philippo.algafood.api.controller;
 
 import com.philippo.algafood.api.assembler.GroupInputDisassembler;
 import com.philippo.algafood.api.assembler.GroupModelAssembler;
+import com.philippo.algafood.api.controller.openapi.GroupControllerOpenApi;
 import com.philippo.algafood.api.model.GroupModel;
 import com.philippo.algafood.api.model.input.GroupInput;
 import com.philippo.algafood.domain.exception.BusinessException;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/groups")
-public class GroupController {
+public class GroupController implements GroupControllerOpenApi {
 
     @Autowired
     private GroupRepository groupRepository;
@@ -33,20 +34,20 @@ public class GroupController {
     private GroupInputDisassembler groupInputDisassembler;
 
     @GetMapping
-    public List<GroupModel> listGroups() {
+    public List<GroupModel> list() {
         List<Group> groups = groupRepository.findAll();
         return groupModelAssembler.toCollectionModel(groups);
     }
 
     @GetMapping("/{groupId}")
-    public GroupModel findGroup(@PathVariable Long groupId){
+    public GroupModel find(@PathVariable Long groupId){
         Group group = registerGroup.findOrFail(groupId);
         return groupModelAssembler.toModel(group);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public GroupModel addGroup(@RequestBody @Valid GroupInput groupInput){
+    public GroupModel add(@RequestBody @Valid GroupInput groupInput){
         try {
             Group group = groupInputDisassembler.toDomainObject(groupInput);
             return groupModelAssembler.toModel(registerGroup.save(group));
@@ -56,7 +57,7 @@ public class GroupController {
     }
 
     @PutMapping("/{groupId}")
-    public GroupModel updateGroup(@PathVariable Long groupId, @RequestBody @Valid GroupInput groupInput){
+    public GroupModel update(@PathVariable Long groupId, @RequestBody @Valid GroupInput groupInput){
         try {
             Group currentGroup = registerGroup.findOrFail(groupId);
             groupInputDisassembler.copyToDomainObject(groupInput, currentGroup);
@@ -68,7 +69,7 @@ public class GroupController {
 
     @DeleteMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteGroup(@PathVariable Long groupId){
+    public void delete(@PathVariable Long groupId){
         registerGroup.delete(groupId);
 
     }
