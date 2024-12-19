@@ -3,9 +3,6 @@ package com.philippo.algafood.api.controller.openapi;
 import com.philippo.algafood.api.exceptionhandler.Problem;
 import com.philippo.algafood.api.model.CityModel;
 import com.philippo.algafood.api.model.input.CityInput;
-import com.philippo.algafood.domain.exception.BusinessException;
-import com.philippo.algafood.domain.exception.StateNotFoundException;
-import com.philippo.algafood.domain.model.City;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -14,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "Cities")
