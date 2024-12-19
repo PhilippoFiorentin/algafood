@@ -2,7 +2,7 @@ package com.philippo.algafood.api.controller;
 
 import com.philippo.algafood.api.assembler.CityInputDisassembler;
 import com.philippo.algafood.api.assembler.CityModelAssembler;
-import com.philippo.algafood.api.controller.openapi.CityControllerOpenApi;
+import com.philippo.algafood.api.openapi.controller.CityControllerOpenApi;
 import com.philippo.algafood.api.model.CityModel;
 import com.philippo.algafood.api.model.input.CityInput;
 import com.philippo.algafood.domain.exception.BusinessException;
@@ -12,13 +12,14 @@ import com.philippo.algafood.domain.repository.CityRepository;
 import com.philippo.algafood.domain.service.RegisterCityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cities")
+@RequestMapping(value = "/cities", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CityController implements CityControllerOpenApi {
 	@Autowired
 	private CityRepository cityRepository;

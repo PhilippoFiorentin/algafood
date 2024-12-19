@@ -1,4 +1,4 @@
-package com.philippo.algafood.api.controller.openapi;
+package com.philippo.algafood.api.openapi.controller;
 
 import com.philippo.algafood.api.exceptionhandler.Problem;
 import com.philippo.algafood.api.model.GroupModel;
