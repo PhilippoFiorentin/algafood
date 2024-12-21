@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import java.util.List;
 
-@Api(tags = "Restaurant")
+@Api(tags = "Restaurants")
 public interface RestaurantPaymentMethodControllerOpenApi {
 
     @ApiOperation("List the payment methods associated with the restaurant")
