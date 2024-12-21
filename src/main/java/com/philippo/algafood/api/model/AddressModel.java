@@ -14,7 +14,7 @@ public class AddressModel {
     @ApiModelProperty(example = "Example street")
     private String street;
 
-    @ApiModelProperty(example = "11")
+    @ApiModelProperty(example = "\"1500\"")
     private String number;
 
     @ApiModelProperty(example = "Apartment 11")

@@ -6,6 +6,7 @@ import com.philippo.algafood.api.assembler.RestaurantModelAssembler;
 import com.philippo.algafood.api.model.RestaurantModel;
 import com.philippo.algafood.api.model.input.RestaurantInput;
 import com.philippo.algafood.api.model.view.RestaurantView;
+import com.philippo.algafood.api.openapi.controller.RestaurantsControllerOpenApi;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.CityNotFoundException;
 import com.philippo.algafood.domain.exception.KitchenNotFoundException;
@@ -15,14 +16,15 @@ import com.philippo.algafood.domain.repository.RestaurantRepository;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurants")
-public class RestaurantController {
+@RequestMapping(value = "/restaurants", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestaurantController implements RestaurantsControllerOpenApi {
 
 	@Autowired
 	private RestaurantRepository restaurantRepository;
@@ -36,25 +38,6 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantInputDisassembler restaurantInputDisassembler;
 
-// Dynamic method to list using MappingJacksonValue Wrapper class
-
-//	@GetMapping
-//	public MappingJacksonValue list(@RequestParam(required = false) String projection){
-//		List<Restaurant> restaurants = restaurantRepository.findAll();
-//		List<RestaurantModel> restaurantModel = restaurantModelAssembler.toCollectionModel(restaurants);
-//
-//		MappingJacksonValue restaurantWrapper = new MappingJacksonValue(restaurantModel);
-//
-//		restaurantWrapper.setSerializationView(RestaurantView.Summary.class);
-//
-//		if ("just-name".equals(projection)) {
-//			restaurantWrapper.setSerializationView(RestaurantView.JustName.class);
-//		} else if ("complete".equals(projection)){
-//			restaurantWrapper.setSerializationView(null);
-//		}
-//
-//		return restaurantWrapper;
-//	}
 
 	@JsonView(RestaurantView.Summary.class)
 	@GetMapping
@@ -99,23 +82,6 @@ public class RestaurantController {
 			throw new BusinessException(e.getMessage(), e);
 		}
 	}
-
-//	@DeleteMapping("/{restaurantId}")
-//	@ResponseStatus(HttpStatus.NOT_FOUND)
-//	public void delete(@PathVariable Long restaurantId){
-//		registerRestaurant.delete(restaurantId);
-//	}
-
-//	private void validate(Restaurant restaurant, String objectName) {
-//		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurant, objectName);
-//
-//		validator.validate(restaurant, bindingResult);
-//
-//		if (bindingResult.hasErrors()) {
-//			throw new ValidationException(bindingResult);
-//
-//		}
-//	}
 
 	@PutMapping("/{restaurantId}/active")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

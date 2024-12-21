@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class KitchenInput {
 
-    @ApiModelProperty(example = "French", required = true)
+    @ApiModelProperty(example = "Thai", required = true)
     @NotBlank
     private String name;
 }
