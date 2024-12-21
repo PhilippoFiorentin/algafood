@@ -7,7 +7,7 @@ import com.philippo.algafood.api.model.KitchenModel;
 import com.philippo.algafood.api.model.RestaurantOrderSummaryModel;
 import com.philippo.algafood.api.openapi.model.KitchensModelOpenApi;
 import com.philippo.algafood.api.openapi.model.PageableModelOpenApi;
-import com.philippo.algafood.api.openapi.model.RestaurantOrderSummaryModelOpenApi;
+import com.philippo.algafood.api.openapi.model.RestaurantOrdersSummaryModelOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -57,7 +57,7 @@ public class SpringFoxConfig {
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, KitchenModel.class),
                                 KitchensModelOpenApi.class))
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, RestaurantOrderSummaryModel.class),
-                        RestaurantOrderSummaryModelOpenApi.class))
+                        RestaurantOrdersSummaryModelOpenApi.class))
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cities", "Manage cities"),
                         new Tag("Groups", "Manage groups"),
