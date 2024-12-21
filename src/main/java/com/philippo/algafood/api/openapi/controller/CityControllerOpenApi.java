@@ -30,10 +30,10 @@ public interface CityControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public CityModel find(@ApiParam(value = "ID of a city", example = "1") Long cityId);
+    public CityModel find(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId);
 
     @ApiOperation("Register a city")
-    public CityModel add(@ApiParam(name = "body", value = "Representation of a new city") CityInput cityInput);
+    public CityModel add(@ApiParam(name = "body", value = "Representation of a new city", required = true) CityInput cityInput);
 
     @ApiOperation("Update a city by ID")
     @ApiResponses(value = {
@@ -42,8 +42,8 @@ public interface CityControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public CityModel update(@ApiParam(value = "ID of a city", example = "1") Long cityId,
-                            @ApiParam(name = "body", value = "representation of a city with the new data") CityInput cityInput);
+    public CityModel update(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId,
+                            @ApiParam(name = "body", value = "representation of a city with the new data", required = true) CityInput cityInput);
 
     @ApiOperation("Delete a city")
     @ApiResponses(value = {
@@ -52,6 +52,6 @@ public interface CityControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public void delete(@ApiParam(value = "ID of a city", example = "1") Long cityId);
+    public void delete(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId);
 
 }

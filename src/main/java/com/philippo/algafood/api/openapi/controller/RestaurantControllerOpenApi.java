@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.List;
 
 @Api(tags = "Restaurants")
-public interface RestaurantsControllerOpenApi {
+public interface RestaurantControllerOpenApi {
 
     @ApiOperation(value = "List restaurants", response = BasicRestaurantModelOpenApi.class)
     @ApiImplicitParams({

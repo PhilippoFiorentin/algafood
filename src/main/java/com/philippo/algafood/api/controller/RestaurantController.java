@@ -6,7 +6,7 @@ import com.philippo.algafood.api.assembler.RestaurantModelAssembler;
 import com.philippo.algafood.api.model.RestaurantModel;
 import com.philippo.algafood.api.model.input.RestaurantInput;
 import com.philippo.algafood.api.model.view.RestaurantView;
-import com.philippo.algafood.api.openapi.controller.RestaurantsControllerOpenApi;
+import com.philippo.algafood.api.openapi.controller.RestaurantControllerOpenApi;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.CityNotFoundException;
 import com.philippo.algafood.domain.exception.KitchenNotFoundException;
@@ -24,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/restaurants", produces = MediaType.APPLICATION_JSON_VALUE)
-public class RestaurantController implements RestaurantsControllerOpenApi {
+public class RestaurantController implements RestaurantControllerOpenApi {
 
 	@Autowired
 	private RestaurantRepository restaurantRepository;
