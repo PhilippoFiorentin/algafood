@@ -17,7 +17,7 @@ import java.util.List;
 public interface GroupControllerOpenApi {
 
     @ApiOperation("List groups")
-    public List<GroupModel> list();
+    List<GroupModel> list();
 
     @ApiOperation("Search a group by ID")
     @ApiResponses(value = {
@@ -30,10 +30,10 @@ public interface GroupControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public GroupModel find(@ApiParam(value = "ID of a group", example = "1", required = true) Long groupId);
+    GroupModel find(@ApiParam(value = "ID of a group", example = "1", required = true) Long groupId);
 
     @ApiOperation("Register a group")
-    public GroupModel add(@ApiParam(name = "body", value = "Representation of a new group", required = true) GroupInput groupInput);
+    GroupModel add(@ApiParam(name = "body", value = "Representation of a new group", required = true) GroupInput groupInput);
 
     @ApiOperation("Update a group by ID")
     @ApiResponses(value = {
@@ -42,7 +42,7 @@ public interface GroupControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public GroupModel update(@ApiParam(value = "ID of a group", example = "1", required = true) Long groupId,
+    GroupModel update(@ApiParam(value = "ID of a group", example = "1", required = true) Long groupId,
                              @ApiParam(name = "body", value = "representation of a group with the new data", required = true) GroupInput groupInput);
 
     @ApiOperation("Delete a group")
@@ -52,6 +52,6 @@ public interface GroupControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public void delete(@ApiParam(value = "ID of a group", example = "1", required = true) Long groupId);
+    void delete(@ApiParam(value = "ID of a group", example = "1", required = true) Long groupId);
 
 }

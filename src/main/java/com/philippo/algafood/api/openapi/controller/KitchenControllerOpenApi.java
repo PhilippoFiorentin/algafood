@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 public interface KitchenControllerOpenApi {
 
     @ApiOperation("List kitchens with pagination")
-    public Page<KitchenModel> list(Pageable pageable);
+    Page<KitchenModel> list(Pageable pageable);
 
     @ApiOperation("Search a kitchen by ID")
     @ApiResponses(value = {
@@ -30,10 +30,10 @@ public interface KitchenControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public KitchenModel find(@ApiParam(value = "ID of a kitchen", example = "1", required = true) Long kitchenId);
+    KitchenModel find(@ApiParam(value = "ID of a kitchen", example = "1", required = true) Long kitchenId);
 
     @ApiOperation("Register a kitchen")
-    public KitchenModel add(@ApiParam(name = "body", value = "Representation of a new kitchen", required = true) KitchenInput kitchenInput);
+    KitchenModel add(@ApiParam(name = "body", value = "Representation of a new kitchen", required = true) KitchenInput kitchenInput);
 
     @ApiOperation("Update a kitchen by ID")
     @ApiResponses(value = {
@@ -42,7 +42,7 @@ public interface KitchenControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public KitchenModel update(@ApiParam(value = "ID of a kitchen", example = "1", required = true) Long kitchenId,
+    KitchenModel update(@ApiParam(value = "ID of a kitchen", example = "1", required = true) Long kitchenId,
                                @ApiParam(name = "body", value = "representation of a kitchen with the new data", required = true) KitchenInput kitchenInput);
 
     @ApiOperation("Delete a kitchen")
@@ -52,5 +52,5 @@ public interface KitchenControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public void delete(@ApiParam(value = "ID of a kitchen", example = "1", required = true) Long kitchenId);
+    void delete(@ApiParam(value = "ID of a kitchen", example = "1", required = true) Long kitchenId);
 }

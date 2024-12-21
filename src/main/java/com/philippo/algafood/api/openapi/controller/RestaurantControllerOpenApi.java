@@ -20,10 +20,10 @@ public interface RestaurantControllerOpenApi {
             @ApiImplicitParam(value = "Orders projection name",
                     allowableValues = "just-name", name = "projection", paramType = "query", type = "string")
     })
-    public List<RestaurantModel> list();
+    List<RestaurantModel> list();
 
     @ApiOperation(value = "List restaurants", hidden = true)
-    public List<RestaurantModel> listSummary();
+    List<RestaurantModel> listSummary();
 
     @ApiOperation("Search for a restaurant by ID")
     @ApiResponses(value = {
@@ -36,10 +36,10 @@ public interface RestaurantControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public RestaurantModel find(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
+    RestaurantModel find(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
 
     @ApiOperation("Register a restaurant")
-    public RestaurantModel add(@ApiParam(
+    RestaurantModel add(@ApiParam(
             name = "body", value = "Representation of a new restaurant", required = true) RestaurantInput restaurantInput);
 
     @ApiOperation("Update a restaurant by ID")
@@ -49,7 +49,7 @@ public interface RestaurantControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public RestaurantModel update(
+    RestaurantModel update(
             @ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId,
             @ApiParam(name = "body", value = "representation of a restaurant with the new data",  required = true) RestaurantInput restaurantInput);
 
@@ -60,7 +60,7 @@ public interface RestaurantControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public void activate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
+    void activate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
 
     @ApiOperation("Deactivate a restaurant by ID")
     @ApiResponses(value = {
@@ -69,14 +69,14 @@ public interface RestaurantControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public void deactivate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
+    void deactivate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
 
     @ApiOperation("Activate multiple restaurant")
-    public void activateManyRestaurants(@ApiParam(
+    void activateManyRestaurants(@ApiParam(
             name = "body", value = "Restaurant IDs",  required = true) List<Long> restaurantIds);
 
     @ApiOperation("Deactivate multiple restaurant")
-    public void deactivateManyRestaurants(@ApiParam(
+    void deactivateManyRestaurants(@ApiParam(
             name = "body", value = "Restaurant IDs",  required = true) List<Long> restaurantIds);
 
     @ApiOperation("Open a restaurant by ID")
@@ -86,7 +86,7 @@ public interface RestaurantControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public void open(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
+    void open(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
 
     @ApiOperation("Close a restaurant by ID")
     @ApiResponses(value = {
@@ -95,5 +95,5 @@ public interface RestaurantControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public void close(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
+    void close(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
 }

@@ -20,7 +20,7 @@ public interface RestaurantOrderControllerOpenApi {
     @ApiImplicitParams({
             @ApiImplicitParam(value = "Names of properties to filter on in the response, separated by commas",
                     name = "fields", paramType = "query", type = "string")})
-    public Page<RestaurantOrderSummaryModel> search(Pageable pageable, OrderFilter filter);
+    Page<RestaurantOrderSummaryModel> search(Pageable pageable, OrderFilter filter);
 
     @ApiOperation("Search a restaurant order by ID")
     @ApiImplicitParams({
@@ -32,10 +32,10 @@ public interface RestaurantOrderControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public RestaurantOrderModel find(
+    RestaurantOrderModel find(
             @ApiParam(value = "ID of a restaurant order", example = "f9981ca4-5a5e-4da3-af04-933861df3e55", required = true) String orderUuid);
 
     @ApiOperation("Register a restaurant order")
-    public RestaurantOrderModel add(
+    RestaurantOrderModel add(
             @ApiParam(name = "body", value = "Representation of a new restaurant order", required = true) RestaurantOrderInput orderInput);
 }

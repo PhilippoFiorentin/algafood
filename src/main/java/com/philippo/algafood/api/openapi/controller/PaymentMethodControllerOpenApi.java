@@ -19,7 +19,7 @@ import java.util.List;
 public interface PaymentMethodControllerOpenApi {
 
     @ApiOperation("List payment methods")
-    public ResponseEntity<List<PaymentMethodModel>> list(ServletWebRequest request);
+    ResponseEntity<List<PaymentMethodModel>> list(ServletWebRequest request);
 
     @ApiOperation("Search a payment method by ID")
     @ApiResponses(value = {
@@ -32,11 +32,11 @@ public interface PaymentMethodControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public ResponseEntity<PaymentMethodModel> find(@ApiParam(value = "ID of a payment method", example = "1", required = true) Long paymentMethodId,
+    ResponseEntity<PaymentMethodModel> find(@ApiParam(value = "ID of a payment method", example = "1", required = true) Long paymentMethodId,
                                                    ServletWebRequest request);
 
     @ApiOperation("Register a payment method")
-    public PaymentMethodModel add(@ApiParam(name = "body", value = "Representation of a new payment method", required = true) PaymentMethodInput paymentMethodInput);
+    PaymentMethodModel add(@ApiParam(name = "body", value = "Representation of a new payment method", required = true) PaymentMethodInput paymentMethodInput);
 
     @ApiOperation("Update a payment method by ID")
     @ApiResponses(value = {
@@ -45,7 +45,7 @@ public interface PaymentMethodControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public PaymentMethodModel update(@ApiParam(value = "ID of a payment method", example = "1", required = true) Long paymentMethodId,
+    PaymentMethodModel update(@ApiParam(value = "ID of a payment method", example = "1", required = true) Long paymentMethodId,
                                      @ApiParam(name = "body", value = "representation of a payment method with the new data", required = true) PaymentMethodInput paymentMethodInput);
 
 
@@ -56,6 +56,6 @@ public interface PaymentMethodControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public void delete(@ApiParam(value = "ID of a payment method", example = "1", required = true) Long paymentMethodId);
+    void delete(@ApiParam(value = "ID of a payment method", example = "1", required = true) Long paymentMethodId);
 
 }

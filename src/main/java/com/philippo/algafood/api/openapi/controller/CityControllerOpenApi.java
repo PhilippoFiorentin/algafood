@@ -17,7 +17,7 @@ import java.util.List;
 public interface CityControllerOpenApi {
 
     @ApiOperation("List cities")
-    public List<CityModel> list();
+    List<CityModel> list();
 
     @ApiOperation("Search for a city by ID")
     @ApiResponses(value = {
@@ -30,10 +30,10 @@ public interface CityControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public CityModel find(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId);
+    CityModel find(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId);
 
     @ApiOperation("Register a city")
-    public CityModel add(@ApiParam(name = "body", value = "Representation of a new city", required = true) CityInput cityInput);
+    CityModel add(@ApiParam(name = "body", value = "Representation of a new city", required = true) CityInput cityInput);
 
     @ApiOperation("Update a city by ID")
     @ApiResponses(value = {
@@ -42,7 +42,7 @@ public interface CityControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public CityModel update(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId,
+    CityModel update(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId,
                             @ApiParam(name = "body", value = "representation of a city with the new data", required = true) CityInput cityInput);
 
     @ApiOperation("Delete a city")
@@ -52,6 +52,6 @@ public interface CityControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public void delete(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId);
+    void delete(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId);
 
 }
