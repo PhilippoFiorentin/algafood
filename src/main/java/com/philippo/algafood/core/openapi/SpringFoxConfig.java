@@ -4,8 +4,10 @@ import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.philippo.algafood.api.exceptionhandler.Problem;
 import com.philippo.algafood.api.model.KitchenModel;
+import com.philippo.algafood.api.model.RestaurantOrderSummaryModel;
 import com.philippo.algafood.api.openapi.model.KitchensModelOpenApi;
 import com.philippo.algafood.api.openapi.model.PageableModelOpenApi;
+import com.philippo.algafood.api.openapi.model.RestaurantOrderSummaryModelOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -54,11 +56,14 @@ public class SpringFoxConfig {
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, KitchenModel.class),
                                 KitchensModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, RestaurantOrderSummaryModel.class),
+                        RestaurantOrderSummaryModelOpenApi.class))
                 .apiInfo(apiInfo())
                 .tags(new Tag("Cities", "Manage cities"),
                         new Tag("Groups", "Manage groups"),
                         new Tag("Kitchens", "Manage kitchens"),
-                        new Tag("Payment methods", "Manage payment methods"));
+                        new Tag("Payment methods", "Manage payment methods"),
+                        new Tag("Restaurant orders", "Manage restaurant orders"));
     }
 
     @Bean

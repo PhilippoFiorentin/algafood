@@ -14,7 +14,7 @@ public class KitchenModel {
     @JsonView(RestaurantView.Summary.class)
     private Long id;
 
-    @ApiModelProperty(example = "French")
+    @ApiModelProperty(example = "Thai")
     @JsonView(RestaurantView.Summary.class)
     private String name;
 }

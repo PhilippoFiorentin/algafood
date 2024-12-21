@@ -6,21 +6,25 @@ import com.philippo.algafood.api.assembler.RestaurantOrderSummaryAssembler;
 import com.philippo.algafood.api.model.RestaurantOrderModel;
 import com.philippo.algafood.api.model.RestaurantOrderSummaryModel;
 import com.philippo.algafood.api.model.input.RestaurantOrderInput;
+import com.philippo.algafood.api.openapi.controller.RestaurantOrderControllerOpenApi;
 import com.philippo.algafood.core.data.PageableTranslator;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
+import com.philippo.algafood.domain.filter.OrderFilter;
 import com.philippo.algafood.domain.infrastructure.repository.spec.OrderSpecs;
 import com.philippo.algafood.domain.model.RestaurantOrder;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.repository.RestaurantOrderRepository;
-import com.philippo.algafood.domain.filter.OrderFilter;
 import com.philippo.algafood.domain.service.OrderIssuanceService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,8 +32,8 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/orders")
-public class RestaurantOrderController {
+@RequestMapping(value = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestaurantOrderController implements RestaurantOrderControllerOpenApi {
 
     @Autowired
     private RestaurantOrderRepository restaurantOrderRepository;
