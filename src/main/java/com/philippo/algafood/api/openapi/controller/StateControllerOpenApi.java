@@ -1,8 +1,8 @@
 package com.philippo.algafood.api.openapi.controller;
 
 import com.philippo.algafood.api.exceptionhandler.Problem;
-import com.philippo.algafood.api.model.CityModel;
-import com.philippo.algafood.api.model.input.CityInput;
+import com.philippo.algafood.api.model.StateModel;
+import com.philippo.algafood.api.model.input.StateInput;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -13,45 +13,45 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import java.util.List;
 
-@Api(tags = "Cities")
-public interface CityControllerOpenApi {
+@Api(tags = "States")
+public interface StateControllerOpenApi {
 
-    @ApiOperation("List cities")
-    public List<CityModel> list();
+    @ApiOperation("List states")
+    List<StateModel> list();
 
-    @ApiOperation("Search for a city by ID")
+    @ApiOperation("Search for a state by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "400",
-                    description = "Invalid city ID",
+                    description = "Invalid state ID",
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     }),
             @ApiResponse(responseCode = "404",
-                    description = "City not found",
+                    description = "State not found",
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public CityModel find(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId);
+    StateModel find(@ApiParam(value = "ID of a state", example = "1", required = true) Long stateId);
 
-    @ApiOperation("Register a city")
-    public CityModel add(@ApiParam(name = "body", value = "Representation of a new city", required = true) CityInput cityInput);
+    @ApiOperation("Register a state")
+    StateModel add(@ApiParam(name = "body", value = "Representation of a new state", required = true) StateInput stateInput);
 
-    @ApiOperation("Update a city by ID")
+    @ApiOperation("Update a state by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404",
                     description = "City not found",
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public CityModel update(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId,
-                            @ApiParam(name = "body", value = "representation of a city with the new data", required = true) CityInput cityInput);
+    StateModel update(
+            @ApiParam(value = "ID of a state", example = "1", required = true) Long stateId,
+            @ApiParam(name = "body", value = "Representation of a new state", required = true) StateInput stateInput);
 
-    @ApiOperation("Delete a city")
+    @ApiOperation("Delete a state")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404",
                     description = "City not found",
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    public void delete(@ApiParam(value = "ID of a city", example = "1", required = true) Long cityId);
-
+    void delete(@ApiParam(value = "ID of a state", example = "1", required = true) Long stateId);
 }

@@ -20,7 +20,7 @@ public class AddressInput {
     @NotBlank
     private String street;
 
-    @ApiModelProperty(example = "11", required = true)
+    @ApiModelProperty(example = "\"1500\"", required = true)
     @NotBlank
     private String number;
 

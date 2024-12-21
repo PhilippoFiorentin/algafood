@@ -4,19 +4,21 @@ import com.philippo.algafood.api.assembler.StateInputDisassembler;
 import com.philippo.algafood.api.assembler.StateModelAssembler;
 import com.philippo.algafood.api.model.StateModel;
 import com.philippo.algafood.api.model.input.StateInput;
+import com.philippo.algafood.api.openapi.controller.StateControllerOpenApi;
 import com.philippo.algafood.domain.model.State;
 import com.philippo.algafood.domain.repository.StateRepository;
 import com.philippo.algafood.domain.service.RegisterStateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/states")
-public class StateController {
+@RequestMapping(value = "/states", produces = MediaType.APPLICATION_JSON_VALUE)
+public class StateController implements StateControllerOpenApi {
 	
 	@Autowired
 	private StateRepository stateRepository;
@@ -31,12 +33,12 @@ public class StateController {
 	private StateInputDisassembler stateInputDisassembler;
 	
 	@GetMapping
-	public List<StateModel> listAllStates(){
+	public List<StateModel> list(){
 		return stateModelAssembler.toCollectionModel(stateRepository.findAll());
 	}
 	
 	@GetMapping("/{stateId}")
-	public StateModel findState(@PathVariable Long stateId){
+	public StateModel find(@PathVariable Long stateId){
 		State state = registerState.findOrFail(stateId);
 
 		return stateModelAssembler.toModel(state);
@@ -44,14 +46,14 @@ public class StateController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public StateModel addState(@RequestBody @Valid StateInput stateInput){
+	public StateModel add(@RequestBody @Valid StateInput stateInput){
 		State state = stateInputDisassembler.toDomainObject(stateInput);
 
 		return stateModelAssembler.toModel(registerState.save(state));
 	}
 	
 	@PutMapping("/{stateId}")
-	public StateModel updateState(@PathVariable Long stateId, @RequestBody @Valid StateInput stateInput){
+	public StateModel update(@PathVariable Long stateId, @RequestBody @Valid StateInput stateInput){
 		State currentState = registerState.findOrFail(stateId);
 
 		stateInputDisassembler.copyToDomainObject(stateInput, currentState);
