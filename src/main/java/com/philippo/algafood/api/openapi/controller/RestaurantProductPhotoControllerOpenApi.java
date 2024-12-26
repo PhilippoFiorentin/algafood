@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -26,8 +27,9 @@ public interface RestaurantProductPhotoControllerOpenApi {
                     })
     })
     ProductPhotoModel updatePhoto(@ApiParam(value = "Restaurant ID", example = "1", required = true) Long restaurantId,
-                                  @ApiParam(value = "Product ID", example = "1", required = true)Long productId,
-                                  ProductPhotoInput productPhotoInput) throws IOException;
+                                  @ApiParam(value = "Product ID", example = "1", required = true) Long productId,
+                                  ProductPhotoInput productPhotoInput,
+                                  @ApiParam(value = "Product photo file (max 500KB, JPG and PNG only)", hidden = true) MultipartFile file) throws IOException;
 
     @ApiOperation("Delete a restaurant product photo")
     @ApiResponses(value = {

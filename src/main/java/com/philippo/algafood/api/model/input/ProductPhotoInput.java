@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class ProductPhotoInput {
 
-    @ApiModelProperty(value = "Product photo file (max 500KB, JPG and PNG only)", required = true)
+    @ApiModelProperty(required = true)
     @NotNull
     @FileSize(max = "500KB")
     @FileContentType(allowed = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
