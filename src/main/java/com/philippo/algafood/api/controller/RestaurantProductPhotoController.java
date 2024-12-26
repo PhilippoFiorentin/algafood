@@ -3,6 +3,7 @@ package com.philippo.algafood.api.controller;
 import com.philippo.algafood.api.assembler.ProductPhotoModelAssembler;
 import com.philippo.algafood.api.model.ProductPhotoModel;
 import com.philippo.algafood.api.model.input.ProductPhotoInput;
+import com.philippo.algafood.api.openapi.controller.RestaurantProductPhotoControllerOpenApi;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.model.Product;
 import com.philippo.algafood.domain.model.ProductPhoto;
@@ -24,8 +25,9 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurants/{restaurantId}/products/{productId}/photo")
-public class RestaurantProductPhotoController {
+@RequestMapping(value = "/restaurants/{restaurantId}/products/{productId}/photo",
+        produces = MediaType.APPLICATION_JSON_VALUE)
+public class RestaurantProductPhotoController implements RestaurantProductPhotoControllerOpenApi {
 
     @Autowired
     private RegisterProductService registerProductService;
@@ -66,7 +68,7 @@ public class RestaurantProductPhotoController {
         return productPhotoModelAssembler.toModel(photo);
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.ALL_VALUE)
     public ResponseEntity<?> servePhoto(@PathVariable Long restaurantId,
                                                           @PathVariable Long productId,
                                                           @RequestHeader(name = "accept") String acceptHeader)
