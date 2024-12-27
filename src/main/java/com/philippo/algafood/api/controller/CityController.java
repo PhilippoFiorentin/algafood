@@ -1,5 +1,6 @@
 package com.philippo.algafood.api.controller;
 
+import com.philippo.algafood.api.ResourceUriHelper;
 import com.philippo.algafood.api.assembler.CityInputDisassembler;
 import com.philippo.algafood.api.assembler.CityModelAssembler;
 import com.philippo.algafood.api.openapi.controller.CityControllerOpenApi;
@@ -11,11 +12,17 @@ import com.philippo.algafood.domain.model.City;
 import com.philippo.algafood.domain.repository.CityRepository;
 import com.philippo.algafood.domain.service.RegisterCityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -50,7 +57,11 @@ public class CityController implements CityControllerOpenApi {
 	public CityModel add(@RequestBody @Valid CityInput cityInput) {
 		try {
 			City city = cityInputDisassembler.toDomainObject(cityInput);
-			return cityModelAssembler.toModel(registerCity.save(city));
+			CityModel cityModel = cityModelAssembler.toModel(registerCity.save(city));
+
+			ResourceUriHelper.addUriInResponseHeader(cityModel.getId());
+
+			return cityModel;
 		}catch (StateNotFoundException e){
 			throw new BusinessException(e.getMessage(), e);
 		}
