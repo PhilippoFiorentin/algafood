@@ -6,19 +6,21 @@ import com.philippo.algafood.api.model.UserModel;
 import com.philippo.algafood.api.model.input.PasswordInput;
 import com.philippo.algafood.api.model.input.UserInput;
 import com.philippo.algafood.api.model.input.UserWithPasswordInput;
+import com.philippo.algafood.api.openapi.controller.UserControllerOpenApi;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.repository.UserRepository;
 import com.philippo.algafood.domain.service.RegisterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/users")
-public class UserController {
+@RequestMapping(value="/users", produces = MediaType.APPLICATION_JSON_VALUE)
+public class UserController implements UserControllerOpenApi {
 
     @Autowired
     private UserRepository userRepository;

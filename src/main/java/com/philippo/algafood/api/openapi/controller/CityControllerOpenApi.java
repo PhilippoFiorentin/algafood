@@ -35,7 +35,7 @@ public interface CityControllerOpenApi {
     @ApiOperation("Register a city")
     CityModel add(@ApiParam(name = "body", value = "Representation of a new city", required = true) CityInput cityInput);
 
-    @ApiOperation("Update a city by ID")
+    @ApiOperation("Update city by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404",
                     description = "City not found",
