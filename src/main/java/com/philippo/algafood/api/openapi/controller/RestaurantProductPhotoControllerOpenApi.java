@@ -28,8 +28,7 @@ public interface RestaurantProductPhotoControllerOpenApi {
     })
     ProductPhotoModel updatePhoto(@ApiParam(value = "Restaurant ID", example = "1", required = true) Long restaurantId,
                                   @ApiParam(value = "Product ID", example = "1", required = true) Long productId,
-                                  ProductPhotoInput productPhotoInput,
-                                  @ApiParam(value = "Product photo file (max 500KB, JPG and PNG only)", hidden = true) MultipartFile file) throws IOException;
+                                  ProductPhotoInput productPhotoInput) throws IOException;
 
     @ApiOperation("Delete a restaurant product photo")
     @ApiResponses(value = {

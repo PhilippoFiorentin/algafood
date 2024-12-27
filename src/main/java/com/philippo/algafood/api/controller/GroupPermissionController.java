@@ -2,17 +2,19 @@ package com.philippo.algafood.api.controller;
 
 import com.philippo.algafood.api.assembler.PermissionModelAssembler;
 import com.philippo.algafood.api.model.PermissionModel;
+import com.philippo.algafood.api.openapi.controller.GroupPermissionControllerOpenApi;
 import com.philippo.algafood.domain.model.Group;
 import com.philippo.algafood.domain.service.RegisterGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/groups/{groupId}/permissions")
-public class GroupPermissionController {
+@RequestMapping(value = "/groups/{groupId}/permissions", produces = MediaType.APPLICATION_JSON_VALUE)
+public class GroupPermissionController implements GroupPermissionControllerOpenApi {
 
     @Autowired
     private RegisterGroupService registerGroupService;

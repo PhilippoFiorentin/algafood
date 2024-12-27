@@ -66,7 +66,8 @@ public class SpringFoxConfig {
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, RestaurantOrderSummaryModel.class),
                         RestaurantOrdersSummaryModelOpenApi.class))
                 .apiInfo(apiInfo())
-                .tags(new Tag("Cities", "Manage cities"),
+                .tags(
+                        new Tag("Cities", "Manage cities"),
                         new Tag("Groups", "Manage groups"),
                         new Tag("Kitchens", "Manage kitchens"),
                         new Tag("Payment methods", "Manage payment methods"),
