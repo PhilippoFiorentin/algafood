@@ -1,5 +1,6 @@
 package com.philippo.algafood.api.controller;
 
+import com.philippo.algafood.api.openapi.controller.StatisticsControllerOpenApi;
 import com.philippo.algafood.domain.filter.DailySaleFilter;
 import com.philippo.algafood.domain.model.dto.DailySale;
 import com.philippo.algafood.domain.service.SaleQueryService;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/statistics")
-public class StatisticController {
+public class StatisticController implements StatisticsControllerOpenApi {
 
     @Autowired
     private SaleReportService saleReportService;

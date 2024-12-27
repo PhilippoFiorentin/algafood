@@ -75,7 +75,8 @@ public class SpringFoxConfig {
                         new Tag("Restaurants", "Manage restaurants"),
                         new Tag("States", "Manage states"),
                         new Tag("Products", "Manage products"),
-                        new Tag("Users", "Manage users"));
+                        new Tag("Users", "Manage users"),
+                        new Tag("Statistics", "Manage statistics"));
     }
 
     @Bean
