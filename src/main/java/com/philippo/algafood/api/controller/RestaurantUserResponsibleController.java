@@ -7,11 +7,10 @@ import com.philippo.algafood.domain.model.Restaurant;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/restaurants/{restaurantId}/responsible", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,7 +25,13 @@ public class RestaurantUserResponsibleController implements RestaurantUserRespon
     @GetMapping
     public CollectionModel<UserModel> list(@PathVariable Long restaurantId){
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
-        return userModelAssembler.toCollectionModel(restaurant.getUsersResponsible());
+        return userModelAssembler
+                .toCollectionModel(restaurant.getUsersResponsible())
+                .removeLinks()
+                .add(WebMvcLinkBuilder
+                        .linkTo(WebMvcLinkBuilder
+                                .methodOn(RestaurantUserResponsibleController.class).list(restaurantId))
+                        .withSelfRel());
     }
 
     @DeleteMapping("/{userId}")
