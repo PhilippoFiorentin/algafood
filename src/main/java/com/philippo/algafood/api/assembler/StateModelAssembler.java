@@ -1,27 +1,38 @@
 package com.philippo.algafood.api.assembler;
 
+import com.philippo.algafood.api.controller.StateController;
 import com.philippo.algafood.api.model.StateModel;
 import com.philippo.algafood.domain.model.State;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
-public class StateModelAssembler {
+public class StateModelAssembler extends RepresentationModelAssemblerSupport<State, StateModel> {
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public StateModel toModel(State state){
-        return modelMapper.map(state, StateModel.class);
+    public StateModelAssembler() {
+        super(StateController.class, StateModel.class);
     }
 
-    public List<StateModel> toCollectionModel(List<State> states){
-        return states.stream()
-                .map(state -> toModel(state))
-                .collect(Collectors.toList());
+    public StateModel toModel(State state){
+        StateModel stateModel = createModelWithId(state.getId(), state);
+
+        modelMapper.map(state, stateModel);
+
+        stateModel.add(WebMvcLinkBuilder.linkTo(StateController.class).withRel("states"));
+
+        return stateModel;
+    }
+
+    @Override
+    public CollectionModel<StateModel> toCollectionModel(Iterable<? extends State> entities) {
+        return super.toCollectionModel(entities)
+                .add(WebMvcLinkBuilder.linkTo(StateController.class).withSelfRel());
     }
 }
