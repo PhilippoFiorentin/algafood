@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public interface UserControllerOpenApi {
 
     @ApiOperation("List users")
-    List<UserModel> list();
+    CollectionModel<UserModel> list();
 
     @ApiOperation("Find a user by ID")
     @ApiResponses(value = {

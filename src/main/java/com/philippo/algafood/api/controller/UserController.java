@@ -11,6 +11,7 @@ import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.repository.UserRepository;
 import com.philippo.algafood.domain.service.RegisterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class UserController implements UserControllerOpenApi {
     private UserInputDisassembler userInputDisassembler;
 
     @GetMapping
-    public List<UserModel> list(){
+    public CollectionModel<UserModel> list(){
         return userModelAssembler.toCollectionModel(userRepository.findAll());
     }
 

@@ -6,6 +6,7 @@ import com.philippo.algafood.api.openapi.controller.RestaurantUserResponsibleCon
 import com.philippo.algafood.domain.model.Restaurant;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class RestaurantUserResponsibleController implements RestaurantUserRespon
     private UserModelAssembler userModelAssembler;
 
     @GetMapping
-    public List<UserModel> list(@PathVariable Long restaurantId){
+    public CollectionModel<UserModel> list(@PathVariable Long restaurantId){
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
         return userModelAssembler.toCollectionModel(restaurant.getUsersResponsible());
     }

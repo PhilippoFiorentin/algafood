@@ -1,7 +1,6 @@
 package com.philippo.algafood.api.openapi.controller;
 
 import com.philippo.algafood.api.exceptionhandler.Problem;
-import com.philippo.algafood.api.model.GroupModel;
 import com.philippo.algafood.api.model.UserModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,7 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.hateoas.CollectionModel;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public interface RestaurantUserResponsibleControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    List<UserModel> list(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
+    CollectionModel<UserModel> list(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
 
     @ApiOperation("Disassociation of restaurant with user group")
     @ApiResponses(value = {
