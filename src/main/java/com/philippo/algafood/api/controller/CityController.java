@@ -12,17 +12,13 @@ import com.philippo.algafood.domain.model.City;
 import com.philippo.algafood.domain.repository.CityRepository;
 import com.philippo.algafood.domain.service.RegisterCityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -41,14 +37,13 @@ public class CityController implements CityControllerOpenApi {
 	private CityInputDisassembler cityInputDisassembler;
 	
 	@GetMapping
-	public List<CityModel> list() {
+	public CollectionModel<CityModel> list() {
 		return cityModelAssembler.toCollectionModel(cityRepository.findAll());
 	}
 
 	@GetMapping("/{cityId}")
 	public CityModel find(@PathVariable Long cityId) {
 		City city = registerCity.findOrFail(cityId);
-
 		return cityModelAssembler.toModel(city);
 	}
 

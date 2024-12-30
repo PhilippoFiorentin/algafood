@@ -10,14 +10,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Cities")
 public interface CityControllerOpenApi {
 
     @ApiOperation("List cities")
-    List<CityModel> list();
+    CollectionModel<CityModel> list();
 
     @ApiOperation("Search for a city by ID")
     @ApiResponses(value = {
