@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -35,15 +37,17 @@ public class KitchenController implements KitchenControllerOpenApi {
 
 	@Autowired
 	private KitchenInputDisassembler kitchenInputDisassembler;
-	
+
+	@Autowired
+	private PagedResourcesAssembler<Kitchen> pagedResourcesAssembler;
+
 	@GetMapping
-	public Page<KitchenModel> list(@PageableDefault(size = 10) Pageable pageable){
+	public PagedModel<KitchenModel> list(@PageableDefault(size  = 10) Pageable pageable){
 		Page<Kitchen> kitchenPages = kitchenRepository.findAll(pageable);
-		List<KitchenModel> kitchenModels = kitchenModelAssembler.toCollectionModel(kitchenPages.getContent());
 
-		Page<KitchenModel> kitchenModelPages = new PageImpl<>(kitchenModels, pageable, kitchenPages.getTotalPages());
+		PagedModel<KitchenModel> kitchensPagedModel = pagedResourcesAssembler.toModel(kitchenPages, kitchenModelAssembler);
 
-		return kitchenModelPages;
+		return kitchensPagedModel;
 	}
 	
 	@GetMapping("/{kitchenId}")
