@@ -1,14 +1,11 @@
 package com.philippo.algafood.api.assembler;
 
+import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.controller.*;
 import com.philippo.algafood.api.model.RestaurantOrderModel;
 import com.philippo.algafood.domain.model.RestaurantOrder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.TemplateVariable;
-import org.springframework.hateoas.TemplateVariables;
-import org.springframework.hateoas.UriTemplate;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
@@ -19,6 +16,9 @@ public class RestaurantOrderModelAssembler extends RepresentationModelAssemblerS
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AlgaLinks algaLinks;
+
     public RestaurantOrderModelAssembler() {
         super(RestaurantOrderController.class, RestaurantOrderModel.class);
     }
@@ -28,22 +28,7 @@ public class RestaurantOrderModelAssembler extends RepresentationModelAssemblerS
         RestaurantOrderModel restaurantOrderModel = createModelWithId(restaurantOrder.getId(), restaurantOrder);
         modelMapper.map(restaurantOrder, restaurantOrderModel);
 
-        TemplateVariables pageVariables = new TemplateVariables(
-                new TemplateVariable("page", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM)
-        );
-
-        TemplateVariables filterVariables = new TemplateVariables(
-                new TemplateVariable("clientId", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("restaurantId", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("dateCreationStart", TemplateVariable.VariableType.REQUEST_PARAM),
-                new TemplateVariable("dateCreationEnd", TemplateVariable.VariableType.REQUEST_PARAM)
-        );
-
-        String ordersUrl = WebMvcLinkBuilder.linkTo(RestaurantOrderController.class).toUri().toString();
-
-        restaurantOrderModel.add(new Link(UriTemplate.of(ordersUrl, pageVariables.concat(filterVariables)), "orders"));
+        restaurantOrderModel.add(algaLinks.linkToOrders());
 
         restaurantOrderModel.getRestaurant().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
                 .methodOn(RestaurantController.class).find(restaurantOrder.getRestaurant().getId())).withSelfRel());
