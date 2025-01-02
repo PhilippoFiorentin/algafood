@@ -16,19 +16,17 @@ import com.philippo.algafood.domain.model.RestaurantOrder;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.repository.RestaurantOrderRepository;
 import com.philippo.algafood.domain.service.OrderIssuanceService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -50,21 +48,17 @@ public class RestaurantOrderController implements RestaurantOrderControllerOpenA
     @Autowired
     private RestaurantOrderInputDisassembler restaurantOrderInputDisassembler;
 
+    @Autowired
+    private PagedResourcesAssembler<RestaurantOrder> pagedResourcesAssembler;
+
     @GetMapping
-    public Page<RestaurantOrderSummaryModel> search(@PageableDefault(size = 10) Pageable pageable, OrderFilter filter) {
+    public PagedModel<RestaurantOrderSummaryModel> search(@PageableDefault(size = 10) Pageable pageable, OrderFilter filter) {
 
         pageable = translatePageable(pageable);
 
-        Page<RestaurantOrder> orderPages = restaurantOrderRepository
-                .findAll(OrderSpecs.usingFilter(filter), pageable);
+        Page<RestaurantOrder> orderPages = restaurantOrderRepository.findAll(OrderSpecs.usingFilter(filter), pageable);
 
-        List<RestaurantOrderSummaryModel> orderModels = restaurantOrderSummaryAssembler
-                .toCollectionModel(orderPages.getContent());
-
-        Page<RestaurantOrderSummaryModel> orderModelPages = new PageImpl<>(
-                orderModels, pageable, orderPages.getTotalElements());
-
-        return orderModelPages;
+        return pagedResourcesAssembler.toModel(orderPages, restaurantOrderSummaryAssembler);
     }
 
     @GetMapping("/{orderUuid}")

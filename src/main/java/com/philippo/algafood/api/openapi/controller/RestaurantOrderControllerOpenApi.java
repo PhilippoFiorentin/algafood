@@ -10,8 +10,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.PagedModel;
 
 @Api(tags = "Restaurant orders")
 public interface RestaurantOrderControllerOpenApi {
@@ -20,7 +20,7 @@ public interface RestaurantOrderControllerOpenApi {
     @ApiImplicitParams({
             @ApiImplicitParam(value = "Names of properties to filter on in the response, separated by commas",
                     name = "fields", paramType = "query", type = "string")})
-    Page<RestaurantOrderSummaryModel> search(Pageable pageable, OrderFilter filter);
+    PagedModel<RestaurantOrderSummaryModel> search(Pageable pageable, OrderFilter filter);
 
     @ApiOperation("Search a restaurant order by ID")
     @ApiImplicitParams({
