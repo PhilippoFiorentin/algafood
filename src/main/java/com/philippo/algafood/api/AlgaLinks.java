@@ -44,6 +44,14 @@ public class AlgaLinks {
                 .find(restaurantId)).withRel(rel);
     }
 
+    public Link linkToRestaurants(String rel) {
+        return WebMvcLinkBuilder.linkTo(RestaurantController.class).withRel(rel);
+    }
+
+    public Link linkToRestaurants() {
+        return linkToRestaurants(IanaLinkRelations.SELF.value());
+    }
+
     public Link linkToRestaurant(Long restaurantId) {
         return linkToRestaurant(restaurantId, IanaLinkRelations.SELF.value());
     }
@@ -79,6 +87,11 @@ public class AlgaLinks {
 
     public Link linkToPaymentMethod(Long paymentMethodId) {
         return linkToPaymentMethod(paymentMethodId, IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToRestaurantPaymentMethods(Long restaurantId, String rel) {
+        return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestaurantPaymentMethodController.class)
+                .list(restaurantId)).withRel(rel);
     }
 
     public Link linkToCity(Long cityId, String rel) {
@@ -121,6 +134,14 @@ public class AlgaLinks {
 
     public Link linkToStates() {
         return linkToStates(IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToKitchen(Long kitchenId, String rel) {
+        return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(KitchenController.class).find(kitchenId)).withRel(rel);
+    }
+
+    public Link linkToKitchen(Long kitchenId) {
+        return linkToKitchen(kitchenId, IanaLinkRelations.SELF.value());
     }
 
     public Link linkToKitchens(String rel) {

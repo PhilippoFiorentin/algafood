@@ -1,11 +1,13 @@
 package com.philippo.algafood.api.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
+import com.philippo.algafood.api.assembler.RestaurantBasicModelAssembler;
 import com.philippo.algafood.api.assembler.RestaurantInputDisassembler;
+import com.philippo.algafood.api.assembler.RestaurantJustNameModelAssembler;
 import com.philippo.algafood.api.assembler.RestaurantModelAssembler;
+import com.philippo.algafood.api.model.RestaurantBasicModel;
+import com.philippo.algafood.api.model.RestaurantJustNameModel;
 import com.philippo.algafood.api.model.RestaurantModel;
 import com.philippo.algafood.api.model.input.RestaurantInput;
-import com.philippo.algafood.api.model.view.RestaurantView;
 import com.philippo.algafood.api.openapi.controller.RestaurantControllerOpenApi;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.CityNotFoundException;
@@ -15,8 +17,10 @@ import com.philippo.algafood.domain.model.Restaurant;
 import com.philippo.algafood.domain.repository.RestaurantRepository;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,17 +42,23 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 	@Autowired
 	private RestaurantInputDisassembler restaurantInputDisassembler;
 
+    @Autowired
+    private RestaurantBasicModelAssembler restaurantBasicModelAssembler;
 
-	@JsonView(RestaurantView.Summary.class)
+	@Autowired
+    private RestaurantJustNameModelAssembler restaurantJustNameModelAssembler;
+
+
+	//	@JsonView(RestaurantView.Summary.class)
 	@GetMapping
-	public List<RestaurantModel> list(){
-		return restaurantModelAssembler.toCollectionModel(restaurantRepository.findAll());
+	public CollectionModel<RestaurantBasicModel> list(){
+		return restaurantBasicModelAssembler.toCollectionModel(restaurantRepository.findAll());
 	}
 
-	@JsonView(RestaurantView.JustName.class)
+//	@JsonView(RestaurantView.JustName.class)
 	@GetMapping(params="projection=just-name")
-	public List<RestaurantModel> listJustNames(){
-		return list();
+	public CollectionModel<RestaurantJustNameModel> listJustNames(){
+		return restaurantJustNameModelAssembler.toCollectionModel(restaurantRepository.findAll());
 	}
 
 	@GetMapping("/{restaurantId}")
@@ -85,14 +95,18 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 
 	@PutMapping("/{restaurantId}/active")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void activate(@PathVariable Long restaurantId){
+	public ResponseEntity<Void> activate(@PathVariable Long restaurantId){
 		registerRestaurant.activate(restaurantId);
+
+		return ResponseEntity.noContent().build();
 	}
 
 	@DeleteMapping("/{restaurantId}/active")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deactivate(@PathVariable Long restaurantId){
+	public ResponseEntity<Void> deactivate(@PathVariable Long restaurantId){
 		registerRestaurant.deactivate(restaurantId);
+
+		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping("/activations")
@@ -117,14 +131,18 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 
 	@PutMapping("/{restaurantId}/opening")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void open(@PathVariable Long restaurantId){
+	public ResponseEntity<Void> open(@PathVariable Long restaurantId){
 		registerRestaurant.open(restaurantId);
+
+		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping("/{restaurantId}/closing")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void close(@PathVariable Long restaurantId){
+	public ResponseEntity<Void> close(@PathVariable Long restaurantId){
 		registerRestaurant.close(restaurantId);
+
+		return ResponseEntity.noContent().build();
 	}
 
 }

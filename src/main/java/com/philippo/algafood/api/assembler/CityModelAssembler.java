@@ -40,6 +40,6 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
     @Override
     public CollectionModel<CityModel> toCollectionModel(Iterable<? extends City> entities) {
         return super.toCollectionModel(entities)
-                .add(WebMvcLinkBuilder.linkTo(CityController.class).withSelfRel());
+                .add(algaLinks.linkToCities());
     }
 }

@@ -1,6 +1,8 @@
 package com.philippo.algafood.api.openapi.controller;
 
 import com.philippo.algafood.api.exceptionhandler.Problem;
+import com.philippo.algafood.api.model.RestaurantBasicModel;
+import com.philippo.algafood.api.model.RestaurantJustNameModel;
 import com.philippo.algafood.api.model.RestaurantModel;
 import com.philippo.algafood.api.model.input.RestaurantInput;
 import com.philippo.algafood.api.openapi.model.BasicRestaurantModelOpenApi;
@@ -9,6 +11,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -20,10 +24,10 @@ public interface RestaurantControllerOpenApi {
             @ApiImplicitParam(value = "Orders projection name",
                     allowableValues = "just-name", name = "projection", paramType = "query", type = "string")
     })
-    List<RestaurantModel> list();
+    CollectionModel<RestaurantBasicModel> list();
 
-    @ApiOperation(value = "List restaurants", hidden = true)
-    List<RestaurantModel> listJustNames();
+    @ApiOperation(value = "List restaurant names", hidden = true)
+    CollectionModel<RestaurantJustNameModel> listJustNames();
 
     @ApiOperation("Search for a restaurant by ID")
     @ApiResponses(value = {
@@ -60,7 +64,7 @@ public interface RestaurantControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void activate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
+    ResponseEntity<Void> activate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
 
     @ApiOperation("Deactivate a restaurant by ID")
     @ApiResponses(value = {
@@ -69,7 +73,7 @@ public interface RestaurantControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void deactivate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
+    ResponseEntity<Void> deactivate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
 
     @ApiOperation("Activate multiple restaurant")
     void activateManyRestaurants(@ApiParam(
@@ -86,7 +90,7 @@ public interface RestaurantControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void open(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
+    ResponseEntity<Void> open(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
 
     @ApiOperation("Close a restaurant by ID")
     @ApiResponses(value = {
@@ -95,5 +99,5 @@ public interface RestaurantControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void close(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
+    ResponseEntity<Void> close(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
 }

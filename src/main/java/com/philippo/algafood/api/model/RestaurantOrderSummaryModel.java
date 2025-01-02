@@ -33,7 +33,7 @@ public class RestaurantOrderSummaryModel extends RepresentationModel<RestaurantO
     private OffsetDateTime creationDate;
 
 
-    private RestaurantSummaryModel restaurant;
+    private RestaurantJustNameModel restaurant;
     private UserModel client;
 
 }

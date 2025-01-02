@@ -11,24 +11,16 @@ import java.math.BigDecimal;
 @Relation(collectionRelation = "restaurants")
 @Getter
 @Setter
-public class RestaurantModel extends RepresentationModel<RestaurantModel> {
+public class RestaurantBasicModel extends RepresentationModel<RestaurantBasicModel> {
 
     @ApiModelProperty(example = "1")
-//    @JsonView({RestaurantView.Summary.class, RestaurantView.JustName.class})
     private Long id;
 
     @ApiModelProperty(example = "Thai Gourmet")
-//    @JsonView({RestaurantView.Summary.class, RestaurantView.JustName.class})
     private String name;
 
     @ApiModelProperty(example = "10.00")
-//    @JsonView(RestaurantView.Summary.class)
     private BigDecimal deliveryFee;
 
-//    @JsonView(RestaurantView.Summary.class)
     private KitchenModel kitchen;
-
-    private Boolean active;
-    private AddressModel address;
-    private Boolean open;
 }

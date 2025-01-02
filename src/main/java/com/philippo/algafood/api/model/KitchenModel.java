@@ -1,7 +1,5 @@
 package com.philippo.algafood.api.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.philippo.algafood.api.model.view.RestaurantView;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,10 +12,10 @@ import org.springframework.hateoas.server.core.Relation;
 public class KitchenModel extends RepresentationModel<KitchenModel> {
 
     @ApiModelProperty(example = "1")
-    @JsonView(RestaurantView.Summary.class)
+//    @JsonView(RestaurantView.Summary.class)
     private Long id;
 
     @ApiModelProperty(example = "Thai")
-    @JsonView(RestaurantView.Summary.class)
+//    @JsonView(RestaurantView.Summary.class)
     private String name;
 }

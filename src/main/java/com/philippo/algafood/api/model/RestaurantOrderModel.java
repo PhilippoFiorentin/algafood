@@ -42,7 +42,7 @@ public class RestaurantOrderModel extends RepresentationModel<RestaurantOrderMod
     @ApiModelProperty(example = "2024-12-01T20:44:04Z")
     private OffsetDateTime cancellationDate;
 
-    private RestaurantSummaryModel restaurant;
+    private RestaurantJustNameModel restaurant;
     private UserModel client;
     private PaymentMethodModel paymentMethod;
     private AddressModel address;
