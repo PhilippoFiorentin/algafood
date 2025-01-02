@@ -7,6 +7,7 @@ import com.philippo.algafood.api.model.RestaurantOrderModel;
 import com.philippo.algafood.api.model.RestaurantOrderSummaryModel;
 import com.philippo.algafood.api.model.input.RestaurantOrderInput;
 import com.philippo.algafood.api.openapi.controller.RestaurantOrderControllerOpenApi;
+import com.philippo.algafood.core.data.PageWrapper;
 import com.philippo.algafood.core.data.PageableTranslator;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
@@ -57,6 +58,8 @@ public class RestaurantOrderController implements RestaurantOrderControllerOpenA
         pageable = translatePageable(pageable);
 
         Page<RestaurantOrder> orderPages = restaurantOrderRepository.findAll(OrderSpecs.usingFilter(filter), pageable);
+
+        orderPages = new PageWrapper<>(orderPages, pageable);
 
         return pagedResourcesAssembler.toModel(orderPages, restaurantOrderSummaryAssembler);
     }
