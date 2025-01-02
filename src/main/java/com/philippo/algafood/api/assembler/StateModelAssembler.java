@@ -1,5 +1,6 @@
 package com.philippo.algafood.api.assembler;
 
+import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.controller.StateController;
 import com.philippo.algafood.api.model.StateModel;
 import com.philippo.algafood.domain.model.State;
@@ -16,6 +17,9 @@ public class StateModelAssembler extends RepresentationModelAssemblerSupport<Sta
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AlgaLinks algaLinks;
+
     public StateModelAssembler() {
         super(StateController.class, StateModel.class);
     }
@@ -25,7 +29,7 @@ public class StateModelAssembler extends RepresentationModelAssemblerSupport<Sta
 
         modelMapper.map(state, stateModel);
 
-        stateModel.add(WebMvcLinkBuilder.linkTo(StateController.class).withRel("states"));
+        stateModel.add(algaLinks.linkToStates("states"));
 
         return stateModel;
     }

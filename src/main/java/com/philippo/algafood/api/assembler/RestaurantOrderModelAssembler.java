@@ -1,13 +1,12 @@
 package com.philippo.algafood.api.assembler;
 
 import com.philippo.algafood.api.AlgaLinks;
-import com.philippo.algafood.api.controller.*;
+import com.philippo.algafood.api.controller.RestaurantOrderController;
 import com.philippo.algafood.api.model.RestaurantOrderModel;
 import com.philippo.algafood.domain.model.RestaurantOrder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,19 +29,16 @@ public class RestaurantOrderModelAssembler extends RepresentationModelAssemblerS
 
         restaurantOrderModel.add(algaLinks.linkToOrders());
 
-        restaurantOrderModel.getRestaurant().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
-                .methodOn(RestaurantController.class).find(restaurantOrder.getRestaurant().getId())).withSelfRel());
-        restaurantOrderModel.getClient().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
-                .methodOn(UserController.class).find(restaurantOrder.getClient().getId())).withSelfRel());
-        restaurantOrderModel.getPaymentMethod().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
-                .methodOn(PaymentMethodController.class).find(restaurantOrder.getPaymentMethod().getId(), null)).withSelfRel());
-        restaurantOrderModel.getAddress().getCity().add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
-                .methodOn(CityController.class).find(restaurantOrder.getDeliveryAddress().getCity().getId())).withSelfRel());
+        restaurantOrderModel.getRestaurant().add(algaLinks.linkToRestaurant(restaurantOrder.getRestaurant().getId()));
+
+        restaurantOrderModel.getClient().add(algaLinks.linkToUser(restaurantOrder.getClient().getId()));
+
+        restaurantOrderModel.getPaymentMethod().add(algaLinks.linkToPaymentMethod(restaurantOrder.getPaymentMethod().getId()));
+
+        restaurantOrderModel.getAddress().getCity().add(algaLinks.linkToCity(restaurantOrder.getDeliveryAddress().getCity().getId()));
 
         restaurantOrderModel.getItems().forEach(item -> {
-            item.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
-                    .methodOn(RestaurantProductController.class)
-                    .find(restaurantOrderModel.getRestaurant().getId(), item.getId())).withRel("product"));
+            item.add(algaLinks.linkToProduct(restaurantOrderModel.getRestaurant().getId(), item.getId(), "product"));
         });
 
         return restaurantOrderModel;

@@ -1,5 +1,6 @@
 package com.philippo.algafood.api.assembler;
 
+import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.controller.CityController;
 import com.philippo.algafood.api.controller.StateController;
 import com.philippo.algafood.api.model.CityModel;
@@ -17,6 +18,9 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private AlgaLinks algaLinks;
+
     public CityModelAssembler() {
         super(CityController.class, CityModel.class);
     }
@@ -24,13 +28,11 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
     @Override
     public CityModel toModel(City city) {
         CityModel cityModel = createModelWithId(city.getId(), city);
-
         modelMapper.map(city, cityModel);
 
-        cityModel.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CityController.class).list()).withRel("cities"));
+        cityModel.add(algaLinks.linkToCities("cities"));
 
-        cityModel.getState().add(WebMvcLinkBuilder.linkTo(
-                WebMvcLinkBuilder.methodOn(StateController.class).find(cityModel.getState().getId())).withSelfRel());
+        cityModel.getState().add(algaLinks.linkToState(cityModel.getState().getId()));
 
         return cityModel;
     }
