@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-//@ValueZeroIncludesDescription(valueField="deliveryFee", descriptionField="name", mandatoryDescription="Delivery free")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
@@ -27,7 +26,6 @@ public class Restaurant {
 	@Column(nullable = false)
 	private String name;
 
-//	@Multiple(number = 5)
 	@Column(name = "delivery_fee", nullable = false)
 	private BigDecimal deliveryFee;
 
@@ -71,16 +69,44 @@ public class Restaurant {
 		setActive(true);
 	}
 
+	public boolean isActive(){
+		return this.active;
+	}
+
 	public void deactivate(){
 		setActive(false);
+	}
+
+	public boolean isInactive(){
+		return !isActive();
 	}
 
 	public void open(){
 		setOpen(true);
 	}
 
+	public boolean isOpen(){
+		return this.open;
+	}
+
 	public void close(){
 		setOpen(false);
+	}
+
+	public boolean isClosed(){
+		return !isOpen();
+	}
+
+	public boolean openingAllowed(){
+		return isActive() && isClosed();
+	}
+
+	public boolean closingAllowed(){
+		return isOpen();
+	}
+
+	public boolean activationAllowed(){
+		return isInactive();
 	}
 
 	public boolean removePaymentMethod(PaymentMethod paymentMethod){
