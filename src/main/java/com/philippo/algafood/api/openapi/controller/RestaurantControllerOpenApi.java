@@ -23,7 +23,7 @@ public interface RestaurantControllerOpenApi {
     List<RestaurantModel> list();
 
     @ApiOperation(value = "List restaurants", hidden = true)
-    List<RestaurantModel> listSummary();
+    List<RestaurantModel> listJustNames();
 
     @ApiOperation("Search for a restaurant by ID")
     @ApiResponses(value = {

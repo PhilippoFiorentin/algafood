@@ -47,7 +47,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 
 	@JsonView(RestaurantView.JustName.class)
 	@GetMapping(params="projection=just-name")
-	public List<RestaurantModel> listSummary(){
+	public List<RestaurantModel> listJustNames(){
 		return list();
 	}
 

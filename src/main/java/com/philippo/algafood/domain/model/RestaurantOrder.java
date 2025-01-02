@@ -96,6 +96,18 @@ public class RestaurantOrder extends AbstractAggregateRoot<RestaurantOrder> {
         registerEvent(new OrderCancelledEvent(this));
     }
 
+    public boolean canBeConfirmed(){
+        return getStatus().ableToChangeTo(OrderStatus.CONFIRMED);
+    }
+
+    public boolean canBeDelivered(){
+        return getStatus().ableToChangeTo(OrderStatus.DELIVERED);
+    }
+
+    public boolean canBeCancelled(){
+        return getStatus().ableToChangeTo(OrderStatus.CANCELLED);
+    }
+
     private void setStatus(OrderStatus newStatus) {
         if (getStatus().notAbleToChangeTo(newStatus))
             throw new BusinessException(String.format(

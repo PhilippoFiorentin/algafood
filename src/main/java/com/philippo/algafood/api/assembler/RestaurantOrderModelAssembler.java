@@ -29,6 +29,19 @@ public class RestaurantOrderModelAssembler extends RepresentationModelAssemblerS
 
         restaurantOrderModel.add(algaLinks.linkToOrders());
 
+        if (restaurantOrder.canBeConfirmed()){
+            restaurantOrderModel.add(algaLinks.linkToOrderConfirmation(restaurantOrder.getUuid(), "confirm"));
+        }
+
+        if (restaurantOrder.canBeDelivered()){
+            restaurantOrderModel.add(algaLinks.linkToOrderDelivery(restaurantOrder.getUuid(), "deliver"));
+        }
+
+        if (restaurantOrder.canBeCancelled()){
+            restaurantOrderModel.add(algaLinks.linkToOrderCancellation(restaurantOrder.getUuid(), "cancel"));
+        }
+
+
         restaurantOrderModel.getRestaurant().add(algaLinks.linkToRestaurant(restaurantOrder.getRestaurant().getId()));
 
         restaurantOrderModel.getClient().add(algaLinks.linkToUser(restaurantOrder.getClient().getId()));

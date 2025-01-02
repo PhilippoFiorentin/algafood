@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,7 +24,7 @@ public interface OrderFlowControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void confirm(@ApiParam(value = "ID of an order", example = "9981ca4-5a5e-4da3-af04-933861df3e55", required = true) String orderUuid);
+    ResponseEntity<Void> confirm(@ApiParam(value = "ID of an order", example = "9981ca4-5a5e-4da3-af04-933861df3e55", required = true) String orderUuid);
 
     @ApiOperation("Register order delivery")
     @ApiResponses(value = {
@@ -32,7 +33,7 @@ public interface OrderFlowControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void deliver(@ApiParam(value = "ID of an order", example = "9981ca4-5a5e-4da3-af04-933861df3e55", required = true) String orderUuid);
+    ResponseEntity<Void> deliver(@ApiParam(value = "ID of an order", example = "9981ca4-5a5e-4da3-af04-933861df3e55", required = true) String orderUuid);
 
     @ApiOperation("Cancel order")
     @ApiResponses(value = {
@@ -41,5 +42,5 @@ public interface OrderFlowControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void cancel(@ApiParam(value = "ID of an order", example = "9981ca4-5a5e-4da3-af04-933861df3e55", required = true) String orderUuid);
+    ResponseEntity<Void> cancel(@ApiParam(value = "ID of an order", example = "9981ca4-5a5e-4da3-af04-933861df3e55", required = true) String orderUuid);
 }
