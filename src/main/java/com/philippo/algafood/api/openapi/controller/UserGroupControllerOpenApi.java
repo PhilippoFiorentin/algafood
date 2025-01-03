@@ -9,8 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Users")
 public interface UserGroupControllerOpenApi {
@@ -22,7 +21,7 @@ public interface UserGroupControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    List<GroupModel> list(@ApiParam(value = "User ID", example = "1", required = true) Long userId);
+    CollectionModel<GroupModel> list(@ApiParam(value = "User ID", example = "1", required = true) Long userId);
 
     @ApiOperation("Disassociating a group with a user")
     @ApiResponses(value = {

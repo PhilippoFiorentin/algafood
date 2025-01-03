@@ -86,6 +86,18 @@ public class AlgaLinks {
         return linkToUserGroups(userId, IanaLinkRelations.SELF.value());
     }
 
+    public Link linkToGroupPermissions(Long groupId, String rel) {
+        return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GroupPermissionController.class).list(groupId)).withRel(rel);
+    }
+
+    public Link linkToGroups(String rel) {
+        return WebMvcLinkBuilder.linkTo(GroupController.class).withRel(rel);
+    }
+
+    public Link linkToGroups() {
+        return linkToGroups(IanaLinkRelations.SELF.value());
+    }
+
     public Link linkToPaymentMethod(Long paymentMethodId, String rel) {
         return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(PaymentMethodController.class)
                 .find(paymentMethodId, null)).withRel(rel);

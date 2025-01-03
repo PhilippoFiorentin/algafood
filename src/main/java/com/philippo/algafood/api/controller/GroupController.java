@@ -2,15 +2,16 @@ package com.philippo.algafood.api.controller;
 
 import com.philippo.algafood.api.assembler.GroupInputDisassembler;
 import com.philippo.algafood.api.assembler.GroupModelAssembler;
-import com.philippo.algafood.api.openapi.controller.GroupControllerOpenApi;
 import com.philippo.algafood.api.model.GroupModel;
 import com.philippo.algafood.api.model.input.GroupInput;
+import com.philippo.algafood.api.openapi.controller.GroupControllerOpenApi;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.GroupNotFoundException;
 import com.philippo.algafood.domain.model.Group;
 import com.philippo.algafood.domain.repository.GroupRepository;
 import com.philippo.algafood.domain.service.RegisterGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class GroupController implements GroupControllerOpenApi {
     private GroupInputDisassembler groupInputDisassembler;
 
     @GetMapping
-    public List<GroupModel> list() {
+    public CollectionModel<GroupModel> list() {
         List<Group> groups = groupRepository.findAll();
         return groupModelAssembler.toCollectionModel(groups);
     }

@@ -6,11 +6,10 @@ import com.philippo.algafood.api.openapi.controller.UserGroupControllerOpenApi;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.service.RegisterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users/{userId}/groups", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -23,9 +22,9 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     private GroupModelAssembler groupModelAssembler;
 
     @GetMapping
-    public List<GroupModel> list(@PathVariable Long userId){
+    public CollectionModel<GroupModel> list(@PathVariable Long userId){
         User user  = registerUserService.findOrFail(userId);
-        return groupModelAssembler.toCollectionModel(user.getGroups());
+        return groupModelAssembler.toCollectionModel(user.getGroups()).removeLinks();
     }
 
     @DeleteMapping("/{groupId}")
