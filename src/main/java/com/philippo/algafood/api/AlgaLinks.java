@@ -95,9 +95,21 @@ public class AlgaLinks {
         return linkToPaymentMethod(paymentMethodId, IanaLinkRelations.SELF.value());
     }
 
+    public Link linkToPaymentMethods(String rel) {
+        return WebMvcLinkBuilder.linkTo(PaymentMethodController.class).withRel(rel);
+    }
+
+    public Link linkToPaymentMethods() {
+        return linkToPaymentMethods(IanaLinkRelations.SELF.value());
+    }
+
     public Link linkToRestaurantPaymentMethods(Long restaurantId, String rel) {
         return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestaurantPaymentMethodController.class)
                 .list(restaurantId)).withRel(rel);
+    }
+
+    public Link linkToRestaurantPaymentMethods(Long restaurantId) {
+        return linkToRestaurantPaymentMethods(restaurantId, IanaLinkRelations.SELF.value());
     }
 
     public Link linkToCity(Long cityId, String rel) {

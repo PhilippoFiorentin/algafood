@@ -9,8 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Restaurants")
 public interface RestaurantPaymentMethodControllerOpenApi {
@@ -22,7 +21,7 @@ public interface RestaurantPaymentMethodControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    List<PaymentMethodModel> list(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
+    CollectionModel<PaymentMethodModel> list(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId);
 
     @ApiOperation("Disassociation of restaurant with payment method")
     @ApiResponses(value = {

@@ -9,6 +9,7 @@ import com.philippo.algafood.domain.model.PaymentMethod;
 import com.philippo.algafood.domain.repository.PaymentMethodRepository;
 import com.philippo.algafood.domain.service.RegisterPaymentMethodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +20,6 @@ import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
 import javax.validation.Valid;
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -39,7 +39,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi {
     private PaymentMethodDisassembler paymentMethodDisassembler;
 
     @GetMapping
-    public ResponseEntity<List<PaymentMethodModel>> list(ServletWebRequest request) {
+    public ResponseEntity<CollectionModel<PaymentMethodModel>> list(ServletWebRequest request) {
         ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
 
         String eTag = "0";
@@ -54,7 +54,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi {
             return null;
         }
 
-        List<PaymentMethodModel> paymentMethodModels = paymentMethodModelAssembler
+        CollectionModel<PaymentMethodModel> paymentMethodModels = paymentMethodModelAssembler
                 .toCollectionModel(paymentMethodRepository.findAll());
 
         return ResponseEntity
