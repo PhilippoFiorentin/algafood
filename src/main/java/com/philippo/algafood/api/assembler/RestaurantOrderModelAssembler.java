@@ -27,7 +27,7 @@ public class RestaurantOrderModelAssembler extends RepresentationModelAssemblerS
         RestaurantOrderModel restaurantOrderModel = createModelWithId(restaurantOrder.getId(), restaurantOrder);
         modelMapper.map(restaurantOrder, restaurantOrderModel);
 
-        restaurantOrderModel.add(algaLinks.linkToOrders());
+        restaurantOrderModel.add(algaLinks.linkToOrders("orders"));
 
         if (restaurantOrder.canBeConfirmed()){
             restaurantOrderModel.add(algaLinks.linkToOrderConfirmation(restaurantOrder.getUuid(), "confirm"));

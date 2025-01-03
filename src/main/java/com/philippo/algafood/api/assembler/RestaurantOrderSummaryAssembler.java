@@ -27,7 +27,7 @@ public class RestaurantOrderSummaryAssembler extends RepresentationModelAssemble
         RestaurantOrderSummaryModel restaurantOrderSummaryModel = createModelWithId(restaurantOrder.getId(), restaurantOrder);
         modelMapper.map(restaurantOrder, restaurantOrderSummaryModel);
 
-        restaurantOrderSummaryModel.add(algaLinks.linkToOrders());
+        restaurantOrderSummaryModel.add(algaLinks.linkToOrders("orders"));
 
         restaurantOrderSummaryModel.getRestaurant().add(algaLinks.linkToRestaurant(restaurantOrder.getRestaurant().getId()));
 
