@@ -1,5 +1,6 @@
 package com.philippo.algafood.api.controller;
 
+import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.assembler.ProductInputDisassembler;
 import com.philippo.algafood.api.assembler.ProductModelAssembler;
 import com.philippo.algafood.api.model.ProductModel;
@@ -11,6 +12,7 @@ import com.philippo.algafood.domain.repository.ProductRepository;
 import com.philippo.algafood.domain.service.RegisterProductService;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +39,11 @@ public class RestaurantProductController implements RestaurantProductControllerO
 	@Autowired
 	private RegisterProductService registerProduct;
 
+	@Autowired
+	private AlgaLinks algaLinks;
+
 	@GetMapping
-	public List<ProductModel> list(@PathVariable Long restaurantId, @RequestParam(required = false) boolean addInactives) {
+	public CollectionModel<ProductModel> list(@PathVariable Long restaurantId, @RequestParam(required = false) Boolean addInactives) {
 		Restaurant restaurant = registerRestaurant.findOrFail(restaurantId);
 
 		List<Product> allProducts = null;
@@ -50,7 +55,8 @@ public class RestaurantProductController implements RestaurantProductControllerO
 		}
 
 
-		return productModelAssembler.toCollectionModel(allProducts);
+		return productModelAssembler.toCollectionModel(allProducts)
+				.add(algaLinks.linkToProducts(restaurantId));
 	}
 
 	@GetMapping("/{productId}")

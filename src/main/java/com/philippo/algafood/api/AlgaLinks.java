@@ -148,6 +148,23 @@ public class AlgaLinks {
         return linkToProduct(restaurantId, productId, IanaLinkRelations.SELF.value());
     }
 
+    public Link linkToProducts(Long restaurantId, String rel) {
+        return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestaurantProductController.class)
+                .list(restaurantId, null)).withRel(rel);
+    }
+
+    public Link linkToProducts(Long restaurantId) {
+        return linkToProducts(restaurantId, IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToProducts(String rel) {
+        return WebMvcLinkBuilder.linkTo(RestaurantProductController.class).withRel(rel);
+    }
+
+    public Link linkToProducts() {
+        return linkToProducts(IanaLinkRelations.SELF.value());
+    }
+
     public Link linkToState(Long stateId, String rel) {
         return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(StateController.class).find(stateId)).withRel(rel);
     }

@@ -10,8 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
 
 @Api(tags = "Products")
 public interface RestaurantProductControllerOpenApi {
@@ -27,9 +26,9 @@ public interface RestaurantProductControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    List<ProductModel> list(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId,
-                            @ApiParam(value = "Indicates whether or not to include inactive products in the listing result",
-                                    example = "false", defaultValue = "false") boolean addInactives);
+    CollectionModel<ProductModel> list(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId,
+                                       @ApiParam(value = "Indicates whether or not to include inactive products in the listing result",
+                                    example = "false", defaultValue = "false") Boolean addInactives);
 
     @ApiOperation("Search for a restaurant product ID")
     @ApiResponses(value = {
