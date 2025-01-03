@@ -31,6 +31,26 @@ public class AlgaLinks {
         return new Link(UriTemplate.of(ordersUrl, PAGINATION_VARIABLES.concat(filterVariables)), rel);
     }
 
+    public Link linkToDailySalesOrders(String rel) {
+        TemplateVariables filterVariables = new TemplateVariables(
+                new TemplateVariable("restaurantId", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("dateCreationStart", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("dateCreationEnd", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("timeOffset", TemplateVariable.VariableType.REQUEST_PARAM)
+        );
+
+        String statisticsUrl = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
+                        .methodOn(StatisticController.class)
+                        .checkDailySales(null, null)).toUri().toString();
+
+        return new Link(UriTemplate.of(statisticsUrl, filterVariables), rel);
+
+    }
+
+    public Link linkToStatistics(String rel) {
+        return WebMvcLinkBuilder.linkTo(StatisticController.class).withRel(rel);
+    }
+
     public Link linkToOrderConfirmation(String orderCode, String rel){
         return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OrderFlowController.class).confirm(orderCode)).withRel(rel);
     }

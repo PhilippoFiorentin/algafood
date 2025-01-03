@@ -1,5 +1,7 @@
 package com.philippo.algafood.api.openapi.controller;
 
+import com.philippo.algafood.api.controller.StatisticController;
+import com.philippo.algafood.api.controller.StatisticController.StatisticsModel;
 import com.philippo.algafood.domain.filter.DailySaleFilter;
 import com.philippo.algafood.domain.model.dto.DailySale;
 import io.swagger.annotations.*;
@@ -9,6 +11,9 @@ import java.util.List;
 
 @Api(tags = "Statistics")
 public interface StatisticsControllerOpenApi {
+
+    @ApiOperation(value = "Statistics", hidden = true)
+    StatisticsModel statistics();
 
     @ApiOperation("View daily sales statistics")
     @ApiImplicitParams({

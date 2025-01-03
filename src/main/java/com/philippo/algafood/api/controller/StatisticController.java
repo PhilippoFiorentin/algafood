@@ -1,11 +1,13 @@
 package com.philippo.algafood.api.controller;
 
+import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.openapi.controller.StatisticsControllerOpenApi;
 import com.philippo.algafood.domain.filter.DailySaleFilter;
 import com.philippo.algafood.domain.model.dto.DailySale;
 import com.philippo.algafood.domain.service.SaleQueryService;
 import com.philippo.algafood.domain.service.SaleReportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,18 @@ public class StatisticController implements StatisticsControllerOpenApi {
     @Autowired
     private SaleQueryService saleQueryService;
 
+    @Autowired
+    private AlgaLinks algaLinks;
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public StatisticsModel statistics() {
+        var statisticsModel = new StatisticsModel();
+
+        statisticsModel.add(algaLinks.linkToDailySalesOrders("daily-sales"));
+
+        return statisticsModel;
+    }
+
     @GetMapping(path = "/daily-sales", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<DailySale> checkDailySales(DailySaleFilter filter,
                                            @RequestParam(required=false, defaultValue = "+00:00") String timeOffset) {
@@ -43,5 +57,9 @@ public class StatisticController implements StatisticsControllerOpenApi {
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=daily-sales.pdf");
 
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).headers(headers).body(pdfBytes);
+    }
+
+    public static class StatisticsModel extends RepresentationModel<StatisticsModel> {
+
     }
 }
