@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,21 +29,33 @@ public class RestaurantPaymentMethodController implements RestaurantPaymentMetho
 	@GetMapping
 	public CollectionModel<PaymentMethodModel> list(@PathVariable Long restaurantId){
 		Restaurant restaurant = registerRestaurant.findOrFail(restaurantId);
-		return paymentMethodModelAssembler.toCollectionModel(restaurant.getPaymentMethods())
+		CollectionModel<PaymentMethodModel> paymentMethodModels = paymentMethodModelAssembler.toCollectionModel(restaurant.getPaymentMethods())
 				.removeLinks()
-				.add(algaLinks.linkToRestaurantPaymentMethods(restaurantId));
+				.add(algaLinks.linkToRestaurantPaymentMethods(restaurantId))
+				.add(algaLinks.linkToAffiliateRestaurantPaymentMethods(restaurantId, "affiliate"));
+
+
+		paymentMethodModels.getContent().forEach(paymentMethodModel -> {
+					paymentMethodModel.add(algaLinks.linkToDisaffiliateRestaurantPaymentMethods(
+									restaurantId, paymentMethodModel.getId(), "disaffiliate"));
+				});
+
+		return paymentMethodModels;
 	}
 
 	@DeleteMapping("/{paymentMethodId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void disaffiliate(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId){
+	public ResponseEntity<Void> disaffiliate(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId){
 		registerRestaurant.disaffiliatePaymentMethod(restaurantId, paymentMethodId);
+
+		return ResponseEntity.noContent().build();
 	}
 
 	@PutMapping("/{paymentMethodId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void affiliate(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId){
+	public ResponseEntity<Void> affiliate(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId){
 		registerRestaurant.affiliatePaymentMethod(restaurantId, paymentMethodId);
-	}
 
+		return ResponseEntity.noContent().build();
+	}
 }

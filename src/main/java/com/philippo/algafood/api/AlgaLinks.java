@@ -112,6 +112,16 @@ public class AlgaLinks {
         return linkToRestaurantPaymentMethods(restaurantId, IanaLinkRelations.SELF.value());
     }
 
+    public Link linkToDisaffiliateRestaurantPaymentMethods(Long restaurantId, Long paymentMethodId, String rel) {
+        return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestaurantPaymentMethodController.class)
+                .disaffiliate(restaurantId, paymentMethodId)).withRel(rel);
+    }
+
+    public Link linkToAffiliateRestaurantPaymentMethods(Long restaurantId, String rel) {
+        return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestaurantPaymentMethodController.class)
+                .affiliate(restaurantId, null)).withRel(rel);
+    }
+
     public Link linkToCity(Long cityId, String rel) {
         return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder
                 .methodOn(CityController.class).find(cityId)).withRel(rel);

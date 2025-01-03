@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 @Api(tags = "Restaurants")
 public interface RestaurantPaymentMethodControllerOpenApi {
@@ -30,8 +31,8 @@ public interface RestaurantPaymentMethodControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void disaffiliate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId,
-                      @ApiParam(value = "ID of a payment method", example = "1", required = true) Long paymentMethodId);
+    ResponseEntity<Void> disaffiliate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId,
+                                      @ApiParam(value = "ID of a payment method", example = "1", required = true) Long paymentMethodId);
 
     @ApiOperation("Association of restaurant with payment method")
     @ApiResponses(value = {
@@ -40,7 +41,7 @@ public interface RestaurantPaymentMethodControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void affiliate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId,
+    ResponseEntity<Void> affiliate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId,
                    @ApiParam(value = "ID of a payment method", example = "1", required = true) Long paymentMethodId);
 
 }
