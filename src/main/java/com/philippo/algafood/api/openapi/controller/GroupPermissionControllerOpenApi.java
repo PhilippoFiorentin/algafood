@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 @Api(tags = "Groups")
 public interface GroupPermissionControllerOpenApi {
@@ -26,7 +26,7 @@ public interface GroupPermissionControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    List<PermissionModel> list(@ApiParam(value = "Group ID", example = "1", required = true) Long groupId);
+    CollectionModel<PermissionModel> list(@ApiParam(value = "Group ID", example = "1", required = true) Long groupId);
 
     @ApiOperation("Disassociation of permission with group")
     @ApiResponses(value = {
@@ -35,7 +35,7 @@ public interface GroupPermissionControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void disaffiliate(@ApiParam(value = "Group ID", example = "1", required = true) Long groupId,
+    ResponseEntity<Void> disaffiliate(@ApiParam(value = "Group ID", example = "1", required = true) Long groupId,
                       @ApiParam(value = "Group permission ID", example = "1", required = true) Long permissionId);
 
     @ApiOperation("Association of permission with group")
@@ -45,6 +45,6 @@ public interface GroupPermissionControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void affiliate(@ApiParam(value = "Group ID", example = "1", required = true) Long groupId,
-                   @ApiParam(value = "Group permission ID", example = "1", required = true) Long permissionId);
+    ResponseEntity<Void> affiliate(@ApiParam(value = "Group ID", example = "1", required = true) Long groupId,
+                                   @ApiParam(value = "Group permission ID", example = "1", required = true) Long permissionId);
 }

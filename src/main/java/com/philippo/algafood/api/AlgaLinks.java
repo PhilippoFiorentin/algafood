@@ -90,12 +90,34 @@ public class AlgaLinks {
         return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GroupPermissionController.class).list(groupId)).withRel(rel);
     }
 
+    public Link linkToGroupPermissions(Long groupId) {
+        return linkToGroupPermissions(groupId, IanaLinkRelations.SELF.value());
+    }
+
     public Link linkToGroups(String rel) {
         return WebMvcLinkBuilder.linkTo(GroupController.class).withRel(rel);
     }
 
     public Link linkToGroups() {
         return linkToGroups(IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToPermissions(String rel) {
+        return WebMvcLinkBuilder.linkTo(PermissionController.class).withRel(rel);
+    }
+
+    public Link linkToPermissions() {
+        return linkToPermissions(IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToDisaffiliateGroupPermission(Long groupId, Long permissionId, String rel) {
+        return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GroupPermissionController.class)
+                .disaffiliate(groupId, permissionId)).withRel(rel);
+    }
+
+    public Link linkToAffiliateGroupPermission(Long groupId, String rel) {
+        return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(GroupPermissionController.class)
+                .affiliate(groupId, null)).withRel(rel);
     }
 
     public Link linkToPaymentMethod(Long paymentMethodId, String rel) {
