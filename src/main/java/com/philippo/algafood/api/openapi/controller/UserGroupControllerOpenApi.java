@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 
 @Api(tags = "Users")
 public interface UserGroupControllerOpenApi {
@@ -30,8 +31,8 @@ public interface UserGroupControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void disaffiliate(@ApiParam(value = "User ID", example = "1", required = true) Long userId,
-                      @ApiParam(value = "Group ID", example = "1", required = true)Long groupId);
+    ResponseEntity<Void> disaffiliate(@ApiParam(value = "User ID", example = "1", required = true) Long userId,
+                                @ApiParam(value = "Group ID", example = "1", required = true)Long groupId);
 
     @ApiOperation("Associating a group with a user")
     @ApiResponses(value = {
@@ -40,6 +41,6 @@ public interface UserGroupControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void affiliate(@ApiParam(value = "User ID", example = "1", required = true) Long userId,
+    ResponseEntity<Void> affiliate(@ApiParam(value = "User ID", example = "1", required = true) Long userId,
                    @ApiParam(value = "Group ID", example = "1", required = true) Long groupId);
 }
