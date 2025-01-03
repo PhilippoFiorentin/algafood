@@ -10,9 +10,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
 public class RestaurantModelAssembler extends RepresentationModelAssemblerSupport<Restaurant, RestaurantModel> {
 
@@ -35,7 +32,7 @@ public class RestaurantModelAssembler extends RepresentationModelAssemblerSuppor
         restaurantModel.add(algaLinks.linkToKitchen(restaurant.getKitchen().getId()));
         restaurantModel.add(algaLinks.linkToCity(restaurant.getAddress().getCity().getId()));
         restaurantModel.add(algaLinks.linkToRestaurantPaymentMethods(restaurant.getId(), "payment-methods"));
-        restaurantModel.add(algaLinks.linkToRestaurantUserResponsibles(restaurant.getId(), "user-responsibles"));
+        restaurantModel.add(algaLinks.linkToRestaurantResponsibleUser(restaurant.getId(), "user-responsibles"));
 
         if (restaurant.activationAllowed()){
             restaurantModel.add(algaLinks.linkToRestaurantActivation(restaurant.getId(), "activate"));

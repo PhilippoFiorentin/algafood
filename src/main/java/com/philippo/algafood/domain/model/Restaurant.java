@@ -62,7 +62,7 @@ public class Restaurant {
 	@JoinTable(name = "restaurant_user_responsible",
 			joinColumns = @JoinColumn(name = "restaurant_id"),
 			inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private Set<User> usersResponsible = new HashSet<>() {
+	private Set<User> responsibleUsers = new HashSet<>() {
 	};
 
 	public void activate(){
@@ -118,11 +118,11 @@ public class Restaurant {
 	}
 
 	public boolean removeUserResponsible(User user){
-		return getUsersResponsible().remove(user);
+		return getResponsibleUsers().remove(user);
 	}
 
 	public boolean addUserResponsible(User user){
-		return getUsersResponsible().add(user);
+		return getResponsibleUsers().add(user);
 	}
 
 	public boolean acceptPaymentMethod(PaymentMethod paymentMethod){

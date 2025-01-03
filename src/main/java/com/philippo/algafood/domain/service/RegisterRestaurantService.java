@@ -111,7 +111,7 @@ public class RegisterRestaurantService {
 	}
 
 	@Transactional
-	public void disaffiliateUserResponsible(Long restaurantId, Long userId) {
+	public void disaffiliateResponsibleUser(Long restaurantId, Long userId) {
 		Restaurant restaurant = findOrFail(restaurantId);
 		User user = registerUser.findOrFail(userId);
 
@@ -119,7 +119,7 @@ public class RegisterRestaurantService {
 	}
 
 	@Transactional
-	public void affiliateUserResponsible(Long restaurantId, Long userId){
+	public void affiliateResponsibleUser(Long restaurantId, Long userId){
 		Restaurant restaurant = findOrFail(restaurantId);
 		User user = registerUser.findOrFail(userId);
 

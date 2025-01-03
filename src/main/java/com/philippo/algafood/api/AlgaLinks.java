@@ -180,14 +180,26 @@ public class AlgaLinks {
         return linkToKitchens(IanaLinkRelations.SELF.value());
     }
 
-    public Link linkToRestaurantUserResponsibles(Long restaurantId, String rel) {
+    public Link linkToRestaurantResponsibleUser(Long restaurantId, String rel) {
         return WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(RestaurantUserResponsibleController.class).list(restaurantId))
+                .linkTo(WebMvcLinkBuilder.methodOn(RestaurantResponsibleUserController.class).list(restaurantId))
                 .withRel(rel);
     }
 
-    public Link linkToRestaurantUserResponsibles(Long restaurantId) {
-        return linkToRestaurantUserResponsibles(restaurantId, IanaLinkRelations.SELF.value());
+    public Link linkToRestaurantResponsibleUser(Long restaurantId) {
+        return linkToRestaurantResponsibleUser(restaurantId, IanaLinkRelations.SELF.value());
+    }
+
+    public Link linkToDisaffiliateRestaurantResponsibleUser(Long restaurantId, Long userId, String rel) {
+        return WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(RestaurantResponsibleUserController.class)
+                        .disaffiliate(restaurantId, userId)).withRel(rel);
+    }
+
+    public Link linkToAffiliateRestaurantResponsibleUser(Long restaurantId, String rel) {
+        return WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(RestaurantResponsibleUserController.class)
+                        .affiliate(restaurantId, null)).withRel(rel);
     }
 
     public Link linkToRestaurantOpening(Long restaurantId, String rel) {

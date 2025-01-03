@@ -10,11 +10,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 @Api(tags = "Restaurants")
-public interface RestaurantUserResponsibleControllerOpenApi {
+public interface RestaurantResponsibleUserControllerOpenApi {
 
     @ApiOperation("List the user groups associated with the restaurant")
     @ApiResponses(value = {
@@ -32,8 +31,8 @@ public interface RestaurantUserResponsibleControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void disaffiliate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId,
-                      @ApiParam(value = "ID of a user", example = "1", required = true) Long userId);
+    ResponseEntity<Void> disaffiliate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId,
+                                @ApiParam(value = "ID of a user", example = "1", required = true) Long userId);
 
     @ApiOperation("Association of restaurant with user group")
     @ApiResponses(value = {
@@ -42,6 +41,6 @@ public interface RestaurantUserResponsibleControllerOpenApi {
                     content = { @Content(schema = @Schema(implementation = Problem.class))
                     })
     })
-    void affiliate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId,
+    ResponseEntity<Void> affiliate(@ApiParam(value = "ID of a restaurant", example = "1", required = true) Long restaurantId,
                    @ApiParam(value = "ID of a user", example = "1", required = true) Long userId);
 }
