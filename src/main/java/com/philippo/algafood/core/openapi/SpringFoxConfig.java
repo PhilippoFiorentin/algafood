@@ -3,17 +3,17 @@ package com.philippo.algafood.core.openapi;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.philippo.algafood.api.exceptionhandler.Problem;
-import com.philippo.algafood.api.model.KitchenModel;
-import com.philippo.algafood.api.model.RestaurantOrderSummaryModel;
-import com.philippo.algafood.api.openapi.model.KitchensModelOpenApi;
-import com.philippo.algafood.api.openapi.model.PageableModelOpenApi;
-import com.philippo.algafood.api.openapi.model.RestaurantOrdersSummaryModelOpenApi;
+import com.philippo.algafood.api.model.*;
+import com.philippo.algafood.api.openapi.model.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -61,10 +61,27 @@ public class SpringFoxConfig {
                 .ignoredParameterTypes(ServletWebRequest.class, URL.class, URI.class, URLStreamHandler.class,
                         Resource.class, File.class, InputStream.class)
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
-                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, KitchenModel.class),
+                .directModelSubstitute(Link.class, LinksModelOpenApi.class)
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(PagedModel.class, KitchenModel.class),
                                 KitchensModelOpenApi.class))
-                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(Page.class, RestaurantOrderSummaryModel.class),
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(PagedModel.class, RestaurantOrderSummaryModel.class),
                         RestaurantOrdersSummaryModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, CityModel.class),
+                        CitiesModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, StateModel.class),
+                        StatesModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, PaymentMethodModel.class),
+                        PaymentMethodsModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, GroupModel.class),
+                        GroupsModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, PermissionModel.class),
+                        PermissionsModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, ProductModel.class),
+                        ProductsModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, UserModel.class),
+                        UsersModelOpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, BasicRestaurantModel.class),
+                        BasicRestaurantsModelOpenApi.class))
                 .apiInfo(apiInfo())
                 .tags(
                         new Tag("Cities", "Manage cities"),

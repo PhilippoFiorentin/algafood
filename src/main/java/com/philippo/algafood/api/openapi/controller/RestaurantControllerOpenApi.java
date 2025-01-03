@@ -1,11 +1,10 @@
 package com.philippo.algafood.api.openapi.controller;
 
 import com.philippo.algafood.api.exceptionhandler.Problem;
-import com.philippo.algafood.api.model.RestaurantBasicModel;
+import com.philippo.algafood.api.model.BasicRestaurantModel;
 import com.philippo.algafood.api.model.RestaurantJustNameModel;
 import com.philippo.algafood.api.model.RestaurantModel;
 import com.philippo.algafood.api.model.input.RestaurantInput;
-import com.philippo.algafood.api.openapi.model.BasicRestaurantModelOpenApi;
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,19 +12,21 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
 @Api(tags = "Restaurants")
 public interface RestaurantControllerOpenApi {
 
-    @ApiOperation(value = "List restaurants", response = BasicRestaurantModelOpenApi.class)
+    @ApiOperation(value = "List restaurants")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "Orders projection name",
                     allowableValues = "just-name", name = "projection", paramType = "query", type = "string")
     })
-    CollectionModel<RestaurantBasicModel> list();
+    CollectionModel<BasicRestaurantModel> list();
 
+    @ApiIgnore
     @ApiOperation(value = "List restaurant names", hidden = true)
     CollectionModel<RestaurantJustNameModel> listJustNames();
 

@@ -2,7 +2,7 @@ package com.philippo.algafood.api.assembler;
 
 import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.controller.RestaurantController;
-import com.philippo.algafood.api.model.RestaurantBasicModel;
+import com.philippo.algafood.api.model.BasicRestaurantModel;
 import com.philippo.algafood.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSuppor
 import org.springframework.stereotype.Component;
 
 @Component
-public class RestaurantBasicModelAssembler extends RepresentationModelAssemblerSupport<Restaurant, RestaurantBasicModel> {
+public class RestaurantBasicModelAssembler extends RepresentationModelAssemblerSupport<Restaurant, BasicRestaurantModel> {
 
     @Autowired
     private ModelMapper modelMapper;
@@ -21,12 +21,12 @@ public class RestaurantBasicModelAssembler extends RepresentationModelAssemblerS
 
 
     public RestaurantBasicModelAssembler() {
-        super(RestaurantController.class, RestaurantBasicModel.class);
+        super(RestaurantController.class, BasicRestaurantModel.class);
     }
 
     @Override
-    public RestaurantBasicModel toModel(Restaurant restaurant) {
-        RestaurantBasicModel restaurantBasicModel = createModelWithId(restaurant.getId(), restaurant);
+    public BasicRestaurantModel toModel(Restaurant restaurant) {
+        BasicRestaurantModel restaurantBasicModel = createModelWithId(restaurant.getId(), restaurant);
         modelMapper.map(restaurant, restaurantBasicModel);
 
         restaurantBasicModel.add(algaLinks.linkToRestaurants("restaurants"));
@@ -36,7 +36,7 @@ public class RestaurantBasicModelAssembler extends RepresentationModelAssemblerS
     }
 
     @Override
-    public CollectionModel<RestaurantBasicModel> toCollectionModel(Iterable<? extends Restaurant> entities) {
+    public CollectionModel<BasicRestaurantModel> toCollectionModel(Iterable<? extends Restaurant> entities) {
         return super.toCollectionModel(entities).add(algaLinks.linkToRestaurants());
     }
 }

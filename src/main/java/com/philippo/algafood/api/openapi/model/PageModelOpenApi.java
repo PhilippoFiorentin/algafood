@@ -1,17 +1,14 @@
 package com.philippo.algafood.api.openapi.model;
 
-import com.philippo.algafood.api.model.KitchenModel;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
+@ApiModel("PageModel")
 @Getter
 @Setter
-public class PagedModelOpenApi<T> {
-
-    private List<T > content;
+public class PageModelOpenApi {
 
     @ApiModelProperty(example = "10", value = "Number of elements per page")
     private Long size;
@@ -23,5 +20,6 @@ public class PagedModelOpenApi<T> {
     private Long totalPages;
 
     @ApiModelProperty(example = "0", value = "page number (starts at 0)")
-    private Long number; 
+    private Long number;
+
 }

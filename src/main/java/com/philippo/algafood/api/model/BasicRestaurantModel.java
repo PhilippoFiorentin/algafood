@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Relation(collectionRelation = "restaurants")
 @Getter
 @Setter
-public class RestaurantBasicModel extends RepresentationModel<RestaurantBasicModel> {
+public class BasicRestaurantModel extends RepresentationModel<BasicRestaurantModel> {
 
     @ApiModelProperty(example = "1")
     private Long id;

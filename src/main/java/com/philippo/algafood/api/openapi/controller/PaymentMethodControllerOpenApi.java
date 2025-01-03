@@ -3,6 +3,7 @@ package com.philippo.algafood.api.openapi.controller;
 import com.philippo.algafood.api.exceptionhandler.Problem;
 import com.philippo.algafood.api.model.PaymentMethodModel;
 import com.philippo.algafood.api.model.input.PaymentMethodInput;
+import com.philippo.algafood.api.openapi.model.PaymentMethodsModelOpenApi;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -17,7 +18,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 @Api(tags = "Payment methods")
 public interface PaymentMethodControllerOpenApi {
 
-    @ApiOperation("List payment methods")
+    @ApiOperation(value = "List payment methods", response = PaymentMethodsModelOpenApi.class)
     ResponseEntity<CollectionModel<PaymentMethodModel>> list(ServletWebRequest request);
 
     @ApiOperation("Search a payment method by ID")

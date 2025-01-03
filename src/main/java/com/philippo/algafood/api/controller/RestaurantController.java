@@ -4,7 +4,7 @@ import com.philippo.algafood.api.assembler.RestaurantBasicModelAssembler;
 import com.philippo.algafood.api.assembler.RestaurantInputDisassembler;
 import com.philippo.algafood.api.assembler.RestaurantJustNameModelAssembler;
 import com.philippo.algafood.api.assembler.RestaurantModelAssembler;
-import com.philippo.algafood.api.model.RestaurantBasicModel;
+import com.philippo.algafood.api.model.BasicRestaurantModel;
 import com.philippo.algafood.api.model.RestaurantJustNameModel;
 import com.philippo.algafood.api.model.RestaurantModel;
 import com.philippo.algafood.api.model.input.RestaurantInput;
@@ -51,7 +51,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 
 	//	@JsonView(RestaurantView.Summary.class)
 	@GetMapping
-	public CollectionModel<RestaurantBasicModel> list(){
+	public CollectionModel<BasicRestaurantModel> list(){
 		return restaurantBasicModelAssembler.toCollectionModel(restaurantRepository.findAll());
 	}
 
