@@ -165,6 +165,15 @@ public class AlgaLinks {
         return linkToProducts(IanaLinkRelations.SELF.value());
     }
 
+    public Link linkToProductPhoto(Long restaurantId, Long productId, String rel){
+        return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(RestaurantProductPhotoController.class)
+                .find(restaurantId, productId)).withRel(rel);
+    }
+
+    public Link linkToProductPhoto(Long restaurantId, Long productId){
+        return linkToProductPhoto(restaurantId, productId, IanaLinkRelations.SELF.value());
+    }
+
     public Link linkToState(Long stateId, String rel) {
         return WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(StateController.class).find(stateId)).withRel(rel);
     }
