@@ -3,13 +3,16 @@ package com.philippo.algafood.core.openapi;
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.philippo.algafood.api.exceptionhandler.Problem;
-import com.philippo.algafood.api.model.*;
-import com.philippo.algafood.api.openapi.model.*;
+import com.philippo.algafood.api.v1.model.*;
+import com.philippo.algafood.api.v1.openapi.model.*;
+import com.philippo.algafood.api.v2.model.CityModelV2;
+import com.philippo.algafood.api.v2.model.KitchenModelV2;
+import com.philippo.algafood.api.v2.openapi.model.CitiesModelV2OpenApi;
+import com.philippo.algafood.api.v2.openapi.model.KitchensModelV2OpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
@@ -43,14 +46,15 @@ import java.util.function.Consumer;
 public class SpringFoxConfig {
 
     @Bean
-    public Docket apiDocket() {
+    public Docket apiDocketV1() {
 
         var typeResolver = new TypeResolver();
 
         return new Docket(DocumentationType.OAS_30)
+                .groupName("V1")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.philippo.algafood.api"))
-                .paths(PathSelectors.any())
+                .paths(PathSelectors.ant("/v1/**"))
                 .build()
                 .useDefaultResponseMessages(false)
                 .globalResponses(HttpMethod.GET, globalGetResponseMessages())
@@ -82,7 +86,7 @@ public class SpringFoxConfig {
                         UsersModelOpenApi.class))
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, BasicRestaurantModel.class),
                         BasicRestaurantsModelOpenApi.class))
-                .apiInfo(apiInfo())
+                .apiInfo(apiInfoV1())
                 .tags(
                         new Tag("Cities", "Manage cities"),
                         new Tag("Groups", "Manage groups"),
@@ -95,6 +99,38 @@ public class SpringFoxConfig {
                         new Tag("Users", "Manage users"),
                         new Tag("Statistics", "Manage statistics"),
                         new Tag("Permissions", "Manage permissions")
+                );
+    }
+
+    @Bean
+    public Docket apiDocketV2() {
+
+        var typeResolver = new TypeResolver();
+
+        return new Docket(DocumentationType.OAS_30)
+                .groupName("V2")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.philippo.algafood.api"))
+                .paths(PathSelectors.ant("/v2/**"))
+                .build()
+                .useDefaultResponseMessages(false)
+                .globalResponses(HttpMethod.GET, globalGetResponseMessages())
+                .globalResponses(HttpMethod.POST, globalPostPutResponseMessages())
+                .globalResponses(HttpMethod.PUT, globalPostPutResponseMessages())
+                .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+                .additionalModels(typeResolver.resolve(Problem.class))
+                .ignoredParameterTypes(ServletWebRequest.class, URL.class, URI.class, URLStreamHandler.class,
+                        Resource.class, File.class, InputStream.class)
+                .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+                .directModelSubstitute(Link.class, LinksModelOpenApi.class)
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(PagedModel.class, KitchenModelV2.class),
+                        KitchensModelV2OpenApi.class))
+                .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, CityModelV2.class),
+                        CitiesModelV2OpenApi.class))
+                .apiInfo(apiInfoV2())
+                .tags(
+                        new Tag("Cities", "Manage cities"),
+                        new Tag("Kitchens", "Manage kitchens")
                 );
     }
 
@@ -162,7 +198,16 @@ public class SpringFoxConfig {
         );
     }
 
-    private ApiInfo apiInfo() {
+    private ApiInfo apiInfoV1() {
+        return new ApiInfoBuilder()
+                .title("AlgaFood API")
+                .description("Open API for costumers and restaurants")
+                .version("2")
+                .contact(new Contact("AlgaWorks", "http://www.algaworks.com", "contato@algaworks.com"))
+                .build();
+    }
+
+    private ApiInfo apiInfoV2() {
         return new ApiInfoBuilder()
                 .title("AlgaFood API")
                 .description("Open API for costumers and restaurants")

@@ -1,8 +1,10 @@
 package com.philippo.algafood.core.modelmapper;
 
-import com.philippo.algafood.api.model.AddressModel;
-import com.philippo.algafood.api.model.input.OrderItemInput;
+import com.philippo.algafood.api.v1.model.AddressModel;
+import com.philippo.algafood.api.v1.model.input.OrderItemInput;
+import com.philippo.algafood.api.v2.model.input.CityInputV2;
 import com.philippo.algafood.domain.model.Address;
+import com.philippo.algafood.domain.model.City;
 import com.philippo.algafood.domain.model.OrderItem;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,9 @@ public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         var modelMapper = new ModelMapper();
+
+        modelMapper.createTypeMap(CityInputV2.class, City.class)
+                .addMappings(mapper -> mapper.skip(City::setId));
 
 //		modelMapper.createTypeMap(Restaurant.class, RestaurantModel.class)
 //			.addMapping(Restaurant::getDeliveryFee, RestaurantModel::setDeliveryFee);
