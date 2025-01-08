@@ -8,6 +8,7 @@ import com.philippo.algafood.api.v1.openapi.controller.KitchenControllerOpenApi;
 import com.philippo.algafood.domain.model.Kitchen;
 import com.philippo.algafood.domain.repository.KitchenRepository;
 import com.philippo.algafood.domain.service.RegisterKitchenService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/v1/kitchens", produces = MediaType.APPLICATION_JSON_VALUE)
 public class KitchenController implements KitchenControllerOpenApi {
@@ -41,6 +43,11 @@ public class KitchenController implements KitchenControllerOpenApi {
 
 	@GetMapping
 	public PagedModel<KitchenModel> list(@PageableDefault(size  = 10) Pageable pageable){
+		log.info("Listing all kitchens with pages of {} registers", pageable.getPageSize());
+
+		if (true)
+			throw new RuntimeException("Exception test");
+
 		Page<Kitchen> kitchenPages = kitchenRepository.findAll(pageable);
 
 		PagedModel<KitchenModel> kitchensPagedModel = pagedResourcesAssembler.toModel(kitchenPages, kitchenModelAssembler);
