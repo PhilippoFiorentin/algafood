@@ -110,11 +110,11 @@ insert into group_permission (group_id, permission_id) values
 (4, 2);
 
 insert into user (id, name, email, password, register_date) values
-(1, 'João da Silva', 'joao.ger@algafood.com', '123', utc_timestamp),
-(2, 'Maria Joaquina', 'maria.vnd@algafood.com', '123', utc_timestamp),
-(3, 'José Souza', 'jose.aux@algafood.com', '123', utc_timestamp),
-(4, 'Sebastião Martins', 'sebastiao.cad@algafood.com', '123', utc_timestamp),
-(5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp),
+(1, 'John', 'john@algafood.com', '123', utc_timestamp),
+(2, 'Mary', 'mary.vnd@algafood.com', '123', utc_timestamp),
+(3, 'Joseph', 'joseph.aux@algafood.com', '123', utc_timestamp),
+(4, 'Sebastian', 'sebastian.cad@algafood.com', '123', utc_timestamp),
+(5, 'Matthew', 'matt.store@gmail.com', '123', utc_timestamp),
 (6, 'Philippo Fiorentin', 'pipomytest@gmail.com', '123', utc_timestamp);
 
 insert into user_group (user_id, group_id) values

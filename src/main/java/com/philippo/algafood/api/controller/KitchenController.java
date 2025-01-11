@@ -23,7 +23,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/v1/kitchens", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/kitchens", produces = MediaType.APPLICATION_JSON_VALUE)
 public class KitchenController implements KitchenControllerOpenApi {
 
 	@Autowired
@@ -43,10 +43,10 @@ public class KitchenController implements KitchenControllerOpenApi {
 
 	@GetMapping
 	public PagedModel<KitchenModel> list(@PageableDefault(size  = 10) Pageable pageable){
-		log.info("Listing all kitchens with pages of {} registers", pageable.getPageSize());
-
-		if (true)
-			throw new RuntimeException("Exception test");
+//		log.info("Listing all kitchens with pages of {} registers", pageable.getPageSize());
+//
+//		if (true)
+//			throw new RuntimeException("Exception test");
 
 		Page<Kitchen> kitchenPages = kitchenRepository.findAll(pageable);
 
