@@ -110,12 +110,12 @@ insert into group_permission (group_id, permission_id) values
 (4, 2);
 
 insert into user (id, name, email, password, register_date) values
-(1, 'John', 'john@algafood.com', '123', utc_timestamp),
-(2, 'Mary', 'mary.vnd@algafood.com', '123', utc_timestamp),
-(3, 'Joseph', 'joseph.aux@algafood.com', '123', utc_timestamp),
-(4, 'Sebastian', 'sebastian.cad@algafood.com', '123', utc_timestamp),
-(5, 'Matthew', 'matt.store@gmail.com', '123', utc_timestamp),
-(6, 'Philippo Fiorentin', 'pipomytest@gmail.com', '123', utc_timestamp);
+(1, 'John', 'john@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
+(2, 'Mary', 'mary.vnd@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
+(3, 'Joseph', 'joseph.aux@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
+(4, 'Sebastian', 'sebastian.cad@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
+(5, 'Matthew', 'matt.store@gmail.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
+(6, 'Philippo Fiorentin', 'pipomytest@gmail.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp);
 
 insert into user_group (user_id, group_id) values
 (1, 1),

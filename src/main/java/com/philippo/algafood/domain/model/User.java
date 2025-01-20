@@ -55,4 +55,8 @@ public class User {
     public boolean removeGroup(Group group){
         return getGroups().remove(group);
     }
+
+    public boolean isNew(){
+        return getId() == null;
+    }
 }

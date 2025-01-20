@@ -6,6 +6,7 @@ import com.philippo.algafood.domain.model.Group;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,6 +21,9 @@ public class RegisterUserService {
     @Autowired
     private RegisterGroupService registerGroupService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Transactional
     public User save(User user) {
         userRepository.detach(user);
@@ -30,6 +34,10 @@ public class RegisterUserService {
             throw new BusinessException(
                     String.format("User with this email already exists %s", user.getEmail()));
 
+        if (user.isNew()){
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+
         return userRepository.save(user);
     }
 
@@ -37,8 +45,9 @@ public class RegisterUserService {
     public void changePassword(Long userId, String currentPassword, String newPassword) {
         User user = findOrFail(userId);
 
-        if (user.passwordNotMatch(currentPassword))
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())){
             throw new BusinessException("The given password does not match the user's password.");
+        }
 
         user.setPassword(newPassword);
     }
