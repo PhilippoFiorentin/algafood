@@ -9,6 +9,7 @@ import com.philippo.algafood.api.model.input.RestaurantOrderInput;
 import com.philippo.algafood.api.openapi.controller.RestaurantOrderControllerOpenApi;
 import com.philippo.algafood.core.data.PageWrapper;
 import com.philippo.algafood.core.data.PageableTranslator;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.filter.OrderFilter;
@@ -31,7 +32,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/v1/orders", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/orders", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantOrderController implements RestaurantOrderControllerOpenApi {
 
     @Autowired
@@ -51,6 +52,9 @@ public class RestaurantOrderController implements RestaurantOrderControllerOpenA
 
     @Autowired
     private PagedResourcesAssembler<RestaurantOrder> pagedResourcesAssembler;
+
+    @Autowired
+    private AlgaSecurity algaSecurity;
 
     @GetMapping
     public PagedModel<RestaurantOrderSummaryModel> search(@PageableDefault(size = 10) Pageable pageable, OrderFilter filter) {
@@ -78,7 +82,7 @@ public class RestaurantOrderController implements RestaurantOrderControllerOpenA
             RestaurantOrder newOrder = restaurantOrderInputDisassembler.toDomainObject(orderInput);
 
             newOrder.setClient(new User());
-            newOrder.getClient().setId(1L);
+            newOrder.getClient().setId(algaSecurity.getUserId());
 
             newOrder = orderIssuanceService.issue(newOrder);
 
