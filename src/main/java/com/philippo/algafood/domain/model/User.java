@@ -33,7 +33,7 @@ public class User {
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime registerDate;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "user_group",
     joinColumns = @JoinColumn(name = "user_id"),

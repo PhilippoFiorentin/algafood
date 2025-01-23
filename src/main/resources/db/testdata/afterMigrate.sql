@@ -144,7 +144,9 @@ insert into user (id, name, email, password, register_date) values
 insert into user_group (user_id, group_id) values
 (1, 1),
 (1, 2),
-(2, 2);
+(2, 2),
+(3, 3),
+(4, 4);
 
 insert into restaurant_user_responsible (restaurant_id, user_id) values
 (1, 5),
