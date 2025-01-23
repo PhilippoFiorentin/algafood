@@ -64,8 +64,24 @@ insert into payment_method (id, description, date_updated) values
 (3, 'Cash', utc_timestamp);
 
 insert into permission (id, name, description) values
-(1, 'SEARCH KITCHENS', 'Allow to search kitchens'),
-(2, 'UPDATE KITCHENS', 'Allow update kitchens');
+(1, 'SEARCH KITCHENS', 'It allows to search kitchens'),
+(2, 'EDIT KITCHENS', 'It allows to edit kitchens'),
+(3, 'CONSULT_PAYMENT_METHODS', 'It allows to consult payment methods'),
+(4, 'EDIT_PAYMENT_METHODS', 'It allows to create or edit payment methods'),
+(5, 'CONSULT_CITIES', 'It allows to consult cities'),
+(6, 'EDIT_CITIES', 'It allows to create or edit cities'),
+(7, 'CONSULT_STATES', 'It allows to consult states'),
+(8, 'EDIT_STATES', 'It allows to create or edit states'),
+(9, 'CONSULT_USERS', 'It allows to consult users'),
+(10, 'EDIT_USERS', 'It allows to create or edit users'),
+(11, 'CONSULT_RESTAURANTS', 'It allows to consult restaurants'),
+(12, 'EDIT_RESTAURANTS', 'It allows to create, edit or manage restaurants'),
+(13, 'CONSULT_PRODUCTS', 'It allows to consult products'),
+(14, 'EDIT_PRODUCTS', 'It allows to create or edit products'),
+(15, 'CONSULT_ORDERS', 'It allows to consult orders'),
+(16, 'MANAGE_ORDERS', 'It allows to manage orders'),
+(17, 'GENERATE_REPORTS', 'It allows to generate reports');
+
 
 insert into restaurant_payment_method (restaurant_id, payment_method_id) values
 (1, 1),
@@ -95,19 +111,27 @@ insert into product (name, description, price, active, restaurant_id) values
 
 insert into `group_group` (id, name) values
 (1,'Manager'),
-(2,'Salesman'),
-(3,'Secretary'),
+(2,'Seller'),
+(3,'Assistant'),
 (4,'Register');
 
-insert into group_permission (group_id, permission_id) values
-(1, 1),
-(1, 2),
-(2, 1),
-(2, 2),
-(3, 1),
-(3, 2),
-(4, 1),
-(4, 2);
+-- Add all as permissons in manager group
+insert into group_permission (group_id, permission_id)
+select 1, id from permission;
+
+-- Add permissions in seller group
+insert into group_permission (group_id, permission_id)
+select 2, id from permission where name like 'CONSULT_%';
+
+insert into group_permission (group_id, permission_id) values (2, 14);
+
+-- Add permissions in assistant group
+insert into group_permission (group_id, permission_id)
+select 3, id from permission where name like 'CONSULT_%';
+
+-- Add permissions in register group
+insert into group_permission (group_id, permission_id)
+select 4, id from permission where name like '%_RESTAURANTS' or name like '%_PRODUCTS';
 
 insert into user (id, name, email, password, register_date) values
 (1, 'John', 'john@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
