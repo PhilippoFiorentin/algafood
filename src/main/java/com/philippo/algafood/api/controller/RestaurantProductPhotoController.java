@@ -4,6 +4,7 @@ import com.philippo.algafood.api.assembler.ProductPhotoModelAssembler;
 import com.philippo.algafood.api.model.ProductPhotoModel;
 import com.philippo.algafood.api.model.input.ProductPhotoInput;
 import com.philippo.algafood.api.openapi.controller.RestaurantProductPhotoControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.model.Product;
 import com.philippo.algafood.domain.model.ProductPhoto;
@@ -25,7 +26,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/v1/restaurants/{restaurantId}/products/{productId}/photo",
+@RequestMapping(value = "/restaurants/{restaurantId}/products/{productId}/photo",
         produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantProductPhotoController implements RestaurantProductPhotoControllerOpenApi {
 
@@ -41,6 +42,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
     @Autowired
     private ProductPhotoModelAssembler productPhotoModelAssembler;
 
+    @CheckSecurity.Restaurants.CanEdit
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ProductPhotoModel updatePhoto(@PathVariable Long restaurantId, @PathVariable Long productId,
                                          @Valid ProductPhotoInput productPhotoInput,
@@ -60,6 +62,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         return productPhotoModelAssembler.toModel(savedPhoto);
     }
 
+    @CheckSecurity.Restaurants.CanConsult
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductPhotoModel find(@PathVariable Long restaurantId, @PathVariable Long productId){
         ProductPhoto photo = productPhotoCatalogService.findOrFail(restaurantId, productId);
@@ -100,6 +103,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         }
     }
 
+    @CheckSecurity.Restaurants.CanEdit
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long restaurantId, @PathVariable Long productId) {

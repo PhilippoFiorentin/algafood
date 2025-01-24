@@ -11,12 +11,26 @@ public @interface CheckSecurity {
 
     public @interface Kitchens {
 
-        @PreAuthorize("isAuthenticated()")
+        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface CanConsult { }
 
-        @PreAuthorize("hasAnyAuthority('EDIT_KITCHENS')")
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAnyAuthority('EDIT_KITCHENS')")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface CanEdit { }
+
+    }
+
+    public @interface Restaurants {
+
+        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface CanConsult { }
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAnyAuthority('EDIT_RESTAURANTS')")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface CanEdit { }

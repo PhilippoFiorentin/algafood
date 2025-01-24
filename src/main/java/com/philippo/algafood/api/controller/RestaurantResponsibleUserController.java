@@ -4,6 +4,7 @@ import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.assembler.UserModelAssembler;
 import com.philippo.algafood.api.model.UserModel;
 import com.philippo.algafood.api.openapi.controller.RestaurantResponsibleUserControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.model.Restaurant;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/v1/restaurants/{restaurantId}/responsible", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/restaurants/{restaurantId}/responsible", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantResponsibleUserController implements RestaurantResponsibleUserControllerOpenApi {
 
     @Autowired
@@ -26,6 +27,7 @@ public class RestaurantResponsibleUserController implements RestaurantResponsibl
     @Autowired
     private AlgaLinks algaLinks;
 
+    @CheckSecurity.Restaurants.CanConsult
     @GetMapping
     public CollectionModel<UserModel> list(@PathVariable Long restaurantId){
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
@@ -41,6 +43,7 @@ public class RestaurantResponsibleUserController implements RestaurantResponsibl
         return userModels;
     }
 
+    @CheckSecurity.Restaurants.CanEdit
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> disaffiliate(@PathVariable Long restaurantId, @PathVariable Long userId){
@@ -49,6 +52,7 @@ public class RestaurantResponsibleUserController implements RestaurantResponsibl
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurants.CanEdit
     @PutMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> affiliate(@PathVariable Long restaurantId, @PathVariable Long userId){

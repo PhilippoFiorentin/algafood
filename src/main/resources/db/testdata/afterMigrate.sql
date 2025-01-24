@@ -64,23 +64,16 @@ insert into payment_method (id, description, date_updated) values
 (3, 'Cash', utc_timestamp);
 
 insert into permission (id, name, description) values
-(1, 'SEARCH_KITCHENS', 'It allows to search kitchens'),
-(2, 'EDIT_KITCHENS', 'It allows to edit kitchens'),
-(3, 'CONSULT_PAYMENT_METHODS', 'It allows to consult payment methods'),
-(4, 'EDIT_PAYMENT_METHODS', 'It allows to create or edit payment methods'),
-(5, 'CONSULT_CITIES', 'It allows to consult cities'),
-(6, 'EDIT_CITIES', 'It allows to create or edit cities'),
-(7, 'CONSULT_STATES', 'It allows to consult states'),
-(8, 'EDIT_STATES', 'It allows to create or edit states'),
-(9, 'CONSULT_USERS', 'It allows to consult users'),
-(10, 'EDIT_USERS', 'It allows to create or edit users'),
-(11, 'CONSULT_RESTAURANTS', 'It allows to consult restaurants'),
-(12, 'EDIT_RESTAURANTS', 'It allows to create, edit or manage restaurants'),
-(13, 'CONSULT_PRODUCTS', 'It allows to consult products'),
-(14, 'EDIT_PRODUCTS', 'It allows to create or edit products'),
-(15, 'CONSULT_ORDERS', 'It allows to consult orders'),
-(16, 'MANAGE_ORDERS', 'It allows to manage orders'),
-(17, 'GENERATE_REPORTS', 'It allows to generate reports');
+(1, 'EDIT_KITCHENS', 'It allows to edit kitchens'),
+(2, 'EDIT_PAYMENT_METHODS', 'It allows to create or edit payment methods'),
+(3, 'EDIT_CITIES', 'It allows to create or edit cities'),
+(4, 'EDIT_STATES', 'It allows to create or edit states'),
+(5, 'CONSULT_USERS', 'It allows to consult users'),
+(6, 'EDIT_USERS', 'It allows to create or edit users'),
+(7, 'EDIT_RESTAURANTS', 'It allows to create, edit or manage restaurants'),
+(8, 'CONSULT_ORDERS', 'It allows to consult orders'),
+(9, 'MANAGE_ORDERS', 'It allows to manage orders'),
+(10, 'GENERATE_REPORTS', 'It allows to generate reports');
 
 
 insert into restaurant_payment_method (restaurant_id, payment_method_id) values
@@ -123,7 +116,7 @@ select 1, id from permission;
 insert into group_permission (group_id, permission_id)
 select 2, id from permission where name like 'CONSULT_%';
 
-insert into group_permission (group_id, permission_id) values (2, 14);
+insert into group_permission (group_id, permission_id) values (2, 7);
 
 -- Add permissions in assistant group
 insert into group_permission (group_id, permission_id)
@@ -136,9 +129,9 @@ select 4, id from permission where name like '%_RESTAURANTS' or name like '%_PRO
 insert into user (id, name, email, password, register_date) values
 (1, 'John', 'john.man@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
 (2, 'Mary', 'mary.sal@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
-(3, 'Joseph', 'joseph.aux@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
+(3, 'Joseph', 'joseph.aux@algafood.com',    '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
 (4, 'Sebastian', 'sebastian.reg@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
-(5, 'Matthew', 'matt.store@gmail.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
+(5, 'Matthew', 'matt.store@gmail.com'   , '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
 (6, 'Philippo Fiorentin', 'pipomytest@gmail.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp);
 
 insert into user_group (user_id, group_id) values

@@ -4,6 +4,7 @@ import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.assembler.PaymentMethodModelAssembler;
 import com.philippo.algafood.api.model.PaymentMethodModel;
 import com.philippo.algafood.api.openapi.controller.RestaurantPaymentMethodControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.model.Restaurant;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/v1/restaurants/{restaurantId}/payment-methods", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/restaurants/{restaurantId}/payment-methods", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantPaymentMethodController implements RestaurantPaymentMethodControllerOpenApi {
 
 	@Autowired
@@ -26,6 +27,7 @@ public class RestaurantPaymentMethodController implements RestaurantPaymentMetho
 	@Autowired
 	private AlgaLinks algaLinks;
 
+	@CheckSecurity.Restaurants.CanConsult
 	@GetMapping
 	public CollectionModel<PaymentMethodModel> list(@PathVariable Long restaurantId){
 		Restaurant restaurant = registerRestaurant.findOrFail(restaurantId);
@@ -43,6 +45,7 @@ public class RestaurantPaymentMethodController implements RestaurantPaymentMetho
 		return paymentMethodModels;
 	}
 
+	@CheckSecurity.Restaurants.CanEdit
 	@DeleteMapping("/{paymentMethodId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> disaffiliate(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId){
@@ -51,6 +54,7 @@ public class RestaurantPaymentMethodController implements RestaurantPaymentMetho
 		return ResponseEntity.noContent().build();
 	}
 
+	@CheckSecurity.Restaurants.CanEdit
 	@PutMapping("/{paymentMethodId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> affiliate(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId){
