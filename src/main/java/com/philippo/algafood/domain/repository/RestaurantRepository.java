@@ -31,5 +31,7 @@ public interface RestaurantRepository extends
     List<Restaurant> findTop2RestaurantByNameContaining(String name);
 
     Integer countByKitchenId (Long kitchen);
+
+    boolean existsResponsible(Long restaurantId, Long userId);
 }
 

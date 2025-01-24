@@ -70,7 +70,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 		return restaurantModelAssembler.toModel(restaurant);
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageRegister
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestaurantModel add(@RequestBody @Valid RestaurantInput restaurantInput) {
@@ -82,7 +82,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 		}
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageRegister
 	@PutMapping("/{restaurantId}")
 	public RestaurantModel update(@PathVariable Long restaurantId, @RequestBody @Valid RestaurantInput restaurantInput){
 
@@ -97,7 +97,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 		}
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageRegister
 	@PutMapping("/{restaurantId}/active")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> activate(@PathVariable Long restaurantId){
@@ -106,7 +106,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageRegister
 	@DeleteMapping("/{restaurantId}/active")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> deactivate(@PathVariable Long restaurantId){
@@ -115,7 +115,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageRegister
 	@PutMapping("/activations")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void activateManyRestaurants(@RequestBody List<Long> restaurantIds){
@@ -126,7 +126,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 		}
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageRegister
 	@DeleteMapping("/activations")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deactivateManyRestaurants(@RequestBody List<Long> restaurantIds){
@@ -137,7 +137,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 		}
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageOperation
 	@PutMapping("/{restaurantId}/opening")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> open(@PathVariable Long restaurantId){
@@ -146,7 +146,7 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 		return ResponseEntity.noContent().build();
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageOperation
 	@PutMapping("/{restaurantId}/closing")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> close(@PathVariable Long restaurantId){

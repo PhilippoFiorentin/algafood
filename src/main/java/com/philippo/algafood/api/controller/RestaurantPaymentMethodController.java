@@ -45,7 +45,7 @@ public class RestaurantPaymentMethodController implements RestaurantPaymentMetho
 		return paymentMethodModels;
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageOperation
 	@DeleteMapping("/{paymentMethodId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> disaffiliate(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId){
@@ -54,7 +54,7 @@ public class RestaurantPaymentMethodController implements RestaurantPaymentMetho
 		return ResponseEntity.noContent().build();
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageOperation
 	@PutMapping("/{paymentMethodId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> affiliate(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId){

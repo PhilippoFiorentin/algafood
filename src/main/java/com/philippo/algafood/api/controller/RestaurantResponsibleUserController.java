@@ -43,7 +43,7 @@ public class RestaurantResponsibleUserController implements RestaurantResponsibl
         return userModels;
     }
 
-    @CheckSecurity.Restaurants.CanEdit
+    @CheckSecurity.Restaurants.CanManageRegister
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> disaffiliate(@PathVariable Long restaurantId, @PathVariable Long userId){
@@ -52,7 +52,7 @@ public class RestaurantResponsibleUserController implements RestaurantResponsibl
         return ResponseEntity.noContent().build();
     }
 
-    @CheckSecurity.Restaurants.CanEdit
+    @CheckSecurity.Restaurants.CanManageRegister
     @PutMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> affiliate(@PathVariable Long restaurantId, @PathVariable Long userId){

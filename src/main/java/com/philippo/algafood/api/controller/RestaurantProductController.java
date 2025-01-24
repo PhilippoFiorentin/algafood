@@ -69,7 +69,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
 		return productModelAssembler.toModel(product);
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageOperation
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public ProductModel add(@PathVariable Long restaurantId,
@@ -83,7 +83,7 @@ public class RestaurantProductController implements RestaurantProductControllerO
 		return productModelAssembler.toModel(product);
 	}
 
-	@CheckSecurity.Restaurants.CanEdit
+	@CheckSecurity.Restaurants.CanManageOperation
 	@PutMapping("/{productId}")
 	public ProductModel update(@PathVariable Long restaurantId,
 									  @PathVariable Long productId,

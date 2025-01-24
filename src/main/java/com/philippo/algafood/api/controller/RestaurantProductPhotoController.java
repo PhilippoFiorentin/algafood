@@ -42,7 +42,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
     @Autowired
     private ProductPhotoModelAssembler productPhotoModelAssembler;
 
-    @CheckSecurity.Restaurants.CanEdit
+    @CheckSecurity.Restaurants.CanManageOperation
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ProductPhotoModel updatePhoto(@PathVariable Long restaurantId, @PathVariable Long productId,
                                          @Valid ProductPhotoInput productPhotoInput,
@@ -103,7 +103,7 @@ public class RestaurantProductPhotoController implements RestaurantProductPhotoC
         }
     }
 
-    @CheckSecurity.Restaurants.CanEdit
+    @CheckSecurity.Restaurants.CanManageOperation
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long restaurantId, @PathVariable Long productId) {

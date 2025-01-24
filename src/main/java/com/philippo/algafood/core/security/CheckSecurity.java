@@ -16,7 +16,7 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface CanConsult { }
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAnyAuthority('EDIT_KITCHENS')")
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_KITCHENS')")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface CanEdit { }
@@ -30,10 +30,16 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface CanConsult { }
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAnyAuthority('EDIT_RESTAURANTS')")
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_RESTAURANTS')")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
-        public @interface CanEdit { }
+        public @interface CanManageRegister { }
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and hasAuthority('EDIT_RESTAURANTS') " +
+                "or @algaSecurity.manageRestaurant(#restaurantId)")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface CanManageOperation { }
 
     }
 }
