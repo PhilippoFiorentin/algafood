@@ -17,6 +17,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -41,34 +42,33 @@ public class KitchenController implements KitchenControllerOpenApi {
 	@Autowired
 	private PagedResourcesAssembler<Kitchen> pagedResourcesAssembler;
 
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping
 	public PagedModel<KitchenModel> list(@PageableDefault(size  = 10) Pageable pageable){
-//		log.info("Listing all kitchens with pages of {} registers", pageable.getPageSize());
-//
-//		if (true)
-//			throw new RuntimeException("Exception test");
-
 		Page<Kitchen> kitchenPages = kitchenRepository.findAll(pageable);
 
 		PagedModel<KitchenModel> kitchensPagedModel = pagedResourcesAssembler.toModel(kitchenPages, kitchenModelAssembler);
 
 		return kitchensPagedModel;
 	}
-	
+
+	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/{kitchenId}")
 	public KitchenModel find(@PathVariable Long kitchenId) {
 		Kitchen kitchen = registerKitchen.findOrFail(kitchenId);
 
 		return kitchenModelAssembler.toModel(kitchen);
 	}
-	
+
+	@PreAuthorize("hasAnyAuthority('EDIT_KITCHENS')")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public KitchenModel add(@RequestBody @Valid KitchenInput kitchenInput) {
 		Kitchen kitchen = kitchenInputDisassembler.toDomainObject(kitchenInput);
 		return kitchenModelAssembler.toModel(registerKitchen.save(kitchen));
 	}
-	
+
+	@PreAuthorize("hasAnyAuthority('EDIT_KITCHENS')")
 	@PutMapping("/{kitchenId}")
 	public KitchenModel update(@PathVariable Long kitchenId, @RequestBody @Valid KitchenInput kitchenInput){
 		Kitchen currentKitchen = registerKitchen.findOrFail(kitchenId);
@@ -80,6 +80,7 @@ public class KitchenController implements KitchenControllerOpenApi {
 		return kitchenModelAssembler.toModel(currentKitchen);
 	}
 
+	@PreAuthorize("hasAnyAuthority('EDIT_KITCHENS')")
 	@DeleteMapping("/{kitchenId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long kitchenId){

@@ -21,17 +21,10 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/kitchens/**").hasAuthority("EDIT_KITCHENS")
-                .antMatchers(HttpMethod.PUT, "/kitchens/**").hasAuthority("EDIT_KITCHENS")
-                .antMatchers(HttpMethod.GET, "/kitchens/**").authenticated()
-                .anyRequest().denyAll()
+        http
+                .csrf().disable().cors()
                 .and()
-                .cors()
-                .and()
-                .oauth2ResourceServer()
-                .jwt()
-                .jwtAuthenticationConverter(jwtAuthenticationConverter());
+                .oauth2ResourceServer().jwt().jwtAuthenticationConverter(jwtAuthenticationConverter());
     }
 
     private JwtAuthenticationConverter jwtAuthenticationConverter() {

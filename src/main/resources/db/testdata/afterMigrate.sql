@@ -64,8 +64,8 @@ insert into payment_method (id, description, date_updated) values
 (3, 'Cash', utc_timestamp);
 
 insert into permission (id, name, description) values
-(1, 'SEARCH KITCHENS', 'It allows to search kitchens'),
-(2, 'EDIT KITCHENS', 'It allows to edit kitchens'),
+(1, 'SEARCH_KITCHENS', 'It allows to search kitchens'),
+(2, 'EDIT_KITCHENS', 'It allows to edit kitchens'),
 (3, 'CONSULT_PAYMENT_METHODS', 'It allows to consult payment methods'),
 (4, 'EDIT_PAYMENT_METHODS', 'It allows to create or edit payment methods'),
 (5, 'CONSULT_CITIES', 'It allows to consult cities'),
@@ -134,10 +134,10 @@ insert into group_permission (group_id, permission_id)
 select 4, id from permission where name like '%_RESTAURANTS' or name like '%_PRODUCTS';
 
 insert into user (id, name, email, password, register_date) values
-(1, 'John', 'john@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
-(2, 'Mary', 'mary.vnd@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
+(1, 'John', 'john.man@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
+(2, 'Mary', 'mary.sal@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
 (3, 'Joseph', 'joseph.aux@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
-(4, 'Sebastian', 'sebastian.cad@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
+(4, 'Sebastian', 'sebastian.reg@algafood.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
 (5, 'Matthew', 'matt.store@gmail.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp),
 (6, 'Philippo Fiorentin', 'pipomytest@gmail.com', '$2a$12$O4s/ZFIVXbXpMwT7Qg7Ir.CGs0puEOCfdb.T8Hdja6lrglCggzp9e', utc_timestamp);
 
