@@ -12,7 +12,8 @@ public enum ProblemType {
     MESSAGE_NOT_READABLE("/message-not-readable", "Message not readable"),
     RESOURCE_NOT_FOUND("/resource-not-found", "Resource not found"),
     ENTITY_IN_USE("/entity-in-use", "Entity in use"),
-    BUSINESS_ERROR("/business-error", "Business rule violation");
+    BUSINESS_ERROR("/business-error", "Business rule violation"),
+    ACCESS_DENIED("/access-denied", "Access denied");
 
     private final String title;
     private final String uri;
