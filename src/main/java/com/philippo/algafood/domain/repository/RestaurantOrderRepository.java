@@ -16,4 +16,6 @@ public interface RestaurantOrderRepository extends CustomJpaRepository<Restauran
 
     @Query("from RestaurantOrder ro join fetch ro.client join fetch ro.restaurant r join fetch r.kitchen")
     List<RestaurantOrder> findAll();
+
+    boolean isOrderManagedBy(String orderUuid, Long userId);
 }

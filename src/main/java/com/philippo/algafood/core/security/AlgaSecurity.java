@@ -1,5 +1,6 @@
 package com.philippo.algafood.core.security;
 
+import com.philippo.algafood.domain.repository.RestaurantOrderRepository;
 import com.philippo.algafood.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,6 +14,9 @@ public class AlgaSecurity {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Autowired
+    private RestaurantOrderRepository restaurantOrderRepository;
+
     public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
@@ -24,6 +28,15 @@ public class AlgaSecurity {
     }
 
     public boolean manageRestaurant(Long restaurantId) {
+
+        if (restaurantId == null) {
+            return false;
+        }
+
         return restaurantRepository.existsResponsible(restaurantId, getUserId());
+    }
+
+    public boolean manageOrderRestaurant(String orderUuid) {
+        return restaurantOrderRepository.isOrderManagedBy(orderUuid, getUserId());
     }
 }

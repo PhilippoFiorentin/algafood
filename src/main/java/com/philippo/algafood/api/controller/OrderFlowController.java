@@ -1,6 +1,7 @@
 package com.philippo.algafood.api.controller;
 
 import com.philippo.algafood.api.openapi.controller.OrderFlowControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.service.OrderFlowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ public class OrderFlowController implements OrderFlowControllerOpenApi {
     @Autowired
     private OrderFlowService orderFlowService;
 
+    @CheckSecurity.RestaurantOrders.CanManageOrders
     @PutMapping("/confirmation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> confirm(@PathVariable String orderUuid){
@@ -23,6 +25,7 @@ public class OrderFlowController implements OrderFlowControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.RestaurantOrders.CanManageOrders
     @PutMapping("/delivery")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deliver(@PathVariable String orderUuid){
@@ -31,6 +34,7 @@ public class OrderFlowController implements OrderFlowControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.RestaurantOrders.CanManageOrders
     @PutMapping("/cancellation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> cancel(@PathVariable String orderUuid){

@@ -10,6 +10,7 @@ import com.philippo.algafood.api.openapi.controller.RestaurantOrderControllerOpe
 import com.philippo.algafood.core.data.PageWrapper;
 import com.philippo.algafood.core.data.PageableTranslator;
 import com.philippo.algafood.core.security.AlgaSecurity;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.EntityNotFoundException;
 import com.philippo.algafood.domain.filter.OrderFilter;
@@ -56,6 +57,7 @@ public class RestaurantOrderController implements RestaurantOrderControllerOpenA
     @Autowired
     private AlgaSecurity algaSecurity;
 
+    @CheckSecurity.RestaurantOrders.CanSearch
     @GetMapping
     public PagedModel<RestaurantOrderSummaryModel> search(@PageableDefault(size = 10) Pageable pageable, OrderFilter filter) {
 
@@ -68,6 +70,7 @@ public class RestaurantOrderController implements RestaurantOrderControllerOpenA
         return pagedResourcesAssembler.toModel(orderPages, restaurantOrderSummaryAssembler);
     }
 
+    @CheckSecurity.RestaurantOrders.CanFind
     @GetMapping("/{orderUuid}")
     public RestaurantOrderModel find(@PathVariable String orderUuid) {
         RestaurantOrder restaurantOrder = orderIssuanceService.findOrFail(orderUuid);

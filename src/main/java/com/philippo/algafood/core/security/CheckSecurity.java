@@ -1,5 +1,6 @@
 package com.philippo.algafood.core.security;
 
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.lang.annotation.ElementType;
@@ -40,6 +41,36 @@ public @interface CheckSecurity {
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface CanManageOperation { }
+
+    }
+
+    public @interface RestaurantOrders {
+
+        @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
+        @PostAuthorize("hasAuthority('CONSULT_ORDERS') or " +
+                "@algaSecurity.getUserId() == returnObject.client.id or " +
+                "@algaSecurity.manageRestaurant(returnObject.restaurant.id)")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface CanFind { }
+
+        @PreAuthorize("hasAuthority('SCOPE_READ') and (hasAuthority('CONSULT_ORDERS') or " +
+                "@algaSecurity.getUserId() == #filter.clientId or " +
+                "@algaSecurity.manageRestaurant(#filter.restaurantId))")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface CanSearch { }
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('MANAGE_ORDERS') or " +
+                "@algaSecurity.manageOrderRestaurant(#orderUuid))")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface CanManageOrders { }
+
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and isAuthenticated()")
+        @Retention(RetentionPolicy.RUNTIME)
+        @Target(ElementType.METHOD)
+        public @interface CanCreate { }
 
     }
 }
