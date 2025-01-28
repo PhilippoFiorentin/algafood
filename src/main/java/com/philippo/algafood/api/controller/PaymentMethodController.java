@@ -5,6 +5,7 @@ import com.philippo.algafood.api.assembler.PaymentMethodModelAssembler;
 import com.philippo.algafood.api.model.PaymentMethodModel;
 import com.philippo.algafood.api.model.input.PaymentMethodInput;
 import com.philippo.algafood.api.openapi.controller.PaymentMethodControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.model.PaymentMethod;
 import com.philippo.algafood.domain.repository.PaymentMethodRepository;
 import com.philippo.algafood.domain.service.RegisterPaymentMethodService;
@@ -38,6 +39,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi {
     @Autowired
     private PaymentMethodDisassembler paymentMethodDisassembler;
 
+    @CheckSecurity.PaymentMethods.CanConsult
     @GetMapping
     public ResponseEntity<CollectionModel<PaymentMethodModel>> list(ServletWebRequest request) {
         ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
@@ -64,6 +66,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi {
                 .body(paymentMethodModels);
     }
 
+    @CheckSecurity.PaymentMethods.CanConsult
     @GetMapping("/{paymentMethodId}")
     public ResponseEntity<PaymentMethodModel> find(@PathVariable Long paymentMethodId, ServletWebRequest request){
         ShallowEtagHeaderFilter.disableContentCaching(request.getRequest());
@@ -90,6 +93,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi {
                 .body(paymentMethodModel);
     }
 
+    @CheckSecurity.PaymentMethods.CanEdit
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PaymentMethodModel add(@RequestBody @Valid PaymentMethodInput paymentMethodInput){
@@ -97,6 +101,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi {
         return paymentMethodModelAssembler.toModel(registerPaymentMethod.save(paymentMethod));
     }
 
+    @CheckSecurity.PaymentMethods.CanEdit
     @PutMapping("/{paymentMethodId}")
     public PaymentMethodModel update(@PathVariable Long paymentMethodId, @RequestBody @Valid PaymentMethodInput paymentMethodInput){
         PaymentMethod currentPaymentMethod = registerPaymentMethod.findOrFail(paymentMethodId);
@@ -106,6 +111,7 @@ public class PaymentMethodController implements PaymentMethodControllerOpenApi {
 
     }
 
+    @CheckSecurity.PaymentMethods.CanEdit
     @DeleteMapping("/{paymentMethodId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long paymentMethodId){
