@@ -5,6 +5,7 @@ import com.philippo.algafood.api.assembler.StateModelAssembler;
 import com.philippo.algafood.api.model.StateModel;
 import com.philippo.algafood.api.model.input.StateInput;
 import com.philippo.algafood.api.openapi.controller.StateControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.model.State;
 import com.philippo.algafood.domain.repository.StateRepository;
 import com.philippo.algafood.domain.service.RegisterStateService;
@@ -31,19 +32,22 @@ public class StateController implements StateControllerOpenApi {
 
 	@Autowired
 	private StateInputDisassembler stateInputDisassembler;
-	
+
+	@CheckSecurity.States.CanConsult
 	@GetMapping
 	public CollectionModel<StateModel> list(){
 		return stateModelAssembler.toCollectionModel(stateRepository.findAll());
 	}
-	
+
+	@CheckSecurity.States.CanConsult
 	@GetMapping("/{stateId}")
 	public StateModel find(@PathVariable Long stateId){
 		State state = registerState.findOrFail(stateId);
 
 		return stateModelAssembler.toModel(state);
 	}
-	
+
+	@CheckSecurity.States.CanEdit
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public StateModel add(@RequestBody @Valid StateInput stateInput){
@@ -51,7 +55,8 @@ public class StateController implements StateControllerOpenApi {
 
 		return stateModelAssembler.toModel(registerState.save(state));
 	}
-	
+
+	@CheckSecurity.States.CanEdit
 	@PutMapping("/{stateId}")
 	public StateModel update(@PathVariable Long stateId, @RequestBody @Valid StateInput stateInput){
 		State currentState = registerState.findOrFail(stateId);
@@ -62,7 +67,8 @@ public class StateController implements StateControllerOpenApi {
 
 		return stateModelAssembler.toModel(currentState);
 	}
-	
+
+	@CheckSecurity.States.CanEdit
 	@DeleteMapping("/{stateId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long stateId){

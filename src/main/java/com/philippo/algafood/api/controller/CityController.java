@@ -6,6 +6,7 @@ import com.philippo.algafood.api.assembler.CityModelAssembler;
 import com.philippo.algafood.api.model.CityModel;
 import com.philippo.algafood.api.model.input.CityInput;
 import com.philippo.algafood.api.openapi.controller.CityControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.StateNotFoundException;
 import com.philippo.algafood.domain.model.City;
@@ -33,18 +34,21 @@ public class CityController implements CityControllerOpenApi {
 
 	@Autowired
 	private CityInputDisassembler cityInputDisassembler;
-	
+
+	@CheckSecurity.Cities.CanConsult
 	@GetMapping
 	public CollectionModel<CityModel> list() {
 		return cityModelAssembler.toCollectionModel(cityRepository.findAll());
 	}
 
+	@CheckSecurity.Cities.CanConsult
 	@GetMapping(value = "/{cityId}")
 	public CityModel find(@PathVariable Long cityId) {
 		City city = registerCity.findOrFail(cityId);
 		return cityModelAssembler.toModel(city);
 	}
 
+	@CheckSecurity.Cities.CanEdit
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public CityModel add(@RequestBody @Valid CityInput cityInput) {
@@ -60,6 +64,7 @@ public class CityController implements CityControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Cities.CanEdit
 	@PutMapping(value = "/{cityId}")
 	public CityModel update(@PathVariable Long cityId, @RequestBody @Valid CityInput cityInput){
 		try {
@@ -73,6 +78,7 @@ public class CityController implements CityControllerOpenApi {
 		}
 	}
 
+	@CheckSecurity.Cities.CanEdit
 	@DeleteMapping("/{cityId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long cityId){
