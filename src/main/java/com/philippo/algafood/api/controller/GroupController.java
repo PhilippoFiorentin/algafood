@@ -5,6 +5,7 @@ import com.philippo.algafood.api.assembler.GroupModelAssembler;
 import com.philippo.algafood.api.model.GroupModel;
 import com.philippo.algafood.api.model.input.GroupInput;
 import com.philippo.algafood.api.openapi.controller.GroupControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.exception.BusinessException;
 import com.philippo.algafood.domain.exception.GroupNotFoundException;
 import com.philippo.algafood.domain.model.Group;
@@ -35,18 +36,21 @@ public class GroupController implements GroupControllerOpenApi {
     @Autowired
     private GroupInputDisassembler groupInputDisassembler;
 
+    @CheckSecurity.UsersGroupsPermissions.CanConsult
     @GetMapping
     public CollectionModel<GroupModel> list() {
         List<Group> groups = groupRepository.findAll();
         return groupModelAssembler.toCollectionModel(groups);
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanConsult
     @GetMapping("/{groupId}")
     public GroupModel find(@PathVariable Long groupId){
         Group group = registerGroup.findOrFail(groupId);
         return groupModelAssembler.toModel(group);
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanEdit
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public GroupModel add(@RequestBody @Valid GroupInput groupInput){
@@ -58,6 +62,7 @@ public class GroupController implements GroupControllerOpenApi {
         }
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanEdit
     @PutMapping("/{groupId}")
     public GroupModel update(@PathVariable Long groupId, @RequestBody @Valid GroupInput groupInput){
         try {
@@ -69,6 +74,7 @@ public class GroupController implements GroupControllerOpenApi {
         }
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanEdit
     @DeleteMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long groupId){

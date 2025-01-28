@@ -4,6 +4,7 @@ import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.assembler.PermissionModelAssembler;
 import com.philippo.algafood.api.model.PermissionModel;
 import com.philippo.algafood.api.openapi.controller.GroupPermissionControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.model.Group;
 import com.philippo.algafood.domain.service.RegisterGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class GroupPermissionController implements GroupPermissionControllerOpenA
     @Autowired
     private AlgaLinks algaLinks;
 
+    @CheckSecurity.UsersGroupsPermissions.CanConsult
     @GetMapping
     public CollectionModel<PermissionModel> list(@PathVariable Long groupId){
         Group group = registerGroupService.findOrFail(groupId);
@@ -44,6 +46,7 @@ public class GroupPermissionController implements GroupPermissionControllerOpenA
         return permissionModels;
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanEdit
     @DeleteMapping("/{permissionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> disaffiliate(@PathVariable Long groupId, @PathVariable Long permissionId){
@@ -52,6 +55,7 @@ public class GroupPermissionController implements GroupPermissionControllerOpenA
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanEdit
     @PutMapping("/{permissionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> affiliate(@PathVariable Long groupId, @PathVariable Long permissionId){

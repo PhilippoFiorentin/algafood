@@ -4,6 +4,7 @@ import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.assembler.GroupModelAssembler;
 import com.philippo.algafood.api.model.GroupModel;
 import com.philippo.algafood.api.openapi.controller.UserGroupControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.service.RegisterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     @Autowired
     private AlgaLinks algaLinks;
 
+    @CheckSecurity.UsersGroupsPermissions.CanConsult
     @GetMapping
     public CollectionModel<GroupModel> list(@PathVariable Long userId){
         User user  = registerUserService.findOrFail(userId);
@@ -41,6 +43,7 @@ public class UserGroupController implements UserGroupControllerOpenApi {
         return groupModels;
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanEdit
     @DeleteMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> disaffiliate(@PathVariable Long userId, @PathVariable Long groupId){
@@ -49,6 +52,7 @@ public class UserGroupController implements UserGroupControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanEdit
     @PutMapping("/{groupId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> affiliate(@PathVariable Long userId, @PathVariable Long groupId){

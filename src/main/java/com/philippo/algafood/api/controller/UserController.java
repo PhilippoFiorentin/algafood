@@ -7,6 +7,7 @@ import com.philippo.algafood.api.model.input.PasswordInput;
 import com.philippo.algafood.api.model.input.UserInput;
 import com.philippo.algafood.api.model.input.UserWithPasswordInput;
 import com.philippo.algafood.api.openapi.controller.UserControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.repository.UserRepository;
 import com.philippo.algafood.domain.service.RegisterUserService;
@@ -34,11 +35,13 @@ public class UserController implements UserControllerOpenApi {
     @Autowired
     private UserInputDisassembler userInputDisassembler;
 
+    @CheckSecurity.UsersGroupsPermissions.CanConsult
     @GetMapping
     public CollectionModel<UserModel> list(){
         return userModelAssembler.toCollectionModel(userRepository.findAll());
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanConsult
     @GetMapping("/{userId}")
     public UserModel find(@PathVariable Long userId){
         User user = registerUser.findOrFail(userId);
@@ -46,6 +49,7 @@ public class UserController implements UserControllerOpenApi {
         return userModelAssembler.toModel(user);
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanEdit
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserModel add(@RequestBody @Valid UserWithPasswordInput userInput){
@@ -53,6 +57,7 @@ public class UserController implements UserControllerOpenApi {
         return userModelAssembler.toModel(registerUser.save(user));
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanChangeUser
     @PutMapping("/{userId}")
     public UserModel update(@PathVariable Long userId, @RequestBody @Valid UserInput userInput){
         User currentUser = registerUser.findOrFail(userId);
@@ -63,6 +68,7 @@ public class UserController implements UserControllerOpenApi {
         return userModelAssembler.toModel(currentUser);
     }
 
+    @CheckSecurity.UsersGroupsPermissions.CanChangePassword
     @PutMapping("/{userId}/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void changePassword(@PathVariable Long userId, @RequestBody @Valid PasswordInput passwordInput){
