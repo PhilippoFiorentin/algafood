@@ -2,6 +2,7 @@ package com.philippo.algafood.api.controller;
 
 import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.openapi.controller.StatisticsControllerOpenApi;
+import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.filter.DailySaleFilter;
 import com.philippo.algafood.domain.model.dto.DailySale;
 import com.philippo.algafood.domain.service.SaleQueryService;
@@ -31,6 +32,7 @@ public class StatisticController implements StatisticsControllerOpenApi {
     @Autowired
     private AlgaLinks algaLinks;
 
+    @CheckSecurity.Statistics.CanConsult
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public StatisticsModel statistics() {
         var statisticsModel = new StatisticsModel();
@@ -40,12 +42,14 @@ public class StatisticController implements StatisticsControllerOpenApi {
         return statisticsModel;
     }
 
+    @CheckSecurity.Statistics.CanConsult
     @GetMapping(path = "/v1/daily-sales", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<DailySale> checkDailySales(DailySaleFilter filter,
                                            @RequestParam(required=false, defaultValue = "+00:00") String timeOffset) {
         return saleQueryService.checkDailySales(filter, timeOffset);
     }
 
+    @CheckSecurity.Statistics.CanConsult
     @GetMapping(path = "/daily-sales", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> checkDailySalesPdf(DailySaleFilter filter,
                                              @RequestParam(required=false, defaultValue = "+00:00") String timeOffset) {
