@@ -25,10 +25,10 @@
     <named-query name="RestaurantOrder.isOrderManagedBy">
         <query>
             select case when count(1) > 0 then true else false end
-            from Order o
-            join o.restaurant rest
+            from RestaurantOrder ro
+            join ro.restaurant rest
             join rest.responsibleUsers resp
-            where o.uuid = :orderUuid
+            where ro.uuid = :orderUuid
             and resp.id = :userId
         </query>
     </named-query>
