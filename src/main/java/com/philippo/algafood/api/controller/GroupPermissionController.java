@@ -4,6 +4,7 @@ import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.assembler.PermissionModelAssembler;
 import com.philippo.algafood.api.model.PermissionModel;
 import com.philippo.algafood.api.openapi.controller.GroupPermissionControllerOpenApi;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.model.Group;
 import com.philippo.algafood.domain.service.RegisterGroupService;
@@ -27,16 +28,22 @@ public class GroupPermissionController implements GroupPermissionControllerOpenA
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     @CheckSecurity.UsersGroupsPermissions.CanConsult
     @GetMapping
     public CollectionModel<PermissionModel> list(@PathVariable Long groupId){
         Group group = registerGroupService.findOrFail(groupId);
 
         CollectionModel<PermissionModel> permissionModels = permissionModelAssembler
-                .toCollectionModel(group.getPermissions())
-                .removeLinks()
-                .add(algaLinks.linkToGroupPermissions(groupId))
-                .add(algaLinks.linkToAffiliateGroupPermission(groupId, "affiliate"));
+                .toCollectionModel(group.getPermissions()).removeLinks();
+
+        permissionModels.add(algaLinks.linkToGroupPermissions(groupId));
+
+        if (algaSecurity.canEditUsersGroupsPermissions()) {
+            permissionModels.add(algaLinks.linkToAffiliateGroupPermission(groupId, "affiliate"));
+        }
 
         permissionModels.getContent().forEach(permissionModel -> {
             permissionModel.add(algaLinks

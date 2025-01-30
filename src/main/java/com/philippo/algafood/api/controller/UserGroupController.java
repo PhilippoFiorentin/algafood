@@ -4,6 +4,7 @@ import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.assembler.GroupModelAssembler;
 import com.philippo.algafood.api.model.GroupModel;
 import com.philippo.algafood.api.openapi.controller.UserGroupControllerOpenApi;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.model.User;
 import com.philippo.algafood.domain.service.RegisterUserService;
@@ -27,14 +28,20 @@ public class UserGroupController implements UserGroupControllerOpenApi {
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     @CheckSecurity.UsersGroupsPermissions.CanConsult
     @GetMapping
     public CollectionModel<GroupModel> list(@PathVariable Long userId){
         User user  = registerUserService.findOrFail(userId);
         CollectionModel<GroupModel> groupModels = groupModelAssembler
                 .toCollectionModel(user.getGroups())
-                .removeLinks()
-                .add(algaLinks.linkToAffiliateUserGroup(user.getId(), "affiliate"));
+                .removeLinks();
+
+        if (algaSecurity.canEditUsersGroupsPermissions()) {
+            groupModels.add(algaLinks.linkToAffiliateUserGroup(user.getId(), "affiliate"));
+        }
 
         groupModels.getContent().forEach(groupModel -> {
             groupModel.add(algaLinks.linkToDisaffiliateUserGroup(userId, groupModel.getId(), "disaffiliate"));

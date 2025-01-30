@@ -4,6 +4,7 @@ import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.assembler.PaymentMethodModelAssembler;
 import com.philippo.algafood.api.model.PaymentMethodModel;
 import com.philippo.algafood.api.openapi.controller.RestaurantPaymentMethodControllerOpenApi;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.model.Restaurant;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
@@ -27,14 +28,21 @@ public class RestaurantPaymentMethodController implements RestaurantPaymentMetho
 	@Autowired
 	private AlgaLinks algaLinks;
 
+	@Autowired
+	private AlgaSecurity algaSecurity;
+
 	@CheckSecurity.Restaurants.CanConsult
 	@GetMapping
 	public CollectionModel<PaymentMethodModel> list(@PathVariable Long restaurantId){
 		Restaurant restaurant = registerRestaurant.findOrFail(restaurantId);
-		CollectionModel<PaymentMethodModel> paymentMethodModels = paymentMethodModelAssembler.toCollectionModel(restaurant.getPaymentMethods())
-				.removeLinks()
-				.add(algaLinks.linkToRestaurantPaymentMethods(restaurantId))
-				.add(algaLinks.linkToAffiliateRestaurantPaymentMethods(restaurantId, "affiliate"));
+		CollectionModel<PaymentMethodModel> paymentMethodModels = paymentMethodModelAssembler.
+				toCollectionModel(restaurant.getPaymentMethods()).removeLinks();
+
+		paymentMethodModels.add(algaLinks.linkToRestaurantPaymentMethods(restaurantId));
+
+		if (algaSecurity.canConsultPaymentMethods()) {
+			paymentMethodModels.add(algaLinks.linkToAffiliateRestaurantPaymentMethods(restaurantId, "affiliate"));
+		}
 
 
 		paymentMethodModels.getContent().forEach(paymentMethodModel -> {

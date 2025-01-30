@@ -2,6 +2,7 @@ package com.philippo.algafood.api.assembler;
 
 import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.model.PermissionModel;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.domain.model.Permission;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class PermissionModelAssembler implements RepresentationModelAssembler<Pe
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     @Override
     public PermissionModel toModel(Permission permission){
         return modelmapper.map(permission, PermissionModel.class);
@@ -25,6 +29,12 @@ public class PermissionModelAssembler implements RepresentationModelAssembler<Pe
 
     @Override
     public CollectionModel<PermissionModel> toCollectionModel(Iterable<? extends Permission> entities) {
-        return RepresentationModelAssembler.super.toCollectionModel(entities).add(algaLinks.linkToPermissions());
+        CollectionModel<PermissionModel> collectionModel = RepresentationModelAssembler.super.toCollectionModel(entities);
+
+        if (algaSecurity.canConsultUsersGroupsPermissions()){
+            collectionModel.add(algaLinks.linkToPermissions());
+        }
+
+        return collectionModel;
     }
 }

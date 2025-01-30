@@ -3,6 +3,7 @@ package com.philippo.algafood.api.assembler;
 import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.controller.CityController;
 import com.philippo.algafood.api.model.CityModel;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.domain.model.City;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public CityModelAssembler() {
         super(CityController.class, CityModel.class);
     }
@@ -28,16 +32,25 @@ public class CityModelAssembler extends RepresentationModelAssemblerSupport<City
         CityModel cityModel = createModelWithId(city.getId(), city);
         modelMapper.map(city, cityModel);
 
-        cityModel.add(algaLinks.linkToCities("cities"));
+        if (algaSecurity.canConsultCities()) {
+            cityModel.add(algaLinks.linkToCities("cities"));
+        }
 
-        cityModel.getState().add(algaLinks.linkToState(cityModel.getState().getId()));
+        if (algaSecurity.canConsultStates()) {
+            cityModel.getState().add(algaLinks.linkToState(cityModel.getState().getId()));
+        }
 
         return cityModel;
     }
 
     @Override
     public CollectionModel<CityModel> toCollectionModel(Iterable<? extends City> entities) {
-        return super.toCollectionModel(entities)
-                .add(algaLinks.linkToCities());
+        CollectionModel<CityModel> collectionModel = super.toCollectionModel(entities);
+
+        if (algaSecurity.canConsultCities()) {
+            collectionModel.add(algaLinks.linkToCities());
+        }
+
+        return collectionModel;
     }
 }

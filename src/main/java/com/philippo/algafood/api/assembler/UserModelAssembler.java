@@ -3,6 +3,7 @@ package com.philippo.algafood.api.assembler;
 import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.model.UserModel;
 import com.philippo.algafood.api.controller.UserController;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.domain.model.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public UserModelAssembler() {
         super(UserController.class, UserModel.class);
     }
@@ -29,9 +33,11 @@ public class UserModelAssembler extends RepresentationModelAssemblerSupport<User
 
         modelMapper.map(user, userModel);
 
-        userModel.add(algaLinks.linkToUsers("users"));
+        if(algaSecurity.canConsultUsersGroupsPermissions()) {
+            userModel.add(algaLinks.linkToUsers("users"));
 
-        userModel.add(algaLinks.linkToUserGroups(user.getId(), "user-groups"));
+            userModel.add(algaLinks.linkToUserGroups(user.getId(), "user-groups"));
+        }
 
         return userModel;
     }

@@ -3,6 +3,7 @@ package com.philippo.algafood.api.assembler;
 import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.controller.RestaurantProductController;
 import com.philippo.algafood.api.model.ProductModel;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.domain.model.Product;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class ProductModelAssembler extends RepresentationModelAssemblerSupport<P
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public ProductModelAssembler() {
         super(RestaurantProductController.class, ProductModel.class);
     }
@@ -28,9 +32,11 @@ public class ProductModelAssembler extends RepresentationModelAssemblerSupport<P
         ProductModel productModel = createModelWithId(product.getId(), product, product.getRestaurant().getId());
         modelMapper.map(product, productModel);
 
-        productModel.add(algaLinks.linkToProducts(product.getRestaurant().getId(), "products"));
+        if(algaSecurity.canConsultRestaurants()) {
+            productModel.add(algaLinks.linkToProducts(product.getRestaurant().getId(), "products"));
 
-        productModel.add(algaLinks.linkToProductPhoto(product.getRestaurant().getId(), product.getId(), "photo"));
+            productModel.add(algaLinks.linkToProductPhoto(product.getRestaurant().getId(), product.getId(), "photo"));
+        }
 
         return productModel;
     }

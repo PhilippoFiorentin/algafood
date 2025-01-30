@@ -4,6 +4,7 @@ import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.assembler.UserModelAssembler;
 import com.philippo.algafood.api.model.UserModel;
 import com.philippo.algafood.api.openapi.controller.RestaurantResponsibleUserControllerOpenApi;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.core.security.CheckSecurity;
 import com.philippo.algafood.domain.model.Restaurant;
 import com.philippo.algafood.domain.service.RegisterRestaurantService;
@@ -27,13 +28,20 @@ public class RestaurantResponsibleUserController implements RestaurantResponsibl
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     @CheckSecurity.Restaurants.CanConsult
     @GetMapping
     public CollectionModel<UserModel> list(@PathVariable Long restaurantId){
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
-        CollectionModel<UserModel> userModels = userModelAssembler.toCollectionModel(restaurant.getResponsibleUsers()).removeLinks()
-                .add(algaLinks.linkToRestaurantResponsibleUser(restaurantId))
-                .add(algaLinks.linkToAffiliateRestaurantResponsibleUser(restaurantId, "affiliate"));
+        CollectionModel<UserModel> userModels = userModelAssembler.toCollectionModel(restaurant.getResponsibleUsers()).removeLinks();
+
+        userModels.add(algaLinks.linkToRestaurantResponsibleUser(restaurantId));
+
+        if (algaSecurity.canManageRestaurantRegistration()) {
+            userModels.add(algaLinks.linkToAffiliateRestaurantResponsibleUser(restaurantId, "affiliate"));
+        }
 
         userModels.getContent().stream().forEach(userModel -> {
             userModel.add(algaLinks.linkToDisaffiliateRestaurantResponsibleUser(

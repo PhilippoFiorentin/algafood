@@ -3,6 +3,7 @@ package com.philippo.algafood.api.assembler;
 import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.controller.KitchenController;
 import com.philippo.algafood.api.model.KitchenModel;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.domain.model.Kitchen;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class KitchenModelAssembler extends RepresentationModelAssemblerSupport<K
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public KitchenModelAssembler() {
         super(KitchenController.class, KitchenModel.class);
     }
@@ -27,7 +31,9 @@ public class KitchenModelAssembler extends RepresentationModelAssemblerSupport<K
         KitchenModel kitchenModel = createModelWithId(kitchen.getId(), kitchen);
         modelMapper.map(kitchen, kitchenModel);
 
-        kitchenModel.add(algaLinks.linkToKitchens("kitchens"));
+        if (algaSecurity.canConsultKitchens()) {
+            kitchenModel.add(algaLinks.linkToKitchens("kitchens"));
+        }
 
         return kitchenModel;
     }

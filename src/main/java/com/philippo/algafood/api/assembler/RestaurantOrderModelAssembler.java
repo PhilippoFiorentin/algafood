@@ -3,6 +3,7 @@ package com.philippo.algafood.api.assembler;
 import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.controller.RestaurantOrderController;
 import com.philippo.algafood.api.model.RestaurantOrderModel;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.domain.model.RestaurantOrder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class RestaurantOrderModelAssembler extends RepresentationModelAssemblerS
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public RestaurantOrderModelAssembler() {
         super(RestaurantOrderController.class, RestaurantOrderModel.class);
     }
@@ -27,32 +31,45 @@ public class RestaurantOrderModelAssembler extends RepresentationModelAssemblerS
         RestaurantOrderModel restaurantOrderModel = createModelWithId(restaurantOrder.getId(), restaurantOrder);
         modelMapper.map(restaurantOrder, restaurantOrderModel);
 
-        restaurantOrderModel.add(algaLinks.linkToOrders("orders"));
-
-        if (restaurantOrder.canBeConfirmed()){
-            restaurantOrderModel.add(algaLinks.linkToOrderConfirmation(restaurantOrder.getUuid(), "confirm"));
+        if (algaSecurity.canSearchOrders()) {
+            restaurantOrderModel.add(algaLinks.linkToOrders("orders"));
         }
 
-        if (restaurantOrder.canBeDelivered()){
-            restaurantOrderModel.add(algaLinks.linkToOrderDelivery(restaurantOrder.getUuid(), "deliver"));
+        if (algaSecurity.canManageOrders(restaurantOrder.getUuid())){
+            if (restaurantOrder.canBeConfirmed()){
+                restaurantOrderModel.add(algaLinks.linkToOrderConfirmation(restaurantOrder.getUuid(), "confirm"));
+            }
+
+            if (restaurantOrder.canBeDelivered()){
+                restaurantOrderModel.add(algaLinks.linkToOrderDelivery(restaurantOrder.getUuid(), "deliver"));
+            }
+
+            if (restaurantOrder.canBeCancelled()){
+                restaurantOrderModel.add(algaLinks.linkToOrderCancellation(restaurantOrder.getUuid(), "cancel"));
+            }
         }
 
-        if (restaurantOrder.canBeCancelled()){
-            restaurantOrderModel.add(algaLinks.linkToOrderCancellation(restaurantOrder.getUuid(), "cancel"));
+        if(algaSecurity.canConsultRestaurants()) {
+            restaurantOrderModel.getRestaurant().add(algaLinks.linkToRestaurant(restaurantOrder.getRestaurant().getId()));
         }
 
+        if (algaSecurity.canConsultUsersGroupsPermissions()) {
+            restaurantOrderModel.getClient().add(algaLinks.linkToUser(restaurantOrder.getClient().getId()));
+        }
 
-        restaurantOrderModel.getRestaurant().add(algaLinks.linkToRestaurant(restaurantOrder.getRestaurant().getId()));
+        if (algaSecurity.canConsultPaymentMethods()) {
+            restaurantOrderModel.getPaymentMethod().add(algaLinks.linkToPaymentMethod(restaurantOrder.getPaymentMethod().getId()));
+        }
 
-        restaurantOrderModel.getClient().add(algaLinks.linkToUser(restaurantOrder.getClient().getId()));
+        if (algaSecurity.canConsultCities()) {
+            restaurantOrderModel.getAddress().getCity().add(algaLinks.linkToCity(restaurantOrder.getDeliveryAddress().getCity().getId()));
+        }
 
-        restaurantOrderModel.getPaymentMethod().add(algaLinks.linkToPaymentMethod(restaurantOrder.getPaymentMethod().getId()));
-
-        restaurantOrderModel.getAddress().getCity().add(algaLinks.linkToCity(restaurantOrder.getDeliveryAddress().getCity().getId()));
-
-        restaurantOrderModel.getItems().forEach(item -> {
-            item.add(algaLinks.linkToProduct(restaurantOrderModel.getRestaurant().getId(), item.getId(), "product"));
-        });
+        if(algaSecurity.canConsultRestaurants()) {
+            restaurantOrderModel.getItems().forEach(item -> {
+                item.add(algaLinks.linkToProduct(restaurantOrderModel.getRestaurant().getId(), item.getId(), "product"));
+            });
+        }
 
         return restaurantOrderModel;
     }

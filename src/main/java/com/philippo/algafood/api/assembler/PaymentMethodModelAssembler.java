@@ -3,6 +3,7 @@ package com.philippo.algafood.api.assembler;
 import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.controller.PaymentMethodController;
 import com.philippo.algafood.api.model.PaymentMethodModel;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.domain.model.PaymentMethod;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class PaymentMethodModelAssembler extends RepresentationModelAssemblerSup
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public PaymentMethodModelAssembler() {
         super(PaymentMethodController.class, PaymentMethodModel.class);
     }
@@ -28,13 +32,21 @@ public class PaymentMethodModelAssembler extends RepresentationModelAssemblerSup
         PaymentMethodModel paymentMethodModel = createModelWithId(paymentMethod.getId(), paymentMethod);
         modelmapper.map(paymentMethod, paymentMethodModel);
 
-        paymentMethodModel.add(algaLinks.linkToPaymentMethods("paymentMethods"));
+        if (algaSecurity.canConsultPaymentMethods()) {
+            paymentMethodModel.add(algaLinks.linkToPaymentMethods("paymentMethods"));
+        }
 
         return paymentMethodModel;
     }
 
     @Override
     public CollectionModel<PaymentMethodModel> toCollectionModel(Iterable<? extends PaymentMethod> entities) {
-        return super.toCollectionModel(entities).add(algaLinks.linkToPaymentMethods());
+        CollectionModel<PaymentMethodModel> collectionModel = super.toCollectionModel(entities);
+
+        if (algaSecurity.canConsultPaymentMethods()) {
+            collectionModel.add(algaLinks.linkToPaymentMethods());
+        }
+
+        return collectionModel;
     }
 }

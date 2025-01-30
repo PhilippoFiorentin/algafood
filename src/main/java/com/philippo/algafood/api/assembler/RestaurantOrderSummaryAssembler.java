@@ -3,6 +3,7 @@ package com.philippo.algafood.api.assembler;
 import com.philippo.algafood.api.AlgaLinks;
 import com.philippo.algafood.api.controller.RestaurantOrderController;
 import com.philippo.algafood.api.model.RestaurantOrderSummaryModel;
+import com.philippo.algafood.core.security.AlgaSecurity;
 import com.philippo.algafood.domain.model.RestaurantOrder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class RestaurantOrderSummaryAssembler extends RepresentationModelAssemble
     @Autowired
     private AlgaLinks algaLinks;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public RestaurantOrderSummaryAssembler() {
         super(RestaurantOrderController.class, RestaurantOrderSummaryModel.class);
     }
@@ -27,11 +31,17 @@ public class RestaurantOrderSummaryAssembler extends RepresentationModelAssemble
         RestaurantOrderSummaryModel restaurantOrderSummaryModel = createModelWithId(restaurantOrder.getId(), restaurantOrder);
         modelMapper.map(restaurantOrder, restaurantOrderSummaryModel);
 
-        restaurantOrderSummaryModel.add(algaLinks.linkToOrders("orders"));
+        if (algaSecurity.canSearchOrders()) {
+            restaurantOrderSummaryModel.add(algaLinks.linkToOrders("orders"));
+        }
 
-        restaurantOrderSummaryModel.getRestaurant().add(algaLinks.linkToRestaurant(restaurantOrder.getRestaurant().getId()));
+        if (algaSecurity.canConsultRestaurants()) {
+            restaurantOrderSummaryModel.getRestaurant().add(algaLinks.linkToRestaurant(restaurantOrder.getRestaurant().getId()));
+        }
 
-        restaurantOrderSummaryModel.getClient().add(algaLinks.linkToUser(restaurantOrder.getClient().getId()));
+        if (algaSecurity.canConsultUsersGroupsPermissions()) {
+            restaurantOrderSummaryModel.getClient().add(algaLinks.linkToUser(restaurantOrder.getClient().getId()));
+        }
 
         return restaurantOrderSummaryModel;
     }
