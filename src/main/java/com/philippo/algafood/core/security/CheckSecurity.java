@@ -48,14 +48,14 @@ public @interface CheckSecurity {
 
         @PreAuthorize("hasAuthority('SCOPE_READ') and isAuthenticated()")
         @PostAuthorize("hasAuthority('CONSULT_ORDERS') or " +
-                "@algaSecurity.getUserId() == returnObject.client.id or " +
+                "@algaSecurity.authenticatedUserEquals(returnObject.client.id) or " +
                 "@algaSecurity.manageRestaurant(returnObject.restaurant.id)")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface CanFind { }
 
         @PreAuthorize("hasAuthority('SCOPE_READ') and (hasAuthority('CONSULT_ORDERS') or " +
-                "@algaSecurity.getUserId() == #filter.clientId or " +
+                "@algaSecurity.authenticatedUserEquals(#filter.clientId) or " +
                 "@algaSecurity.manageRestaurant(#filter.restaurantId))")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
@@ -128,13 +128,13 @@ public @interface CheckSecurity {
         @Target(ElementType.METHOD)
         public @interface CanEdit { }
 
-        @PreAuthorize("hasAuthority('SCOPE_WRITE') and @algaSecurity.getUserId() == #userId")
+        @PreAuthorize("hasAuthority('SCOPE_WRITE') and @algaSecurity.authenticatedUserEquals(#userId)")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface CanChangePassword { }
 
         @PreAuthorize("hasAuthority('SCOPE_WRITE') and (hasAuthority('EDIT_USERS_GROUPS_PERMISSIONS') or " +
-                "@algaSecurity.getUserId() == #userId)")
+                "@algaSecurity.authenticatedUserEquals(#userId))")
         @Retention(RetentionPolicy.RUNTIME)
         @Target(ElementType.METHOD)
         public @interface CanChangeUser { }

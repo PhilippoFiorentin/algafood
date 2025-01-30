@@ -39,4 +39,8 @@ public class AlgaSecurity {
     public boolean manageOrderRestaurant(String orderUuid) {
         return restaurantOrderRepository.isOrderManagedBy(orderUuid, getUserId());
     }
+
+    public boolean authenticatedUserEquals(Long userId) {
+        return getUserId() != null && userId != null && getUserId().equals(userId);
+    }
 }
