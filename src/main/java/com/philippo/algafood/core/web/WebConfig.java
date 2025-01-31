@@ -11,12 +11,6 @@ import javax.servlet.Filter;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedMethods("*");
-    }
-
     @Bean
     public Filter shallowEtagHeaderFilter(){
         return new ShallowEtagHeaderFilter();
