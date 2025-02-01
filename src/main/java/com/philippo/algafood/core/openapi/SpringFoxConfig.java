@@ -20,11 +20,9 @@ import org.springframework.web.context.request.ServletWebRequest;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.*;
 import springfox.documentation.schema.AlternateTypeRules;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Response;
-import springfox.documentation.service.Tag;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.json.JacksonModuleRegistrar;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -47,6 +45,7 @@ public class SpringFoxConfig {
         var typeResolver = new TypeResolver();
 
         return new Docket(DocumentationType.OAS_30)
+                .groupName("V1")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.philippo.algafood.api"))
                 .paths(PathSelectors.ant("/v1/**"))
@@ -81,7 +80,9 @@ public class SpringFoxConfig {
                         UsersModelOpenApi.class))
                 .alternateTypeRules(AlternateTypeRules.newRule(typeResolver.resolve(CollectionModel.class, BasicRestaurantModel.class),
                         BasicRestaurantsModelOpenApi.class))
-                .apiInfo(apiInfo())
+                .securitySchemes(Arrays.asList(securityScheme()))
+                .securityContexts(Arrays.asList(securityContext()))
+                .apiInfo(apiInfoV1())
                 .tags(
                         new Tag("Cities", "Manage cities"),
                         new Tag("Groups", "Manage groups"),
@@ -115,6 +116,29 @@ public class SpringFoxConfig {
                         .description("The resource does not have representation that could be accepted by the consumer")
                         .build()
         );
+    }
+
+    private SecurityScheme securityScheme() {
+        return new OAuthBuilder().name("AlgaFood").grantTypes(getGrantTypes()).scopes(scopes()).build();
+    }
+
+    private List<GrantType> getGrantTypes() {
+        return Arrays.asList(new ResourceOwnerPasswordCredentialsGrant("/oauth/token"));
+    }
+
+    private List<AuthorizationScope> scopes() {
+        return Arrays.asList(
+                new AuthorizationScope("READ", "Read access"),
+                new AuthorizationScope("WRITE", "Edit access"));
+    }
+
+    private SecurityContext securityContext() {
+        var securityReference = SecurityReference.builder()
+                .reference("AlgaFood")
+                .scopes(scopes().toArray(new AuthorizationScope[0]))
+                .build();
+
+        return SecurityContext.builder().securityReferences(Arrays.asList(securityReference)).forPaths(PathSelectors.any()).build();
     }
 
     private List<Response> globalPostPutResponseMessages() {
@@ -161,7 +185,7 @@ public class SpringFoxConfig {
         );
     }
 
-    private ApiInfo apiInfo() {
+    private ApiInfo apiInfoV1() {
         return new ApiInfoBuilder()
                 .title("AlgaFood API")
                 .description("Open API for costumers and restaurants")
