@@ -2,9 +2,9 @@ package com.philippo.algafood.core.openapi;
 
 import com.fasterxml.classmate.TypeResolver;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.philippo.algafood.api.V1.model.*;
+import com.philippo.algafood.api.V1.openapi.model.*;
 import com.philippo.algafood.api.exceptionhandler.Problem;
-import com.philippo.algafood.api.model.*;
-import com.philippo.algafood.api.openapi.model.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

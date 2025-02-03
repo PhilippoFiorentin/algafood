@@ -1,7 +1,7 @@
 package com.philippo.algafood.core.modelmapper;
 
-import com.philippo.algafood.api.model.AddressModel;
-import com.philippo.algafood.api.model.input.OrderItemInput;
+import com.philippo.algafood.api.V1.model.AddressModel;
+import com.philippo.algafood.api.V1.model.input.OrderItemInput;
 import com.philippo.algafood.domain.model.Address;
 import com.philippo.algafood.domain.model.OrderItem;
 import org.modelmapper.ModelMapper;
