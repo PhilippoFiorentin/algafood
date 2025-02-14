@@ -1,5 +1,10 @@
 set foreign_key_checks=0;
 
+lock tables city write, kitchen write, state write, payment_method write, group_group write, group_permission write,
+     permission write, product write, restaurant write, restaurant_payment_method write, user write, user_group write,
+     restaurant_user_responsible write, restaurant_order write, order_item write, product_photo write,
+     oauth_client_details write;
+
 delete from city;
 delete from kitchen;
 delete from state;
@@ -389,3 +394,5 @@ null,
 null,
 null,
 null);
+
+unlock tables;

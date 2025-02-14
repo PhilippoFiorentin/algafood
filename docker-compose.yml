@@ -27,8 +27,6 @@ services:
       LOGGLY_TOKEN: ${LOGGLY_TOKEN}
       MAIL_USER: ${MAIL_USER}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
-    ports:
-      - "8080:8080"
     networks:
       - "algafood-network"
     depends_on:
