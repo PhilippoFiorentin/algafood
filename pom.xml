@@ -22,7 +22,7 @@
 		<springfox.version>3.0.0</springfox.version>
 		<oauth2-oidc-sdk.version>6.21.2</oauth2-oidc-sdk.version>
 		<spring-security-jwt.version>1.0.11.RELEASE</spring-security-jwt.version>
-		<spring-security-oauth2>2.3.7.RELEASE</spring-security-oauth2>
+		<spring-security-oauth2>2.3.8.RELEASE</spring-security-oauth2>
 		<dockerfile-maven-version>1.4.13</dockerfile-maven-version>
 	</properties>
 
