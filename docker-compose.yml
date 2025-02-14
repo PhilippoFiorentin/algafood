@@ -14,6 +14,11 @@ services:
     networks:
       - "algafood-network"
 
+  algafood-redis:
+    image: redis:latest
+    networks:
+      - "algafood-network"
+
   algafood-api:
     image: algafood-api
     command: ["/wait-for-it.sh", "-t", "30", "algafood-mysql:3306", "--", "java", "-jar", "api.jar"]
@@ -27,6 +32,8 @@ services:
       LOGGLY_TOKEN: ${LOGGLY_TOKEN}
       MAIL_USER: ${MAIL_USER}
       MAIL_PASSWORD: ${MAIL_PASSWORD}
+      SPRING_SESSION_STORE_TYPE: redis
+      SPRING_REDIS_HOST: algafood-redis
     networks:
       - "algafood-network"
     depends_on:
