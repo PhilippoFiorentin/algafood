@@ -2,17 +2,14 @@ package com.philippo.algafood.domain.infrastructure.service.email;
 
 import com.philippo.algafood.core.email.EmailProperties;
 import com.philippo.algafood.domain.service.EmailService;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-public class SmptEmailService implements EmailService {
+public class SmtpEmailService implements EmailService {
 
     @Autowired
     private JavaMailSender mailSender;
@@ -21,7 +18,7 @@ public class SmptEmailService implements EmailService {
     private EmailProperties emailProperties;
 
     @Autowired
-    private Configuration freeMarkerConfig;
+    private EmailTemplateProcessor emailTemplateProcessor;
 
     @Override
     public void send(Message message) {
@@ -35,7 +32,7 @@ public class SmptEmailService implements EmailService {
     }
 
     protected MimeMessage createMimeMessage(Message message) throws MessagingException {
-        String body = processTemplate(message);
+        String body = emailTemplateProcessor.processTemplate(message);
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
 
@@ -46,14 +43,5 @@ public class SmptEmailService implements EmailService {
         helper.setText(body, true);
 
         return mimeMessage;
-    }
-
-    protected String processTemplate(Message message){
-        try {
-            Template template = freeMarkerConfig.getTemplate(message.getBody());
-            return FreeMarkerTemplateUtils.processTemplateIntoString(template, message.getVariables());
-        } catch (Exception e) {
-            throw new EmailException("Unable to create the email template", e);
-        }
     }
 }

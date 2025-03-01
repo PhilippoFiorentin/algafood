@@ -7,7 +7,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-public class SandboxEmailService extends SmptEmailService {
+public class SandboxEmailService extends SmtpEmailService {
 
     @Autowired
     private EmailProperties emailProperties;

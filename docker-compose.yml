@@ -10,7 +10,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
-      - "3306:3306"
+      - "13306:3306"
     networks:
       - "algafood-network"
 
@@ -34,6 +34,7 @@ services:
       MAIL_PASSWORD: ${MAIL_PASSWORD}
       SPRING_SESSION_STORE_TYPE: redis
       SPRING_REDIS_HOST: algafood-redis
+      SPRING_PROFILES_ACTIVE: development
     networks:
       - "algafood-network"
     depends_on:
