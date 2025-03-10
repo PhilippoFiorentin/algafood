@@ -4,9 +4,11 @@ import com.philippo.algafood.api.V1.model.BasicRestaurantModel;
 import com.philippo.algafood.api.V1.model.RestaurantJustNameModel;
 import com.philippo.algafood.api.V1.model.RestaurantModel;
 import com.philippo.algafood.api.V1.model.input.RestaurantInput;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 
+@SecurityRequirement(name = "security_auth")
 public interface RestaurantControllerOpenApi {
 
     CollectionModel<BasicRestaurantModel> list();

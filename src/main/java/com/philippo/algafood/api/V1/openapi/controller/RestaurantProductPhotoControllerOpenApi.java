@@ -2,12 +2,14 @@ package com.philippo.algafood.api.V1.openapi.controller;
 
 import com.philippo.algafood.api.V1.model.ProductPhotoModel;
 import com.philippo.algafood.api.V1.model.input.ProductPhotoInput;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@SecurityRequirement(name = "security_auth")
 public interface RestaurantProductPhotoControllerOpenApi {
 
     ProductPhotoModel updatePhoto(Long restaurantId, Long productId, ProductPhotoInput productPhotoInput,
