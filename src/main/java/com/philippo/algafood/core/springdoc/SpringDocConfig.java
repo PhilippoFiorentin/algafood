@@ -61,7 +61,9 @@ public class SpringDocConfig {
                 ).externalDocs(new ExternalDocumentation()
                         .description("AlgaWorks")
                         .url("https://github.com/philippoFiorentin/algafood"))
-                .tags(Arrays.asList(new Tag().name("Cities").description("Manage cities")
+                .tags(Arrays.asList(
+                        new Tag().name("Cities").description("Manage cities"),
+                        new Tag().name("Groups").description("Manage groups")
                 )).components(new Components().schemas(generateSchemas())
                 );
     }
