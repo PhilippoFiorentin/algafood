@@ -28,7 +28,7 @@ public class AlgaLinks {
 
         String ordersUrl = WebMvcLinkBuilder.linkTo(RestaurantOrderController.class).toUri().toString();
 
-        return new Link(UriTemplate.of(ordersUrl, PAGINATION_VARIABLES.concat(filterVariables)), rel);
+        return Link.of(UriTemplate.of(ordersUrl, PAGINATION_VARIABLES.concat(filterVariables)), rel);
     }
 
     public Link linkToDailySalesOrders(String rel) {
@@ -43,7 +43,7 @@ public class AlgaLinks {
                         .methodOn(StatisticController.class)
                         .checkDailySales(null, null)).toUri().toString();
 
-        return new Link(UriTemplate.of(statisticsUrl, filterVariables), rel);
+        return Link.of(UriTemplate.of(statisticsUrl, filterVariables), rel);
 
     }
 
@@ -71,7 +71,7 @@ public class AlgaLinks {
     public Link linkToRestaurants(String rel) {
         String restaurantUrl = WebMvcLinkBuilder.linkTo(RestaurantController.class).toUri().toString();
 
-        return new Link(UriTemplate.of(restaurantUrl, PROJECTION_VARIABLES), rel);
+        return Link.of(UriTemplate.of(restaurantUrl, PROJECTION_VARIABLES), rel);
     }
 
     public Link linkToRestaurants() {
