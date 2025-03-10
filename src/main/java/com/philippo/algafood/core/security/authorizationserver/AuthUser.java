@@ -11,8 +11,8 @@ public class AuthUser extends User {
 
     private static final long serialVersionUID = 1L;
 
-    private Long userId;
-    private String fullName;
+    private final Long userId;
+    private final String fullName;
 
     public AuthUser(com.philippo.algafood.domain.model.User user, Collection<? extends GrantedAuthority> authorities) {
         super(user.getEmail(), user.getPassword(), authorities);

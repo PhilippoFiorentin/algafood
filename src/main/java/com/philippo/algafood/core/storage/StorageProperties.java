@@ -19,7 +19,7 @@ public class StorageProperties {
     private TypeStorage type = TypeStorage.LOCAL;
 
     public enum TypeStorage {
-        LOCAL, S3;
+        LOCAL, S3
     }
 
     @Getter

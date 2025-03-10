@@ -23,7 +23,7 @@ public class EmailProperties {
     private Impl impl = Impl.FAKE;
 
     public enum Impl {
-        SMTP, FAKE, SANDBOX;
+        SMTP, FAKE, SANDBOX
     }
 
     @Getter

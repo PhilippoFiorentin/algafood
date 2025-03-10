@@ -23,7 +23,7 @@ public interface PhotoStorageService {
     }
 
     default String generateFilename(String originalName) {
-        return UUID.randomUUID().toString() + "_" + originalName;
+        return UUID.randomUUID() + "_" + originalName;
     }
 
     @Builder

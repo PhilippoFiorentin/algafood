@@ -8,7 +8,7 @@ public class PageWrapper<T> extends PageImpl<T> {
 
     public static final long serialVersionUID = 1L;
 
-    private Pageable pageable;
+    private final Pageable pageable;
 
     public PageWrapper(Page<T> page, Pageable pageable) {
         super(page.getContent(), pageable, page.getTotalElements());
