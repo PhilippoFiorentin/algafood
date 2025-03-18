@@ -63,7 +63,8 @@ public class SpringDocConfig {
                         .url("https://github.com/philippoFiorentin/algafood"))
                 .tags(Arrays.asList(
                         new Tag().name("Cities").description("Manage cities"),
-                        new Tag().name("Groups").description("Manage groups")
+                        new Tag().name("Groups").description("Manage groups"),
+                        new Tag().name("Kitchens").description("Manage kitchens")
                 )).components(new Components().schemas(generateSchemas())
                 );
     }
