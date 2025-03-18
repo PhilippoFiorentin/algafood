@@ -34,12 +34,12 @@ public interface KitchenControllerOpenApi {
     KitchenModel find(@Parameter(description = "Kitchen ID", example = "1", required = true) Long kitchenId);
 
     @Operation(summary = "Register a kitchen", responses = {
-            @ApiResponse(responseCode = "201", description = "Kitchen registered"),
+            @ApiResponse(responseCode = "201", description = "Registered kitchen"),
     })
     KitchenModel add(@RequestBody(description = "Representation of a new kitchen", required = true) KitchenInput kitchenInput);
 
     @Operation(summary = "Update a kitchen by ID", responses = {
-            @ApiResponse(responseCode = "200", description = "Kitchen updated"),
+            @ApiResponse(responseCode = "200", description = "Updated kitchen"),
             @ApiResponse(responseCode = "404", description = "Kitchen not found",
                     content = @Content(schema = @Schema(ref = "Problem"))),
     })
@@ -47,7 +47,7 @@ public interface KitchenControllerOpenApi {
                         @RequestBody(description = "Representation of a kitchen with new data", required = true) KitchenInput kitchenInput);
 
     @Operation(summary = "Delete a kitchen by ID", responses = {
-            @ApiResponse(responseCode = "204", description = "Kitchen deleted"),
+            @ApiResponse(responseCode = "204", description = "Deleted kitchen"),
             @ApiResponse(responseCode = "404", description = "Kitchen not found",
                     content = @Content(schema = @Schema(ref = "Problem")))
     })

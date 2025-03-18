@@ -64,7 +64,8 @@ public class SpringDocConfig {
                 .tags(Arrays.asList(
                         new Tag().name("Cities").description("Manage cities"),
                         new Tag().name("Groups").description("Manage groups"),
-                        new Tag().name("Kitchens").description("Manage kitchens")
+                        new Tag().name("Kitchens").description("Manage kitchens"),
+                        new Tag().name("Payment Methods").description("Manage payment methods")
                 )).components(new Components().schemas(generateSchemas())
                 );
     }
