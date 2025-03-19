@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @SecurityRequirement(name = "security_auth")
+@Tag(name = "Products")
 public interface RestaurantProductPhotoControllerOpenApi {
 
     @Operation(summary = "Update a restaurant product photo")
@@ -24,7 +26,8 @@ public interface RestaurantProductPhotoControllerOpenApi {
             @Parameter(description = "Restaurant product ID", example = "1", required = true) Long productId,
             @RequestBody(required = true) ProductPhotoInput productPhotoInput) throws IOException;
 
-    void delete(Long restaurantId, Long productId);
+    void delete(@Parameter(description = "Restaurant ID", example = "1", required = true) Long restaurantId,
+                @Parameter(description = "Product ID", example = "1", required = true) Long productId);
 
     @Operation(summary = "Find a restaurant product photo", responses = {
             @ApiResponse(responseCode = "200", content = {
@@ -33,9 +36,12 @@ public interface RestaurantProductPhotoControllerOpenApi {
                     @Content(mediaType = "image/png", schema = @Schema(type = "string", format = "binary"))
             })
     })
-    ProductPhotoModel find(Long restaurantId, Long productId);
+    ProductPhotoModel find(@Parameter(description = "Restaurant ID", example = "1", required = true) Long restaurantId,
+                           @Parameter(description = "Product ID", example = "1", required = true) Long productId);
 
     @Operation(hidden = true)
-    ResponseEntity<?> servePhoto(Long restaurantId, Long productId, String acceptHeader) throws HttpMediaTypeNotAcceptableException;
+    ResponseEntity<?> servePhoto(@Parameter(description = "Restaurant ID", example = "1", required = true) Long restaurantId,
+                                 @Parameter(description = "Product ID", example = "1", required = true) Long productId,
+                                 String acceptHeader) throws HttpMediaTypeNotAcceptableException;
 
 }
