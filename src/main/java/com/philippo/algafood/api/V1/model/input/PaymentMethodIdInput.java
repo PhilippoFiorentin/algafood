@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class PaymentMethodIdInput {
 
-    @Schema(example = "Credit card")
+    @Schema(example = "1")
     @NotNull
     private Long id;
 
