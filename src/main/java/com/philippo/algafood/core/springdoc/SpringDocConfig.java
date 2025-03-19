@@ -43,7 +43,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class SpringDocConfig {
 
     private static final String notFoundResponse = "NotFoundResponse";
-    private static final String badRequestResponse = "BadResquestResponse";
+    private static final String badRequestResponse = "BadRequestResponse";
     private static final String notAcceptableResponse = "NotAcceptableResponse";
     private static final String internalServerErrorResponse = "InternalServerErrorResponse";
 
