@@ -43,7 +43,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class SpringDocConfig {
 
     private static final String notFoundResponse = "NotFoundResponse";
-    private static final String badResquestResponse = "BadResquestResponse";
+    private static final String badRequestResponse = "BadResquestResponse";
     private static final String notAcceptableResponse = "NotAcceptableResponse";
     private static final String internalServerErrorResponse = "InternalServerErrorResponse";
 
@@ -66,7 +66,8 @@ public class SpringDocConfig {
                         new Tag().name("Groups").description("Manage groups"),
                         new Tag().name("Kitchens").description("Manage kitchens"),
                         new Tag().name("Payment Methods").description("Manage payment methods"),
-                        new Tag().name("Orders").description("Manage restaurant orders")
+                        new Tag().name("Orders").description("Manage restaurant orders"),
+                        new Tag().name("Restaurants").description("Manage restaurants")
                 )).components(new Components().schemas(generateSchemas())
                 );
     }
@@ -85,11 +86,11 @@ public class SpringDocConfig {
                                         responses.addApiResponse("500", new ApiResponse().$ref(internalServerErrorResponse));
                                         break;
                                     case POST:
-                                        responses.addApiResponse("400", new ApiResponse().$ref(badResquestResponse));
+                                        responses.addApiResponse("400", new ApiResponse().$ref(badRequestResponse));
                                         responses.addApiResponse("500", new ApiResponse().$ref(internalServerErrorResponse));
                                         break;
                                     case PUT:
-                                        responses.addApiResponse("400", new ApiResponse().$ref(badResquestResponse));
+                                        responses.addApiResponse("400", new ApiResponse().$ref(badRequestResponse));
                                         responses.addApiResponse("500", new ApiResponse().$ref(internalServerErrorResponse));
                                         break;
                                     case DELETE:

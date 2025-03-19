@@ -1,5 +1,6 @@
 package com.philippo.algafood.api.V1.model.input;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,9 +14,11 @@ import java.math.BigDecimal;
 @Getter
 public class RestaurantInput {
 
+    @Schema(example = "French Gourmet")
     @NotBlank
     private String name;
 
+    @Schema(example = "10.00")
     @NotNull
     @PositiveOrZero
     private BigDecimal deliveryFee;

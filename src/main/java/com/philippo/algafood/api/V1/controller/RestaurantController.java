@@ -118,20 +118,22 @@ public class RestaurantController implements RestaurantControllerOpenApi {
 	@CheckSecurity.Restaurants.CanManageRegister
 	@PutMapping("/activations")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void activateManyRestaurants(@RequestBody List<Long> restaurantIds){
+	public ResponseEntity<Void> activateManyRestaurants(@RequestBody List<Long> restaurantIds){
 		try {
 			registerRestaurant.activate(restaurantIds);
+			return ResponseEntity.noContent().build();
 		} catch (RestaurantNotFoundException e) {
-		throw new BusinessException(e.getMessage(), e);
+			throw new BusinessException(e.getMessage(), e);
 		}
 	}
 
 	@CheckSecurity.Restaurants.CanManageRegister
 	@DeleteMapping("/activations")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deactivateManyRestaurants(@RequestBody List<Long> restaurantIds){
+	public ResponseEntity<Void> deactivateManyRestaurants(@RequestBody List<Long> restaurantIds){
 		try {
 			registerRestaurant.deactivate(restaurantIds);
+			return ResponseEntity.noContent().build();
 		} catch (RestaurantNotFoundException e) {
 			throw new BusinessException(e.getMessage(), e);
 		}
