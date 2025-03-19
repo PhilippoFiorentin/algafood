@@ -2,6 +2,7 @@ package com.philippo.algafood.api.V1.controller;
 
 import com.philippo.algafood.api.V1.AlgaLinks;
 import com.philippo.algafood.core.security.AlgaSecurity;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.MediaType;
@@ -20,6 +21,7 @@ public class RootEntryPointController {
     private AlgaSecurity algaSecurity;
 
     @GetMapping
+    @Operation(hidden = true)
     public RootEntryPointModel root(){
         var rootEntryPointModel = new RootEntryPointModel();
 
