@@ -72,7 +72,8 @@ public class SpringDocConfig {
                         new Tag().name("Products").description("Manage products"),
                         new Tag().name("Groups").description("Manage groups"),
                         new Tag().name("Users").description("Manage users"),
-                        new Tag().name("Statistics").description("Manage statistics")
+                        new Tag().name("Permissions").description("Manage permissions"),
+                        new Tag().name("Statistics").description("Algafood statistics")
                 )).components(new Components().schemas(generateSchemas())
                 );
     }
