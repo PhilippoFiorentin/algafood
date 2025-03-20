@@ -26,10 +26,8 @@ import org.springframework.security.oauth2.server.authorization.config.ProviderS
 import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.time.Duration;
 import java.util.Arrays;
 
@@ -79,7 +77,7 @@ public class AuthorizationServerConfig {
     public JWKSource<SecurityContext>  jwkSource(JwtKeyStoreProperties properties) throws Exception {
         char[] keyStorePass = properties.getPassword().toCharArray();
         String keyPairAlias = properties.getKeyPairAlias();
- 
+
         Resource jksLocation = properties.getJksLocation();
         InputStream inputStream = jksLocation.getInputStream();
         KeyStore keyStore = KeyStore.getInstance("JKS");
