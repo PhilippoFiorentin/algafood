@@ -7,9 +7,9 @@ import com.philippo.algafood.domain.model.dto.DailySale;
 import com.philippo.algafood.domain.service.SaleQueryService;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +39,7 @@ public class SaleQueryServiceImpl implements SaleQueryService {
                 builder.sum(root.get("total")));
 
         if (filter.getRestaurantId() != null){
-            predicates.add(builder.equal(root.get("restaurant"), filter.getRestaurantId()));
+            predicates.add(builder.equal(root.get("restaurant").get("id"), filter.getRestaurantId()));
         }
 
         if (filter.getDateCreationStart() != null){

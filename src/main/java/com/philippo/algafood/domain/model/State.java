@@ -4,8 +4,8 @@ import com.philippo.algafood.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

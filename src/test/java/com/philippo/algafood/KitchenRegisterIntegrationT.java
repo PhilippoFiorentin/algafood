@@ -5,13 +5,13 @@ import com.philippo.algafood.domain.exception.KitchenNotFoundException;
 import com.philippo.algafood.domain.model.Kitchen;
 import com.philippo.algafood.domain.repository.KitchenRepository;
 import com.philippo.algafood.domain.service.RegisterKitchenService;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.validation.ConstraintViolationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

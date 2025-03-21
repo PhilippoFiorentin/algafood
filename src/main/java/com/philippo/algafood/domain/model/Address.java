@@ -2,7 +2,7 @@ package com.philippo.algafood.domain.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Data
 @Embeddable
