@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org">
-
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,12 +62,12 @@ xmlns:th="http://www.thymeleaf.org">
     <h1 class="h3 mb-3 font-weight-normal">Access to AlgaFood</h1>
 
     <p class="alert alert-danger" th:if="${#bools.isTrue(param.error)}">
-        The email or password does not match
+        Email or password does not match
     </p>
 
-    <input type="email" name="username" class="form-control" placeholder="E-mail" required autofocus>
+    <input type="email" name="username" class="form-control" placeholder="Your e-mail" required autofocus>
 
-    <input type="password" name="password" class="form-control" placeholder="Password" required>
+    <input type="password" name="password" class="form-control" placeholder="Your password" required>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
 
